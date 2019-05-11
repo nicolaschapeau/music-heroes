@@ -2,40 +2,77 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // Pages
-import Admin from './views/admin'
+import Home from './views'
 import Login from './views/login'
 import Register from './views/register'
-import Home from './views'
+import Search from './views/search'
+import Profile from './views/profile'
+import Contact from './views/contact'
+import Message from './views/message'
+import errorNotFound from './views/error/404'
+
 
 // Middlewares
 import auth from './middleware/auth'
 
+
 // Layouts : { admin }
+
 
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
+      meta: { layout: 'dashboard' },
       component: Home
     },
     {
       path: '/login',
       name: 'login',
+      meta: { layout: 'default' },
       component: Login
     },
     {
       path: '/register',
       name: 'register',
+      meta: { layout: 'default' },
       component: Register
     },
     {
-      path: '/admin',
-      name: 'admin',
-      meta: { layout: 'admin', middleware: auth },
-      component: Admin
+      path: '/search',
+      name: 'search',
+      meta: { layout: 'dashboard'},
+      component: Search
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      meta: { layout: 'dashboard' },
+      component: Profile
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      meta: { layout: 'dashboard' },
+      component: Contact
+    }, 
+    {
+      path: '/message',
+      name: 'message',
+      meta: { layout: 'dashboard' },
+      component: Message
+    },
+
+    // ERROR 404
+    {
+      path: '*', 
+      name: '404',
+      meta: { layout: 'error' },
+      component: errorNotFound
     }
   ]
 })

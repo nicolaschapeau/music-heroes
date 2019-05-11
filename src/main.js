@@ -5,13 +5,16 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 
+
 // Layouts
 import Default from './layouts/Default'
-import Admin from './layouts/Admin'
+import Dashboard from './layouts/Dashboard'
+import Error from './layouts/Error'
 
 // Global declaration for layouts
 Vue.component('default-layout', Default)
-Vue.component('admin-layout', Admin)
+Vue.component('dashboard-layout', Dashboard)
+Vue.component('error-layout', Error)
 
 
 

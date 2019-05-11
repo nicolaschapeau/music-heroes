@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <h1>Je suis le header admin</h1>
+            <h1>Je suis l'error</h1>
         </header>
         <slot />
     </div>
