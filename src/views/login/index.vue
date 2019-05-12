@@ -8,16 +8,17 @@
 
             <div class="input-container">
                 <i class="icon ion-md-person"></i>
-                <input class="input-field" type="text" placeholder="Nom d'utilisateur ou Email" name="username">
+                <input class="input-field" type="email" placeholder="Email" v-model="email" name="email" autofocus>
             </div>
 
             <div class="input-container">
                 <i class="icon ion-md-lock"></i>
-                <input class="input-field" type="text" placeholder="Mot de passe" name="password">
+                <input class="input-field" type="password" placeholder="Mot de passe" v-model="password" name="password">
             </div>
 
-            <button type="submit" class="btn">Connexion</button>
+            <button type="submit" class="btn" @click.prevent="validateLogin()">Connexion</button>
 
+            <p class="login__form__error" v:if="error">{{ error }}</p> 
         </form>
         <p>
             Connectez-vous ici ou 
@@ -27,13 +28,45 @@
 </template>
 
 <script>
+import api from '@/api/api'
 
 export default {
-    name: 'login'
+    name: 'login',
+    data () {
+        return {
+            error: null,
+            email: null,
+            password: null
+        }
+    },
+    methods: {
+        async validateLogin() {
+
+            if (!this.email || !this.password) {
+                return this.error = 'Veuillez remplir tous les champs.'
+            }
+
+            api.auth.login({
+                email: this.email,
+                password: this.password,
+            })
+            .then((response) => {
+                if (response.data.success === false) {
+                    return this.error = response.data.error
+                } else {
+                    return this.$router.push('/')   
+                }
+            })
+            .catch((error) => {
+                return this.error = error.response.data
+            })
+
+        }
+    }
 }
 </script>
 
-<style>
+<style scoped>
     .login__content{
         width: 70%;
     }
@@ -115,4 +148,10 @@ export default {
         color: #E7550E;
         transition: 0.3s;
     }
+
+    .login__form__error {
+        padding: 10px 37px 0 37px;
+        color: red;
+    }
+
 </style>

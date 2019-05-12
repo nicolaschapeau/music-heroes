@@ -2,19 +2,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // Pages
-import Home from './views'
-import Login from './views/login'
-import Register from './views/register'
-import Search from './views/search'
-import Profile from './views/profile'
-import Contact from './views/contact'
-import Message from './views/message'
-import Verify from './views/verify'
-import errorNotFound from './views/error/404'
+import Home from '@/views'
+import Login from '@/views/login'
+import Register from '@/views/register'
+import Search from '@/views/search'
+import Profile from '@/views/profile'
+import Contact from '@/views/contact'
+import Message from '@/views/message'
+import Verify from '@/views/verify'
+import errorNotFound from '@/views/error/404'
 
 
 // Middlewares
-import auth from './middleware/auth'
+import auth from '@/middleware/auth'
 
 
 // Layouts : { admin }
@@ -44,14 +44,14 @@ const router = new Router({
       component: Register
     },
     {
-      path: '/search',
+      path: '/search/:id',
       name: 'search',
       meta: { layout: 'dashboard'},
       component: Search
     },
     {
-      path: '/profile',
-      name: 'profile',
+      path: '/profil',
+      name: 'profil',
       meta: { layout: 'dashboard' },
       component: Profile
     },
@@ -62,8 +62,8 @@ const router = new Router({
       component: Contact
     }, 
     {
-      path: '/message',
-      name: 'message',
+      path: '/messages',
+      name: 'messages',
       meta: { layout: 'dashboard' },
       component: Message
     },

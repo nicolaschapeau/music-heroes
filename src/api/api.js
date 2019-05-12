@@ -18,7 +18,7 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
-        fetch: () => axios.get('/auth/login/me', { 
+        fetch: () => axios.get('/auth/fetch', { 
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'

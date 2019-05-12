@@ -1,15 +1,15 @@
 // Imports
 import Vue from 'vue'
-import './plugins/axios'
-import App from './App.vue'
-import router from './router'
-import store from './store/store'
+import '@/plugins/axios'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store/store'
 
 
 // Layouts
-import Default from './layouts/Default'
-import Dashboard from './layouts/Dashboard'
-import Error from './layouts/Error'
+import Default from '@/layouts/Default'
+import Dashboard from '@/layouts/Dashboard'
+import Error from '@/layouts/Error'
 
 // Global declaration for layouts
 Vue.component('default-layout', Default)

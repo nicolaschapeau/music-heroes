@@ -45,7 +45,8 @@ router.post('/auth/login', async (req, res) => {
         }
 
         if (!user) {
-            throw new Error('User not found.')
+            // throw new Error('User not found.')
+            return res.status(404).send('User not found.')
         }
 
         const valid = await user.checkCredentials(req.body.password, user.password)
@@ -59,7 +60,8 @@ router.post('/auth/login', async (req, res) => {
         res.status(201).send({ success: true, user, token })
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        console.log(e.message)
+        res.status(400).send(error)
     }
 })
 

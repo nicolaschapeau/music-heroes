@@ -1,7 +1,7 @@
-import state from './state'
-import getters from './getters'
-import mutations from './mutations'
-import actions from './actions'
+import state from '@/store/auth/state'
+import getters from '@/store/auth/getters'
+import mutations from '@/store/auth/mutations'
+import actions from '@/store/auth/actions'
 
 export default {
     state,

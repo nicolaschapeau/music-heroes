@@ -3,8 +3,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
 // Routers imports
-const userRouter = require('./routers/user.js')
-const authRouter = require('./routers/auth.js')
+const userRouter = require('@/routers/user.js')
+const authRouter = require('@/routers/auth.js')
 
 // Init server
 const app = express()
