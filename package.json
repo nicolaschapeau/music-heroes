@@ -4,10 +4,24 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "dev": "concurrently \"npm run serve\" \"env-cmd ./server/config/dev.env nodemon ./server/src/index.js\""
   },
   "dependencies": {
+    "@vue/cli": "^3.7.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "cookie-parser": "^1.4.4",
     "core-js": "^2.6.5",
+    "env-cmd": "^8.0.2",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.7",
+    "multer": "^1.4.1",
+    "randomatic": "^3.1.1",
+    "sharp": "^0.22.1",
+    "validator": "^10.11.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
