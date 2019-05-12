@@ -9,6 +9,7 @@ import Search from './views/search'
 import Profile from './views/profile'
 import Contact from './views/contact'
 import Message from './views/message'
+import Verify from './views/verify'
 import errorNotFound from './views/error/404'
 
 
@@ -65,6 +66,12 @@ const router = new Router({
       name: 'message',
       meta: { layout: 'dashboard' },
       component: Message
+    },
+    {
+      path: '/verify',
+      name: 'verify',
+      meta: { layout: 'dashboard' },
+      component: Verify
     },
 
     // ERROR 404

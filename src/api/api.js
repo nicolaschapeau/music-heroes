@@ -24,6 +24,12 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
+        validateEmail: (token) => axios.get('/auth/email/' + token, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
         logout: () => axios.get('/auth/logout', { 
             withCredentials: true,
             headers: {
