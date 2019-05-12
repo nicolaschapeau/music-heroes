@@ -33,14 +33,12 @@ router.post('/auth/register', async (req, res) => {
 // Login user
 router.post('/auth/login', async (req, res) => {
     try {
-        if ((!req.body.name && !req.body.email) || (req.body.name && req.body.email) || !req.body.password || req.body.length > 2) {
+        if (!req.body.email || !req.body.password || req.body.length > 2) {
             return res.status(400).send({ message: 'Missing arguments.' })
         }
 
         let user = null
-        if (req.body.name) {
-            user = await User.findOne({ name: req.body.name })
-        } else if (req.body.email) {
+        if (req.body.email) {
             user = await User.findOne({ email: req.body.email })
         }
 

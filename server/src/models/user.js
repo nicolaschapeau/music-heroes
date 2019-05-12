@@ -8,12 +8,23 @@ const randomatic = require('randomatic')
 
 // Model
 const userSchema = new mongoose.Schema({
-    name: {
+    firstname: {
         required: true,
         type: String,
         trim: true,
         lowercase: true,
         validate (value) {
+            if (!validator.isAlphanumeric(value)) {
+                throw new Error('Username is invalid.')
+            }
+        }
+    },
+    lastname: {
+        required: true,
+        type: String,
+        trim: true,
+        lowercase: true,
+        validate(value) {
             if (!validator.isAlphanumeric(value)) {
                 throw new Error('Username is invalid.')
             }
@@ -125,6 +136,9 @@ userSchema.methods.toJSON = function () {
     delete userObject.password
     delete userObject.tokens
     delete userObject.avatar
+
+    userObject.firstname = userObject.firstname.charAt(0).toUpperCase() + userObject.firstname.slice(1)
+    userObject.lastname = userObject.lastname.charAt(0).toUpperCase() + userObject.lastname.slice(1)
 
     return userObject
 }
