@@ -56,6 +56,14 @@ const userSchema = new mongoose.Schema({
     }],
     avatar: {
         type: Buffer
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    hash: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true
@@ -72,7 +80,10 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = bcrypt.hashSync(user.password, 8)
     }
+
+    return
 })
+
 
 
 
@@ -136,6 +147,7 @@ userSchema.methods.toJSON = function () {
     delete userObject.password
     delete userObject.tokens
     delete userObject.avatar
+    delete userObject.hash
 
     userObject.firstname = userObject.firstname.charAt(0).toUpperCase() + userObject.firstname.slice(1)
     userObject.lastname = userObject.lastname.charAt(0).toUpperCase() + userObject.lastname.slice(1)

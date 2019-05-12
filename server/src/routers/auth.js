@@ -4,6 +4,7 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser')
+const { registerEmail } = require('../emails/auth')
 
 // Middlewares
 const auth = require('../middleware/auth')
@@ -22,6 +23,7 @@ router.post('/auth/register', async (req, res) => {
     try {
         await user.save()
         const token = await user.generateAuthToken(res)
+        registerEmail(user)
 
         res.status(201).send({ success: true, user, token })
     } catch (e) {
@@ -94,6 +96,39 @@ router.get('/auth/logout', auth, async (req, res) => {
     }
 })
 
+// Validate email
+router.get('/auth/email/:token', async (req, res) => {
+    try {
+        const splittedToken = req.params.token.split('.')
+        const userId = splittedToken[0]
+        const random = splittedToken[1]
+
+        if (!userId || !random) {
+            throw new Error('Validation failed.')
+        }
+
+        let user = await User.findById(userId)
+
+        if (!user || user.verified || !user.hash) {
+            throw new Error('Validation failed.')
+        }
+
+        let valid = bcrypt.compareSync(random, user.hash)
+
+        if (valid !== true) {
+            throw new Error('Validation failed.')
+        }
+
+        user.verified = true
+        user.hash = null
+
+        user.save()
+        res.send({ success: true })
+    } catch (e) {
+        const error = e.message
+        res.status(400).send({ success: false, error })
+    }
+})
 
 
 // Export

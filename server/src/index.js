@@ -29,6 +29,6 @@ app.use(authRouter)
 
 
 // Listen server
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
     console.log('Server is up on port: ' + port)
 })

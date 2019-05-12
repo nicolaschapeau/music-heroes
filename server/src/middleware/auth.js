@@ -62,8 +62,9 @@ const auth = async (req, res, next) => {
 
         next()
     } catch (e) {
+        res.clearCookie('x-hp', { path: '/' })
+        res.clearCookie('x-s', { path: '/' })
         const error = e.message
-
         res.status(400).send({ error })
     }
 }
