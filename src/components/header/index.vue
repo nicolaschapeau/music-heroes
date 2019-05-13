@@ -53,7 +53,6 @@ export default {
     header{
         height: 75px;
         background: white;
-        box-shadow: 0 0 5px grey;
         display: flex;
         flex-direction: row;
         justify-content: center;

@@ -1,8 +1,9 @@
 <template>
     <div>
-        <Header />
         <div class="container">
-            <Tchats class="tchats__bar"/>
+            <Header class="header" />
+            <Sidebar class="sidebar" />
+            <div class="content"></div>
             <div class="tchat"></div>
         </div>
     </div>
@@ -10,12 +11,12 @@
 
 <script>
 import Header from '@/components/header'
-import Tchats from '@/components/tchats'
+import Sidebar from '@/components/sidebar'
 
 export default {
     components: {
         Header,
-        Tchats
+        Sidebar
     },
 }
 </script>
@@ -24,20 +25,33 @@ export default {
 
     .container{
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: calc(50vh - 75px) 50vh;
+        grid-template-rows: 70px calc(50vh - 70px) 50vh;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-areas: 
+            "header   header  header header header header header header header header header header"
+            "sidebar sidebar sidebar  main   main   main   main   main   main   main   main   main"
+            "sidebar sidebar sidebar  main   main   main   main   main   main   main   main   main";
     }
 
-    .tchats__bar{
-        grid-column: 1 / 2;
-        grid-row: 1 / 3;
+    .sidebar{
+        grid-area: sidebar;
         background: red;
     }
 
     .tchat{
-        grid-column: 2 / 3;
-        grid-row: 2 / 3;
+        grid-area: 3 / 4 / 4 / 7;
         background: blue;
+        margin-left: 20px;
+    }
+
+    .content{
+        grid-area: main;
+        background: white;
+    }
+
+    .header{
+        grid-area: header;
+        background: yellow;
     }
 
 </style>
