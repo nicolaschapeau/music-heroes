@@ -1,5 +1,5 @@
 node_modules
 .env
 dev.env
-server/src/config/dev.env
+server/config/dev.env
 .vscode
