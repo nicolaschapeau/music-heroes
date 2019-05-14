@@ -8,7 +8,6 @@ import Register from '@/views/register'
 import Search from '@/views/search'
 import Profile from '@/views/profile'
 import Contact from '@/views/contact'
-import Message from '@/views/message'
 import Verify from '@/views/verify'
 import errorNotFound from '@/views/error/404'
 
@@ -44,7 +43,7 @@ const router = new Router({
       component: Register
     },
     {
-      path: '/search/:id',
+      path: '/search/:req',
       name: 'search',
       meta: { layout: 'dashboard'},
       component: Search
@@ -60,12 +59,6 @@ const router = new Router({
       name: 'contact',
       meta: { layout: 'dashboard' },
       component: Contact
-    }, 
-    {
-      path: '/messages',
-      name: 'messages',
-      meta: { layout: 'dashboard' },
-      component: Message
     },
     {
       path: '/verify',

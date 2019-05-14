@@ -1,37 +1,40 @@
 <template>
-  <div>
-      <p>test</p>
-    <tchat v-for="tchat in this.tchats" :tchat="tchat" :key="tchat.id" @open-tchat="openTchat" />
-  </div>
+    <div>
+        <p>test</p>
+        <list v-for="list in this.lists" :list="list" :key="list.id" @open-tchat="openTchat" />
+    </div>
 </template>
 <script>
-import Tchat from './tchat'
+import List from './list'
 
 export default {
     name: 'Sidebar',
     components: {
-        Tchat
+        List
     },
     data() {
         return {
-            tchats: []
+            lists: []
         }
     },
     mounted () {
-        this.tchats = [
-        { id: 1, name: 'Banana', content: "Bonjourourourourourour", imageSrc: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png' },
-        { id: 2, name: 'Orange', content: "Bonjourourourourourour2", imageSrc: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png' },
-        { id: 3, name: 'Apple', content: "Bonjourourourourourour3", imageSrc: 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png' }
+        let date = new Date()
+        this.lists = [
+            { id: 1, name: 'Benjamin BENOIT', content: "Bonjourourourourouroggggggaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC', date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'Nicolas CHAPEAU', content: "Bonjourourourourourour2", imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC', date: date.toLocaleDateString("fr-FR") },
+            { id: 3, name: 'Pierre-Alexandre PINHAS', content: "Bonjourourourourourour3", imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC', date: date.toLocaleDateString("fr-FR") }
         ]
     },
     methods: {
         openTchat(e) {
-            // Afficher le tchat dans le visuel
+            this.$emit('open-tchat', e)
         }
     },
 }
 </script>
 
 <style scoped>
+
+
 
 </style>

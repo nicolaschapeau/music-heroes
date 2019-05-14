@@ -11,20 +11,15 @@
                         Profil
                     </router-link>
                 </li>
-                <li class="header__right__list__item" >
-                    <router-link to="/messages">
-                        Messages
-                    </router-link>
-                </li>
                 <li class="header__right__list__item">
                     <router-link to="/logout">
                         Déconnexion
                     </router-link>
                 </li>
                 <li class="header__right__list__item">
-                    <form class="input-container" @submit="research">
+                    <form class="input-container" @submit.prevent="research">
                         <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search">
-                        <i class="icon ion-md-search"></i>
+                        <i class="icon ion-md-search" @click="research"></i>
                     </form>
                 </li>
             </ul>
@@ -34,15 +29,14 @@
 
 <script>
 export default {
-    name: 'header',
+    name: 'dashboardHeader',
     data () {
         return {
             search: null,
         }
     },
     methods: {
-        research(e) {
-            e.preventDefault()
+        research() {
             this.$router.push('/search/' + this.search)
         }
     }
@@ -119,7 +113,7 @@ export default {
         width: 100%;
     }
 
-    .icon {
+    .input-container .icon {
         padding: 10px 0;
         background: #fd8c30;
         color: white;

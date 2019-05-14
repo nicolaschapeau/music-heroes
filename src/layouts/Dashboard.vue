@@ -1,23 +1,40 @@
 <template>
     <div>
         <div class="container">
-            <Header class="header" />
-            <Sidebar class="sidebar" />
-            <div class="content"></div>
-            <div class="tchat"></div>
+            <dashboard-header class="header" />
+            <Sidebar class="sidebar" @open-tchat="openTchat"/>
+            <div class="content">
+                <slot />
+            </div>
+            <Tchat class="tchat" :tchat="tchat" @close-tchat="closeTchat"/>
         </div>
     </div>
 </template>
 
 <script>
-import Header from '@/components/header'
+import dashboardHeader from '@/components/header'
 import Sidebar from '@/components/sidebar'
+import Tchat from '@/components/tchat'
 
 export default {
     components: {
-        Header,
-        Sidebar
+        dashboardHeader,
+        Sidebar,
+        Tchat
     },
+    data () {
+        return {
+            tchat: null,
+        }
+    },
+    methods: {
+        openTchat(e) {
+            this.tchat = e
+        },
+        closeTchat() {
+            this.tchat = null
+        }
+    }
 }
 </script>
 
@@ -36,6 +53,7 @@ export default {
     .sidebar{
         grid-area: sidebar;
         background: red;
+        min-width: 400px;
     }
 
     .tchat{
@@ -53,5 +71,6 @@ export default {
         grid-area: header;
         background: yellow;
     }
+
 
 </style>
