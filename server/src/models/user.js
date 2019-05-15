@@ -69,6 +69,12 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+// Virtual chat storage
+userSchema.virtual('chats', {
+    ref: 'Chat',
+    localField: '_id',
+    foreignField: 'users.user'
+})
 
 
 // Pre operations

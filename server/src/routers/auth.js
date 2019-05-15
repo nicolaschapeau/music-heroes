@@ -60,7 +60,6 @@ router.post('/auth/login', async (req, res) => {
         res.status(201).send({ success: true, user, token })
     } catch (e) {
         const error = e.message
-        console.log(e.message)
         res.status(400).send(error)
     }
 })

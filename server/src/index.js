@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 // Routers imports
 const userRouter = require('./routers/user.js')
 const authRouter = require('./routers/auth.js')
+const chatRouter = require('./routers/chat.js')
 
 // Init server
 const app = express()
@@ -41,6 +42,7 @@ app.use(bodyParser.urlencoded({
 // Routes initialisation
 app.use(userRouter)
 app.use(authRouter)
+app.use(chatRouter)
 
 
 
