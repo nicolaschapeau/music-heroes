@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         research() {
-            this.$router.push('/search/' + this.search)
+            this.$router.replace('/search/' + this.search)
         }
     }
 }
@@ -46,7 +46,6 @@ export default {
 <style scoped>
     header{
         height: 75px;
-        background: white;
         display: flex;
         flex-direction: row;
         justify-content: center;

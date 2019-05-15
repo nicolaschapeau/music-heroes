@@ -52,24 +52,29 @@ export default {
 
     .sidebar{
         grid-area: sidebar;
-        background: red;
-        min-width: 400px;
+        background: #fd8c30;
+        margin-top: 5px;
+        z-index: 4;
+        border-right: 1px solid lightgrey;
     }
 
     .tchat{
         grid-area: 3 / 4 / 4 / 7;
-        background: blue;
         margin-left: 20px;
+        z-index: 3;
     }
 
     .content{
         grid-area: main;
         background: white;
+        z-index: 1;
     }
 
     .header{
         grid-area: header;
-        background: yellow;
+        background: white;
+        border-bottom: 1px solid lightgrey;
+        z-index: 2;
     }
 
 

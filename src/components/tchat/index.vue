@@ -6,7 +6,7 @@
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
             <div class="tchat__messages">
-                <p></p>
+                <messages :messages="messages" />
             </div>
             <div class="tchat__input">
                 <form class="input-container" @submit.prevent=""> 
@@ -20,20 +20,48 @@
 
 
 <script>
-  export default {
+import Messages from './messages'
+
+export default {
     name: 'Tchat',
     props: ['tchat'],
+    components: {
+        Messages
+    },
     data() {
-      return {
-          message: null
-      }
+        return {
+            messages: [] 
+        }
+    },
+    mounted () {
+        let date = new Date()
+        this.messages = [
+            { id: 1, name: 'aaaaaaaa', content: "Bonjourourourourourour1", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 3, name: 'aaaaaaaa', content: "Bonjourourourourourour3", date: date.toLocaleDateString("fr-FR") }
+        ]
     },
     methods: {
         closeTchat () {
             this.$emit('close-tchat')
         }
     }
-  }
+}
 </script>
 
 
@@ -69,6 +97,8 @@
         background: orangered;
         width: 100%; 
         height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .tchat__input{

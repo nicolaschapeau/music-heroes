@@ -48,7 +48,7 @@
 
 	.list:hover{
 		transition: 0.3s;
-		background: #DCDCDC;
+		background: #f37335;
 	}
 
 	.list__image{
@@ -76,7 +76,7 @@
 	}
 
 	.list__head__date{
-		color: grey;
+		color: lightgrey;
 		font-size: 10px;
 	}
 

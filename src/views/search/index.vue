@@ -10,13 +10,17 @@ export default {
     name: 'search',
     data () {
         return {
-            request: this.$route.params.req
+            request: null
         }
     },
     mounted () {
         console.log(this.$route.params.req)
+    },
+    watch: {
+        '$route.params.req' () {
+            this.request = this.$route.params.req
+        }
     }
-
 }
 </script>
 

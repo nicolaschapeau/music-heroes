@@ -1,6 +1,7 @@
 <template>
     <div>
-        <p>test</p>
+        <h2>Messages</h2>
+        <hr
         <list v-for="list in this.lists" :list="list" :key="list.id" @open-tchat="openTchat" />
     </div>
 </template>
@@ -35,6 +36,8 @@ export default {
 
 <style scoped>
 
-
+    h2{
+        color: #444;
+    }
 
 </style>
