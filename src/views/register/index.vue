@@ -190,43 +190,11 @@ export default {
     }
 
     .input-container {
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%;
         margin-bottom: 15px;
-    }
-
-    .input-container .icon {
-        padding: 10px 0;
-        background: #fd8c30;
-        color: white;
-        min-width: 50px;
-        text-align: center;
-    }
-
-    .input-field {
-        width: 100%;
-        padding: 10px;
-        outline: none;
     }
 
     .input-field:focus {
         border: 2px solid #fd8c30;
-    }
-
-    .btn {
-        background-color: #fd8c30;
-        color: white;
-        padding: 15px 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        transition: 0.3s;
-    }
-
-    .btn:hover {
-        background: #f37335;
-        transition: 0.3s;
     }
 
     .register__type h4 {

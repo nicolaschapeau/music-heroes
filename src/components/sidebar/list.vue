@@ -48,11 +48,11 @@
 
 	.list:hover{
 		transition: 0.3s;
-		background: #DCDCDC;
+		background: #fd8c30;
 	}
 
 	.list__image{
-		width: 100px;
+		width: 60px;
 		border-radius: 50%;
 	}
 
@@ -76,7 +76,7 @@
 	}
 
 	.list__head__date{
-		color: grey;
+		color: lightgrey;
 		font-size: 10px;
 	}
 

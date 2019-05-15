@@ -7,7 +7,6 @@ import Login from '@/views/login'
 import Register from '@/views/register'
 import Search from '@/views/search'
 import Profile from '@/views/profile'
-import Contact from '@/views/contact'
 import Verify from '@/views/verify'
 import errorNotFound from '@/views/error/404'
 
@@ -53,12 +52,6 @@ const router = new Router({
       name: 'profil',
       meta: { layout: 'dashboard' },
       component: Profile
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      meta: { layout: 'dashboard' },
-      component: Contact
     },
     {
       path: '/verify',
