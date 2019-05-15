@@ -23,7 +23,7 @@ const chatSchema = new mongoose.Schema({
 chatSchema.virtual('messages', {
     ref: 'Message',
     localField: '_id',
-    foreignField:  'room'
+    foreignField: 'room'
 })
 
 

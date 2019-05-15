@@ -31,11 +31,11 @@ router.post('/chats', auth, async (req, res) => {
         }
 
         // Get actual chat and check if no duplicate
-        await req.user.populate({
-            path: 'chats'
+        await user.populate({
+            path: 'chats',
         }).execPopulate()
 
-        let duplicate = !req.user.chats.every((chat) => {
+        let duplicate = !user.chats.every((chat) => {
             return chat.users.every((user) => {
                 return (user.user.toString() !== target._id.toString())
             })
@@ -57,10 +57,10 @@ router.post('/chats', auth, async (req, res) => {
         })
 
         await chat.save()
-        res.send(chat)
+        res.send({ success: true, chat })
     } catch (e) {
-        error = e.message
-        return res.status(400).send(error)
+        let error = e.message
+        return res.status(400).send({ success: false, error })
     }
 })
 
@@ -73,16 +73,11 @@ router.get('/chats/me', auth, async (req, res) => {
     try {
         // Get all users chat
         await user.populate({
-            path: 'chats'
+            path: 'chats',
         }).execPopulate()
 
-        // // Get avatars for every user in chat
-        // chats.map(chat => {
-        //     let to = chat.users.find(user => user.user.toString() !== user._id.toString())
-        //     chat.to = to.user
-        //     return chat
-        // })
-
+        
+        
         // Get last message in chat
         user.chats.forEach(async chat => {
             await chat.populate({
@@ -92,12 +87,81 @@ router.get('/chats/me', auth, async (req, res) => {
                 }
             }).execPopulate()
         })
-        res.send(user.chats)
+        
+
+
+        res.send({ success: true, chats: user.chats })
     } catch (e) {
-        error = e.message
-        return res.status(400).send(error)
+        let error = e.message
+        return res.status(400).send({ success: false, error})
     }
 })
+
+
+
+// Get a chat
+router.get('/chats/:id', auth, async (req, res) => {
+    try {
+        let chat = await Chat.findById(req.params.id)
+
+        if (!chat) {
+            return res.status(400).send({ message: 'Impossible de trouver ce chat.' })
+        }
+
+        await chat.populate({
+            path: 'messages',
+            options: {
+                limit: 10,
+                skip: parseInt(req.query.skip * 10),
+                sort: {
+                    createdAt: -1
+                }
+            }
+        }).execPopulate()
+
+        res.send({ success: true, chat, messages: chat.messages })
+    } catch (e) {
+        let error = e.message
+        return res.status(400).send({ success: false, error })
+    }
+})
+
+
+// Create a message
+router.post('/chats/:id', auth, async (req, res) => {
+    const user = req.user
+
+    try {
+        let valid = await Chat.findById(req.params.id)
+
+        if (!req.body.content) {
+            return res.status(400).send({ message: 'Message vide.' })
+        }
+
+        if (!valid) {
+            return res.status(400).send({ message: 'Impossible de trouver ce chat.' })
+        }
+
+        let message = {
+            room: mongoose.Types.ObjectId(req.params.id),
+            user: user._id,
+            content: req.body.content
+        }
+
+        message = await new Message(message)
+
+        if (!message) {
+            res.status(400).send({ success: true, message: 'Impossible de créer ce message.' })
+        }
+
+        message.save()
+        res.send(message)
+    } catch (e) {
+        let error = e.message
+        return res.status(400).send({ success: false, error })
+    }
+})
+
 
 
 // Exports

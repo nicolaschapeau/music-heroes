@@ -99,7 +99,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
         req.user.save()
 
         res.send()
-    } catch (e) {
+    } catch (e) {w
         const error = e.message
         res.status(400).send({ success: false, error })
     }
