@@ -6,7 +6,7 @@
             <div class="content">
                 <slot />
             </div>
-            <Tchat class="tchat" :tchat="tchat" @close-tchat="closeTchat"/>
+            <Tchat class="tchat color-clear" :tchat="tchat" @close-tchat="closeTchat"/>
         </div>
     </div>
 </template>
@@ -52,22 +52,26 @@ export default {
 
     .sidebar{
         grid-area: sidebar;
-        background: #fd8c30;
-        margin-top: 5px;
+        background: #FCF1E8;
+        margin-top: 6px;
         z-index: 4;
-        border-right: 1px solid lightgrey;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .tchat{
         grid-area: 3 / 4 / 4 / 7;
         margin-left: 20px;
+        background: #FCF1E8;
         z-index: 3;
     }
 
     .content{
         grid-area: main;
         background: white;
-        z-index: 1;
+        z-index: 1;        
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .header{

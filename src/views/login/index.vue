@@ -123,21 +123,6 @@ export default {
         border: 2px solid #fd8c30;
     }
 
-    .btn {
-        background-color: #fd8c30;
-        color: white;
-        padding: 15px 20px;
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        transition: 0.3s;
-    }
-
-    .btn:hover {
-        background: #f37335;
-        transition: 0.3s;
-    }
-
     .login__redirect{
         color: #fd8c30;
         text-decoration: none;

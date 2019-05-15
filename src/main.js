@@ -4,7 +4,7 @@ import '@/plugins/axios'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store/store'
-
+import linkify from 'vue-linkify'
 
 // Layouts
 import Default from '@/layouts/Default'
@@ -16,7 +16,7 @@ Vue.component('default-layout', Default)
 Vue.component('dashboard-layout', Dashboard)
 Vue.component('error-layout', Error)
 
-
+Vue.directive('linkified', linkify)
 
 // Vue global
 Vue.config.productionTip = false

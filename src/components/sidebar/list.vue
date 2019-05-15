@@ -48,11 +48,11 @@
 
 	.list:hover{
 		transition: 0.3s;
-		background: #f37335;
+		background: #fd8c30;
 	}
 
 	.list__image{
-		width: 100px;
+		width: 60px;
 		border-radius: 50%;
 	}
 

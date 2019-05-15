@@ -5,12 +5,13 @@
                 <p>{{ tchat.name }}</p>
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
-            <div class="tchat__messages">
+            <div id="messages" class="tchat__messages">
                 <messages :messages="messages" />
             </div>
+            <button @click="add">test</button>
             <div class="tchat__input">
                 <form class="input-container" @submit.prevent=""> 
-                    <input class="input-field" type="message" placeholder="Message" v-model="message" name="message">
+                    <input class="input-field" type="message" placeholder="Message" v-model="message" name="message" autofocus>
                     <i class="icon ion-md-send"></i>
                 </form>
             </div>
@@ -21,6 +22,7 @@
 
 <script>
 import Messages from './messages'
+import { setTimeout } from 'timers';
 
 export default {
     name: 'Tchat',
@@ -38,27 +40,33 @@ export default {
         this.messages = [
             { id: 1, name: 'aaaaaaaa', content: "Bonjourourourourourour1", date: date.toLocaleDateString("fr-FR") },
             { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
-            { id: 3, name: 'aaaaaaaa', content: "Bonjourourourourourour3", date: date.toLocaleDateString("fr-FR") }
+            { id: 3, name: 'bbbbbbbb', content: "ezfzefz http://okbutwin.fr fzefzfzefzef", date: date.toLocaleDateString("fr-FR") },
+            { id: 4, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 5, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 6, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 7, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 8, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 9, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 10, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 11, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 12, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 13, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 14, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 15, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 16, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 17, name: 'bbbbbbbb', content: "Bonjourourourourourour2", date: date.toLocaleDateString("fr-FR") },
+            { id: 18, name: 'aaaaaaaa', content: "Bonjourourourourourour3", date: date.toLocaleDateString("fr-FR") }
         ]
+
+        
     },
     methods: {
         closeTchat () {
             this.$emit('close-tchat')
+        },
+        add(){
+            let date = new Date()
+            this.messages.push({ id: 19, name: 'aaaaaaaa', content: "Bonjourourourourourour3", date: date.toLocaleDateString("fr-FR") })
         }
     }
 }
@@ -80,8 +88,12 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: orange;
+        background: #fd8c30;
         width: 100%;
+    }
+
+    .tchat__head p{
+        font-weight: bold;
     }
 
     .tchat__head p, .tchat__head i{
@@ -94,7 +106,6 @@ export default {
     }
 
     .tchat__messages{
-        background: orangered;
         width: 100%; 
         height: 100%;
         overflow-x: hidden;
@@ -102,31 +113,7 @@ export default {
     }
 
     .tchat__input{
-        background: brown;
         width: 100%;
         height: 40px;
-    }
-
-    .input-container {
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%;
-    }
-
-    .input-container .icon {
-        padding: 10px 0;
-        background: #fd8c30;
-        color: white;
-        min-width: 50px;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    .input-field {
-        width: 100%;
-        padding: 10px;
-        outline: none;
-        border: 1px solid #fd8c30;
-        border-right: 0;
     }
 </style>

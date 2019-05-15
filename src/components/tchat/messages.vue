@@ -1,23 +1,39 @@
 <template>
-	<div>
-		<div class="messages" v-for="message in messages" :key="message.id">
-			<p v-if="me === message.name" class="me">{{ message.content }}</p>
-			<p v-if="me !== message.name" class="other">{{ message.content }}</p>
+	<div v-if="messages" id="messages">
+		<div class="messages" v-for="message in messages" :key="message.id" v-linkified>
+			<p v-html="message.content" :class="[ message.name === me ? 'me' : 'other' ]" v-linkified	></p>
 		</div>
 	</div>
 </template>
 
 
 <script>
-	export default {
-		name: 'Messages',
-		props: ['messages'],
-		data () {
-			return {
-				me: 'aaaaaaaa'
-			}
+import { watch } from 'fs';
+export default {
+	name: 'Messages',
+	props: ['messages'],
+	data () {
+		return {
+			me: 'aaaaaaaa'
 		}
-	}
+	},
+    mounted () {
+		this.scrollTo()
+	},
+	methods: {
+		scrollTo(){
+			let element = document.getElementById('messages')
+			element.scrollTop = element.scrollHeight
+			console.log('height : ', element.scrollHeight)
+			console.log(document.getElementById('messages').scrollTop)
+		}
+	},
+	watch: {
+        messages () {
+			this.scrollTo()	
+        }
+    }
+}
 </script>
 
 
@@ -28,19 +44,21 @@
 		text-align: left
 	}
 
-	p {
+	.messages p {
 		clear:both;
+		max-width: 75%;
+		margin: 5px;
+		padding: 15px;
+		border-radius: 5px;
 	} 
 
 	.messages .me {
 		background: white;
-		max-width: 75%;
 		float: right;
 	}
 
 	.messages .other {
 		background: lightgrey;
-		max-width: 75%;	
 		float: left;
 	}
 

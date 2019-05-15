@@ -106,28 +106,6 @@ export default {
         color: #fd8c30;
     }
 
-    .input-container {
-        display: -ms-flexbox;
-        display: flex;
-        width: 100%;
-    }
-
-    .input-container .icon {
-        padding: 10px 0;
-        background: #fd8c30;
-        color: white;
-        min-width: 50px;
-        text-align: center;
-    }
-
-    .input-field {
-        width: 100%;
-        padding: 10px;
-        outline: none;
-        border: 1px solid #fd8c30;
-        border-right: 0;
-    }
-
     .input-field:focus {
         border: 2px solid #fd8c30;
         border-right: 0;
