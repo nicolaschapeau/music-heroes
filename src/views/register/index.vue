@@ -126,32 +126,28 @@ export default {
             }
 
 
-            api.auth.register({
-                type: this.typeAccount,
+            let response = await this.$store.dispatch('register', {
+                //type: this.typeAccount,
                 lastname: this.lastname,
                 firstname: this.firstname,
                 email: this.email,
                 password: this.password,
             })
-            .then((response) => {
-                if (response.data.success === false) {
-                    return this.error = response.data.error
-                } else {
-                    this.changeStage(3)
 
-                    this.timer = 5
+            if (response.success !== true) {
+                return this.error = response.message
+            } else {
+                this.changeStage(3)
 
-                    setInterval(() => {
-                        this.timer -= 1
-                        if(this.timer === 0){
-                            return this.$router.push('/')
-                        }
-                    }, 1000)
-                }
-            })
-            .catch((error) => {
-                return this.error = error.response.data
-            })
+                this.timer = 5
+
+                setInterval(() => {
+                    this.timer -= 1
+                    if(this.timer === 0){
+                        return this.$router.push('/')
+                    }
+                }, 1000)
+            }
 
         }
     }

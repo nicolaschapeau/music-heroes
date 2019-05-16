@@ -1,6 +1,20 @@
-export default function auth ({ next, router }) {
-    console.log('User must me logged in !')
-    // return router.push({ name: 'login' })
+import cookies from 'vue-cookies'
+import store from '@/store/store'
 
-    return next()
+export default async function auth({ next, to, router }) {
+    // console.log(to.name)
+    if (cookies.get('x-hp')) {
+        let response = await store.dispatch('fetch')
+
+        // Not correct
+        if (response.success !== true) {
+            return router.push({ name: 'login' })
+        }
+
+
+        return next()
+    } else {
+        return router.push({ name: 'login' })
+    }
+
 }

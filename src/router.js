@@ -26,7 +26,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      meta: { layout: 'dashboard' },
+      meta: { layout: 'dashboard', middleware: auth },
       component: Home
     },
     {
@@ -44,19 +44,19 @@ const router = new Router({
     {
       path: '/search/:req',
       name: 'search',
-      meta: { layout: 'dashboard'},
+      meta: { layout: 'dashboard', middleware: auth },
       component: Search
     },
     {
       path: '/profil',
       name: 'profil',
-      meta: { layout: 'dashboard' },
+      meta: { layout: 'dashboard', middleware: auth },
       component: Profile
     },
     {
       path: '/verify',
       name: 'verify',
-      meta: { layout: 'dashboard' },
+      meta: { layout: 'dashboard'},
       component: Verify
     },
 

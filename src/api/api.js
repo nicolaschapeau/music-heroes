@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'http://localhost:3000'
 // Export api calls
 export default {
     auth: {
-        register: (data) => axios.post('/users', data, { 
+        register: (data) => axios.post('/auth/register', data, { 
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -37,12 +37,4 @@ export default {
             }
         })
     },
-    server: {
-        getServers: () => axios.get('/servers/'),
-        getServer: (id) => axios.get('/servers/' + id),
-        add: (data) => axios.post('/servers', data),
-        remove: (id) => axios.delete('/servers/' + id),
-        reset: (id) => axios.get('/servers/' + id + '/reset'),
-        changeStatus: (id) => axios.patch('/servers/' + id + '/status')
-    }
 }

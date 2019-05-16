@@ -46,9 +46,9 @@ export default {
                 return this.error = 'Veuillez remplir tous les champs.'
             }
 
-            api.auth.login({
+            this.$store.dispatch('login', {
                 email: this.email,
-                password: this.password,
+                password: this.password
             })
             .then((response) => {
                 if (response.data.success === false) {
