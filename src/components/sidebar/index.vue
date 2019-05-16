@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Messages</h2>
-        <list v-for="list in this.lists" :list="list" :key="list.id" @open-tchat="openTchat" />
+        <list :lists="lists" @open-tchat="openTchat" />
     </div>
 </template>
 <script>

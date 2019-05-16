@@ -56,7 +56,7 @@ export default {
         margin-top: 6px;
         z-index: 4;
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
 
     .tchat{

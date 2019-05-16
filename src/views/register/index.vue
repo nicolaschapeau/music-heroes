@@ -253,6 +253,7 @@ export default {
         font-size: 32px;
         padding-bottom: 15px;
         transition: 0.3s;
+        cursor: pointer;
     }
 
     .register__form__back:hover {

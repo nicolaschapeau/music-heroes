@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "server": "env-cmd ./server/config/dev.env nodemon ./server/src/index.js",
     "build": "vue-cli-service build",
     "dev": "concurrently \"npm run serve\" \"env-cmd ./server/config/dev.env nodemon ./server/src/index.js\""
   },

@@ -15,6 +15,7 @@ export default {
 <style>
     .default__wrapper{
         background: url('/images/background_default.jpg');
+        background-position: right; 
         width: 100%;
         height: 100vh;
         display: flex;

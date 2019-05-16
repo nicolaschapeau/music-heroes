@@ -1,18 +1,26 @@
 <template>
-	<div class="list" @click="openTchat(list)">
-		<img :src="list.imageSrc" :alt="list.name" class="list__image">
-		<div class="list__details">
-			<div class="list__head">
-				<span class="list__head__name">
-					{{ list.name }}
-				</span>
-				<span class="list__head__date">
-					{{ list.date }}
-				</span>
+	<div style="height: 80%">
+		<div v-if="lists">
+			<div v-for="list in this.lists"  :key="list.id" class="list" @click="openTchat(list)">
+				<img :src="list.imageSrc" :alt="list.name" class="list__image">
+				<div class="list__details">
+					<div class="list__head">
+						<span class="list__head__name">
+							{{ list.name }}
+						</span>
+						<span class="list__head__date">
+							{{ list.date }}
+						</span>
+					</div>
+					<span class="list__content">
+						{{ list.content }}
+					</span>
+				</div>
 			</div>
-			<span class="list__content">
-				{{ list.content }}
-			</span>
+		</div>
+		<div v-if="!lists" class="no-list">
+			<h4>Pas encore de message ?</h4>
+			<p>Commencer par contacter un musicien !</p>
 		</div>
 	</div>
 </template>
@@ -21,7 +29,7 @@
 <script>
   export default {
     name: 'List',
-    props: ['list'],
+    props: ['lists'],
 		data() {
 			return {}
 		},
@@ -87,4 +95,11 @@
 		text-overflow: ellipsis;
 	}
 
+	.no-list{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
 </style>
