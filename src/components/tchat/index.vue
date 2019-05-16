@@ -5,12 +5,11 @@
                 <p>{{ tchat.name }}</p>
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
-            <div id="messages" class="tchat__messages">
+            <div class="tchat__messages" id="messageContainer">
                 <messages :messages="messages" />
             </div>
-            <button @click="add">test</button>
             <div class="tchat__input">
-                <form class="input-container" @submit.prevent=""> 
+                <form class="input-container" @click.prevent="add()"> 
                     <input class="input-field" type="message" placeholder="Message" v-model="message" name="message" autofocus>
                     <i class="icon ion-md-send"></i>
                 </form>
@@ -108,8 +107,8 @@ export default {
     .tchat__messages{
         width: 100%; 
         height: 100%;
-        overflow-x: hidden;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .tchat__input{

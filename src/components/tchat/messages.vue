@@ -1,14 +1,13 @@
 <template>
-	<div v-if="messages" id="messages">
-		<div class="messages" v-for="message in messages" :key="message.id" v-linkified>
-			<p v-html="message.content" :class="[ message.name === me ? 'me' : 'other' ]" v-linkified	></p>
-		</div>
+	<div class="messages" id="messages" v-if="messages">
+		<p v-html="message.content" v-for="message in messages" :key="message.id" :class="[ message.name === me ? 'me' : 'other' ]" v-linkified></p>
 	</div>
 </template>
 
 
 <script>
 import { watch } from 'fs';
+import { setTimeout } from 'timers';
 export default {
 	name: 'Messages',
 	props: ['messages'],
@@ -18,14 +17,39 @@ export default {
 		}
 	},
     mounted () {
-		this.scrollTo()
+		this.initscroll()
 	},
 	methods: {
-		scrollTo(){
-			let element = document.getElementById('messages')
+		initscroll() {
+			let element = document.getElementById('messageContainer')
 			element.scrollTop = element.scrollHeight
-			console.log('height : ', element.scrollHeight)
-			console.log(document.getElementById('messages').scrollTop)
+		},
+		scrollTo(){
+			setImmediate(() => {
+				let $messages = document.getElementById('messages')
+				let $messagesContainer = document.getElementById('messageContainer')
+
+				const $newMessage = $messages.lastElementChild
+
+				// Height of the new message
+				const newMessageStyles = getComputedStyle($newMessage)
+				const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+				const newMessageHeight = $newMessage.offsetHeight + (newMessageMargin * 2)
+
+				// Visible height
+				const visibleHeight = $messagesContainer.offsetHeight
+
+				// Height of messages container
+				const containerHeight = $messages.scrollHeight
+
+				// How far have I scrolled?
+				const scrollOffset = $messagesContainer.scrollTop + visibleHeight
+
+				if (containerHeight - newMessageHeight <= scrollOffset) {
+					$messagesContainer.scrollTop = $messagesContainer.scrollHeight
+				}
+			})
+
 		}
 	},
 	watch: {
@@ -41,11 +65,13 @@ export default {
 
 	.messages {
 		overflow-wrap: break-word;
-		text-align: left
+		text-align: left;
+		width: 100%;
+		display: inline-block;
 	}
 
 	.messages p {
-		clear:both;
+		clear: both;
 		max-width: 75%;
 		margin: 5px;
 		padding: 15px;
