@@ -1,4 +1,5 @@
 // Requires
+const Chat = require('./chat')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
@@ -164,6 +165,17 @@ userSchema.methods.toJSON = function () {
 
     return userObject
 }
+
+
+
+// Cascade delete tasks when user is deleted
+userSchema.pre('remove', async function (next) {
+    const user = this
+
+    await Chat.deleteMany({ 'users.user': user._id })
+    next()
+})
+
 
 
 // Export model

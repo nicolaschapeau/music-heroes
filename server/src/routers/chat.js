@@ -76,24 +76,62 @@ router.get('/chats/me', auth, async (req, res) => {
             path: 'chats',
         }).execPopulate()
 
-        
-        
+        // Create JSON Object with chats
+        let chats = []
+        user.chats.forEach((chat) => {
+            chats.push(chat.toJSON())
+        })
+
+        // Add avatars to users
+        for (let index = 0; index < user.chats.length; index++) {
+            const chat = user.chats[index];
+            
+            for (let i = 0; i < chat.users.length; i++) {
+                const user = chat.users[i];
+                let avatar = null
+
+                // If actual user
+                if (user.user.toString() === req.user._id.toString()) {
+                    avatar = req.user.avatar
+
+                    if (avatar) {
+                        avatar = avatar
+                    }
+                } else {
+                    let target = await User.findById(user.user)
+
+                    if (target.avatar) {
+                        avatar = target.avatar
+                    }
+                }
+
+                chats[index].users[i].avatar = avatar
+            }
+        }
+
         // Get last message in chat
-        user.chats.forEach(async chat => {
+        for (let index = 0; index < user.chats.length; index++) {
+            const chat = user.chats[index];
+            
             await chat.populate({
                 path: 'messages',
                 options: {
                     limit: 1
                 }
             }).execPopulate()
-        })
-        
+
+            let messages = []
+            chat.messages.forEach((message) => {
+                messages.push(message.toJSON())
+            })
+            chats[index].message = messages[index]
+        }
 
 
-        res.send({ success: true, chats: user.chats })
+        res.send({ success: true, chats })
     } catch (e) {
         let error = e.message
-        return res.status(400).send({ success: false, error})
+        return res.status(400).send({ success: false, error })
     }
 })
 
