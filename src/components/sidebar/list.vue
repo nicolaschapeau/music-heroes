@@ -61,7 +61,6 @@
 
 	.list__image{
 		width: 60px;
-		border-radius: 50%;
 	}
 
 	.list__details{

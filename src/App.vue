@@ -23,15 +23,19 @@ export default {
   font-family: 'Lato', Arial, 'Avenir', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #444;
+}
+
+img{
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar {
     width: 2px;
 }
-    
+
 ::-webkit-scrollbar-track {
+    
     background: #ddd;
 }
     

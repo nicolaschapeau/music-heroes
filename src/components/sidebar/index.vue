@@ -47,6 +47,7 @@ export default {
 
     h2{
         color: #444;
+        text-align: center;
     }
 
 </style>

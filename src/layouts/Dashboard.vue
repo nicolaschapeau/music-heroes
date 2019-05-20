@@ -52,7 +52,6 @@ export default {
 
     .sidebar{
         grid-area: sidebar;
-        background: #FCF1E8;
         margin-top: 6px;
         z-index: 4;
         overflow-x: hidden;
@@ -69,6 +68,7 @@ export default {
     .content{
         grid-area: main;
         background: white;
+        margin-top: 6px;
         z-index: 1;        
         overflow-x: hidden;
         overflow-y: auto;

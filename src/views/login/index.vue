@@ -51,8 +51,8 @@ export default {
                 password: this.password
             })
             .then((response) => {
-                if (response.data.success === false) {
-                    return this.error = response.data.error
+                if (response.success === false) {
+                    return this.error = response.message
                 } else {
                     return this.$router.push('/')   
                 }
