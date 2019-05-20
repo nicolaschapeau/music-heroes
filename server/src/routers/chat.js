@@ -89,16 +89,23 @@ router.get('/chats/me', auth, async (req, res) => {
             for (let i = 0; i < chat.users.length; i++) {
                 const user = chat.users[i];
                 let avatar = null
+                let name = null
 
                 // If actual user
                 if (user.user.toString() === req.user._id.toString()) {
                     avatar = req.user.avatar
+                    let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
+                    let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
+                    name = `${firstname} ${lastname}`
 
                     if (avatar) {
                         avatar = avatar
                     }
                 } else {
                     let target = await User.findById(user.user)
+                    let firstname = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1)
+                    let lastname = target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
+                    name = `${firstname} ${lastname}`
 
                     if (target.avatar) {
                         avatar = target.avatar
@@ -106,6 +113,7 @@ router.get('/chats/me', auth, async (req, res) => {
                 }
 
                 chats[index].users[i].avatar = avatar
+                chats[index].users[i].name = name
             }
         }
 
