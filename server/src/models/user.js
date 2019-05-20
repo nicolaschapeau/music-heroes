@@ -1,5 +1,6 @@
 // Requires
 const Chat = require('./chat')
+const Rating = require('./rating')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
@@ -70,16 +71,14 @@ const userSchema = new mongoose.Schema({
         default: 'Une bio par défaut. Rentrez ici votre histoire.',
         type: String,
     },
-    instruments: [{
-        instrument: {
-            required: true,
-            type: String
-        }
-    }],
+    instruments: {
+        type: Array,
+        default: []
+    },
     events: [{
         event: {
-            required: true,
-            type: String
+            type: String,
+            required: true
         }
     }],
     verified: {
@@ -205,6 +204,7 @@ userSchema.methods.toJSON = function () {
 userSchema.pre('remove', async function (next) {
     const user = this
 
+    await Rating.deleteOne({ user: user._id })
     await Chat.deleteMany({ 'users.user': user._id })
     next()
 })

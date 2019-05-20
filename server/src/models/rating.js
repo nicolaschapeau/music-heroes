@@ -15,9 +15,11 @@ const ratingSchema = new mongoose.Schema({
         type: Number
     },
     count: {
+        default: 0,
         type: Number
     },
     total: {
+        default: 0,
         type: Number
     },
     users: [{
@@ -32,5 +34,5 @@ const ratingSchema = new mongoose.Schema({
 
 
 // Exports
-const Rating = new mongoose.model('Rating', ratingSchema)
+const Rating = mongoose.model('Rating', ratingSchema)
 module.exports = Rating

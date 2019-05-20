@@ -1,5 +1,6 @@
 require('../db/mongoose')
 const User = require('../models/user')
+const Rating = require('../models/rating')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -22,7 +23,16 @@ router.post('/users', async (req, res) => {
     const user = new User(req.body)
 
     try {
+        let instruments = ['guitar', 'piano', 'flute']
+        let validInstruments = user.instruments.every(instrument => instruments.includes(instrument.toLowerCase()))
+
+        if (!validInstruments) {
+            throw new Error('Instruments invalides.')
+        }
+
         await user.save()
+        let rating = await new Rating({ user: user._id })
+        await rating.save()
 
         res.status(201).send({ success: true, user })
     } catch (e) {
@@ -45,13 +55,20 @@ router.get('/users/me', auth, async (req, res) => {
 router.patch('/users/me', auth, async (req, res) => {
     try {
         // Validate params
-        let allowedUpdates = ['name', 'email', 'password', 'bio']
+        let allowedUpdates = ['name', 'email', 'password', 'bio', 'instruments']
         let updates = Object.keys(req.body)
 
         let valid = updates.every(update => allowedUpdates.includes(update))
 
         if (!valid) {
-            throw new Error('Invalid arguments')
+            throw new Error('Arguments invalides.')
+        }
+
+        let allowedInstruments = ['guitar', 'piano', 'flute']
+        let validInstruments = req.body.instruments.every(instrument => allowedInstruments.includes(instrument))
+
+        if (!validInstruments) {
+            throw new Error('Instruments invalides.')
         }
 
         // Update user
@@ -76,34 +93,6 @@ router.delete('/users/me', auth, async (req, res) => {
         res.status(400).send({ success: false, error })
     }
 })
-
-// // Add rating to user
-// router.post('/users/rate', auth, async (req, res) => {
-//     try {
-//         if (!req.body.target || !req.body.stars) {
-//             throw new Error(`Il faut un utilisateur à noter ainsi qu'une note à donner`)
-//         }
-
-//         let target = await User.findById(target)
-
-//         if (!target) {
-//             throw new Error('Utilisateur inconnu.')
-//         }
-
-//         let stars = Number.toInteger(req.body.stars)
-//         if (target.ratings.count === 0) {
-//             target.ratings.stars = stars
-//         } else {
-//             target.ratings.stars = ((target.ratings.stars * target.ratings.count) + stars) / (target.ratings.count + 1)
-//         }
-//         target.ratings.count++
-
-
-//     } catch (e) {
-//         const error = e.message
-//         res.status(400).send({ success: false, error })
-//     }
-// })
 
 const upload = multer({
     limits: {

@@ -1,5 +1,6 @@
 require('../db/mongoose')
 const User = require('../models/user')
+const Rating = require('../models/rating')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -21,8 +22,18 @@ router.post('/auth/register', async (req, res) => {
     const user = new User(req.body)
 
     try {
+        let allowedInstruments = ['guitar', 'piano', 'flute']
+        let validInstruments = user.instruments.every(instrument => allowedInstruments.includes(instrument))
+
+        if (!validInstruments) {
+            throw new Error('Instruments invalides.')
+        }
+
         await user.save()
         const token = await user.generateAuthToken(res)
+        let rating = await new Rating({ user: user._id })
+        await rating.save()
+
         registerEmail(user)
 
         res.status(201).send({ success: true, user, token })
