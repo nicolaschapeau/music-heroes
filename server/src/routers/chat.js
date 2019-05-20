@@ -99,7 +99,7 @@ router.get('/chats/me', auth, async (req, res) => {
                     name = `${firstname} ${lastname}`
 
                     if (avatar) {
-                        avatar = avatar
+                        avatar = avatar.toString('base64')
                     }
                 } else {
                     let target = await User.findById(user.user)
@@ -108,7 +108,7 @@ router.get('/chats/me', auth, async (req, res) => {
                     name = `${firstname} ${lastname}`
 
                     if (target.avatar) {
-                        avatar = target.avatar
+                        avatar = target.avatar.toString('base64')
                     }
                 }
 
