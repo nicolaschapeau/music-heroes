@@ -1,9 +1,9 @@
 <template>
-    <div class="profil">
-        <div class="head">
+    <div id="container">
+        <div id="profil__banner">
         </div>
-        <div class="body">
-            <div class="personnal">
+        <div id="profil__container">
+            <div id="profil__header">
                 <div class="left">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC" alt="profil_image" />
                     <div class="text">
@@ -21,9 +21,13 @@
                     <button class="btn">Contacter</button>
                 </div>
             </div>
-            <div class="infos">
-                <div>Bio Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nemo voluptatem praesentium explicabo voluptatibus, error debitis eum eaque nisi pariatur mollitia aliquid, sapiente non impedit architecto earum officiis consequuntur autem?</div>
-                <div>Instruments</div>
+            <div id="profil__content">
+                <div id="profil__bio">
+                    Bio Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nemo voluptatem praesentium explicabo voluptatibus, error debitis eum eaque nisi pariatur mollitia aliquid, sapiente non impedit architecto earum officiis consequuntur autem?
+                </div>
+                <div id="profil__instruments">
+                    Instruments
+                </div>
             </div>
         </div>
     </div>
@@ -37,15 +41,13 @@ export default {
 
 <style scoped>
 
-    .profil{
+    #container{
         display: flex;
         flex-direction: column;
-        /* justify-content: center; */
-        /* align-items: center; */
         height: 100%;
     }
 
-    .profil .head{
+    #container #profil__banner{
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -57,17 +59,17 @@ export default {
         min-height: 250px;
     }
     
-    .profil .body{
+    #container #profil__container{
         width: 100%;
         flex: 1 auto;
     }
 
-    .profil .body .personnal, .profil .body .infos{
+    #container #profil__container #profil__header{
         display: flex;
         padding: 20px 50px 20px 50px;
     }
 
-    .profil .body .personnal{
+    #container #profil__container #profil__header{
         display: flex;
         justify-content: space-between;
         align-items: center;        
@@ -75,25 +77,38 @@ export default {
         top: -65px;
     }
 
-    .profil .body .personnal .left{
+    #container #profil__container #profil__header .left{
         display: flex;
         align-items: center;
     }
 
-    .profil .body .personnal .left img{
+    #container #profil__container #profil__header .left img{
         border: 1px solid lightgrey;    
     }
 
-    .profil .body .personnal .left .text{
-       padding-left: 25px;
+    #container #profil__container #profil__header .left .text{
+        padding-left: 25px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
     }
 
-    .profil .body .personnal .left .text i{
+    #container #profil__container #profil__header .left .text i{
         font-size: 32px;
+    }
+
+    #container #profil__container #profil__content{
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 50px 20px 50px;
+    }
+
+    #container #profil__container #profil__content #profil__bio, #container #profil__container #profil__content #profil__instruments{
+        width: 47%;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        padding: 10px;
     }
 
 </style>

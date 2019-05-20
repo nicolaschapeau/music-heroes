@@ -73,11 +73,13 @@ img{
     cursor: pointer;
     width: 100%;
     transition: 0.3s;
+    outline: none;
 }
 
 .btn:hover {
     background: #f37335;
     transition: 0.3s;
+    outline: none;
 }
 
 </style>

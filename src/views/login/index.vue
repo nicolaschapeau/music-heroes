@@ -1,10 +1,10 @@
 <template>
-    <div class="login__content">
-        <div class="login__infos">
-            <img class="login__logo" src="/images/logo.png">
-            <h1 class="login__title">Music Heroes</h1>
+    <div id="container">
+        <div id="login__infos">
+            <img id="login__logo" src="/images/logo.png">
+            <h1 id="login__title">Music Heroes</h1>
         </div>
-        <form class="form__login">
+        <form id="form__login">
 
             <div class="input-container">
                 <i class="icon ion-md-person"></i>
@@ -18,11 +18,11 @@
 
             <button type="submit" class="btn" @click.prevent="validateLogin()">Connexion</button>
 
-            <p class="login__form__error" v:if="error">{{ error }}</p> 
+            <p id="login__form__error" v:if="error">{{ error }}</p> 
         </form>
         <p>
             Connectez-vous ici ou 
-            <a class="login__redirect" href="/register">inscrivez-vous</a>
+            <a id="login__redirect" href="/register">inscrivez-vous</a>
         </p>
     </div>
 </template>
@@ -67,11 +67,11 @@ export default {
 </script>
 
 <style scoped>
-    .login__content{
+    #container{
         width: 70%;
     }
 
-    .login__infos{
+    #login__infos{
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -79,19 +79,19 @@ export default {
         padding-bottom: 50px;
     }
 
-    .login__title{
+    #login__title{
         color: #444;
         font-size: 40px;
         margin-top: 185px;
     }
 
-    .login__logo{
+    #login__logo{
         width: 70px;
         position: absolute;
     }
 
 
-    .form__login{
+    #form__login{
         display: flex;
         flex-direction: column;
         justify-content: space-around;
@@ -123,18 +123,18 @@ export default {
         border: 2px solid #fd8c30;
     }
 
-    .login__redirect{
+    #login__redirect{
         color: #fd8c30;
         text-decoration: none;
         transition: 0.3s;
     }
 
-    .login__redirect:hover {
+    #login__redirect:hover {
         color: #E7550E;
         transition: 0.3s;
     }
 
-    .login__form__error {
+    #login__form__error {
         padding: 10px 37px 0 37px;
         color: red;
     }

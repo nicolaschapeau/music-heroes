@@ -37,4 +37,42 @@ export default {
             }
         })
     },
+    chat: {
+        // data : target
+        create: (data) => axios.post('/chats', data, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+        // data : user data
+        getAll: () => axios.get('/chats/me', {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }), 
+        getOne: (id) => axios.get('/chats/' + id, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+        // data : user data
+        sendMessage: (id, data) => axios.post('/chats/' + id, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+    },
+    user: {
+        // data : target
+        getAvatar: (id) => axios.post('/users/' + id + '/avatar', {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+    },  
 }

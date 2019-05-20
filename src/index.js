@@ -10,8 +10,6 @@ const authRouter = require('@/routers/auth.js')
 const app = express()
 const port = process.env.PORT
 
-
-
 // Server accepts
 app.use(express.json())
 app.use(cookieParser())
@@ -19,8 +17,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
 }))
-
-
 
 // Routes initialisation
 app.use(userRouter)

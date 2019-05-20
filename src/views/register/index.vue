@@ -1,5 +1,5 @@
 <template>
-    <div class="register__content">
+    <div id="container">
         <div class="register__infos">
             <img class="register__logo" src="/images/logo.png">
             <h1 class="register__title">Music Heroes</h1>
@@ -127,7 +127,7 @@ export default {
 
 
             let response = await this.$store.dispatch('register', {
-                //type: this.typeAccount,
+                type: this.typeAccount,
                 lastname: this.lastname,
                 firstname: this.firstname,
                 email: this.email,
@@ -155,7 +155,7 @@ export default {
 </script>
 
 <style scoped>
-    .register__content {
+    #container {
         width: 70%;
     }
 

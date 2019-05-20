@@ -1,44 +1,58 @@
 <template>
 	<div style="height: 80%">
 		<div v-if="lists">
-			<div v-for="list in this.lists"  :key="list.id" class="list" @click="openTchat(list)">
-				<img :src="list.imageSrc" :alt="list.name" class="list__image">
+			<div v-for="list in lists" :key="list.id" class="list" @click="openTchat(list)">
+				<img :src="getAvatar(list)" :alt="list.name" class="list__image">
 				<div class="list__details">
 					<div class="list__head">
 						<span class="list__head__name">
 							{{ list.name }}
 						</span>
 						<span class="list__head__date">
-							{{ list.date }}
+							{{ list.message.createdAt | moment("calendar") }}
 						</span>
 					</div>
 					<span class="list__content">
-						{{ list.content }}
+						{{ list.message.content }}
 					</span>
 				</div>
 			</div>
 		</div>
-		<div v-if="!lists" class="no-list">
+		<div v-if="lists.length <= 0" class="no-list">
 			<h4>Pas encore de message ?</h4>
-			<p>Commencer par contacter un musicien !</p>
+			<p>Commencez par contacter un musicien !</p>
 		</div>
 	</div>
 </template>
 
 
 <script>
-  export default {
-    name: 'List',
-    props: ['lists'],
-		data() {
-			return {}
-		},
-    methods: {
-			openTchat(tchat) {
-				this.$emit('open-tchat', tchat)
+import api from '@/api/api'
+
+export default {
+	name: 'List',
+	props: ['lists'],
+	data() {
+		return {}
+	},
+	mounted () {
+	},
+	methods: {
+		getAvatar(chat) {
+			const response = chat.users.find(user => user.avatar !== undefined)
+
+			if (!response.avatar){
+				return String("http://www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg")
+			}else{
+				return avatar
 			}
-    }
-  }
+			
+		},
+		openTchat(tchat) {
+			this.$emit('open-tchat', tchat)
+		}
+	}
+}
 </script>
 
 

@@ -2,7 +2,7 @@
     <div>
         <div class="container">
             <dashboard-header class="header" />
-            <Sidebar class="sidebar" @open-tchat="openTchat"/>
+            <Sidebar class="sidebar" :tchats="loadedLists" @open-tchat="openTchat"/>
             <div class="content">
                 <slot />
             </div>
@@ -26,8 +26,19 @@ export default {
         return {
             tchat: null,
         }
-    },
+    },    
+    mounted () {
+        this.loadData()
+    },  
+    computed: {
+        loadedLists () {
+            return this.$store.getters['getChats']
+        }
+    }, 
     methods: {
+        async loadData() {
+            await this.$store.dispatch('setChats')
+        },
         openTchat(e) {
             this.tchat = e
         },
