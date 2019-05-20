@@ -17,6 +17,7 @@ Vue.component('dashboard-layout', Dashboard)
 Vue.component('error-layout', Error)
 
 Vue.directive('linkified', linkify)
+
 Vue.use(require('vue-moment'))
 
 // Vue global

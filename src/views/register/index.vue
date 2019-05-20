@@ -159,6 +159,10 @@ export default {
         width: 70%;
     }
 
+    #container p{
+        text-align: center;
+    }
+
     .register__infos {
         display: flex;
         flex-direction: column;
@@ -196,6 +200,7 @@ export default {
     .register__type h4 {
         font-size: 20px;
         font-weight: bold;
+        text-align: center;
     }
 
     .register__redirect {
@@ -266,5 +271,6 @@ export default {
         font-size: 64px;
         background: none;
         color: green;
+        text-align: center;
     }
 </style>

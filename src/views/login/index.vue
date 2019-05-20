@@ -71,6 +71,10 @@ export default {
         width: 70%;
     }
 
+    #container p{
+        text-align: center;
+    }
+
     #login__infos{
         display: flex;
         flex-direction: column;

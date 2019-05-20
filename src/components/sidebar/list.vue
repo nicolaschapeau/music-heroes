@@ -6,7 +6,7 @@
 				<div class="list__details">
 					<div class="list__head">
 						<span class="list__head__name">
-							{{ list.name }}
+							{{ getName(list) }}
 						</span>
 						<span class="list__head__date">
 							{{ list.message.createdAt | moment("calendar") }}
@@ -18,7 +18,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="lists.length <= 0" class="no-list">
+		<div v-if="!lists || lists.length <= 0" class="no-list">
 			<h4>Pas encore de message ?</h4>
 			<p>Commencez par contacter un musicien !</p>
 		</div>
@@ -28,6 +28,8 @@
 
 <script>
 import api from '@/api/api'
+import moment from 'moment'
+import 'moment/locale/fr'
 
 export default {
 	name: 'List',
@@ -44,8 +46,15 @@ export default {
 			if (!response.avatar){
 				return String("http://www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg")
 			}else{
-				return avatar
+				return String("data:image/png;base64," + response.avatar)
 			}
+			
+		},
+		getName(chat) {
+			let userInfo = this.$store.getters['getUser']
+			const response = chat.users.find(data => data.user !== userInfo._id)
+
+			return response.name
 			
 		},
 		openTchat(tchat) {
