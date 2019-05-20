@@ -45,7 +45,7 @@ router.get('/users/me', auth, async (req, res) => {
 router.patch('/users/me', auth, async (req, res) => {
     try {
         // Validate params
-        let allowedUpdates = ['name', 'email', 'password']
+        let allowedUpdates = ['name', 'email', 'password', 'bio']
         let updates = Object.keys(req.body)
 
         let valid = updates.every(update => allowedUpdates.includes(update))
@@ -77,6 +77,34 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 })
 
+// // Add rating to user
+// router.post('/users/rate', auth, async (req, res) => {
+//     try {
+//         if (!req.body.target || !req.body.stars) {
+//             throw new Error(`Il faut un utilisateur à noter ainsi qu'une note à donner`)
+//         }
+
+//         let target = await User.findById(target)
+
+//         if (!target) {
+//             throw new Error('Utilisateur inconnu.')
+//         }
+
+//         let stars = Number.toInteger(req.body.stars)
+//         if (target.ratings.count === 0) {
+//             target.ratings.stars = stars
+//         } else {
+//             target.ratings.stars = ((target.ratings.stars * target.ratings.count) + stars) / (target.ratings.count + 1)
+//         }
+//         target.ratings.count++
+
+
+//     } catch (e) {
+//         const error = e.message
+//         res.status(400).send({ success: false, error })
+//     }
+// })
+
 const upload = multer({
     limits: {
         fileSize: 2048000
@@ -98,7 +126,21 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
         req.user.save()
 
         res.send()
-    } catch (e) {w
+    } catch (e) {
+        const error = e.message
+        res.status(400).send({ success: false, error })
+    }
+})
+
+// Set user's banner
+router.post('/users/me/banner', auth, upload.single('banner'), async (req, res) => {
+    try {
+        const buffer = await sharp(req.file.buffer).resize(1440, 250).png().toBuffer()
+        req.user.banner = buffer
+        req.user.save()
+
+        res.send()
+    } catch (e) {
         const error = e.message
         res.status(400).send({ success: false, error })
     }
@@ -115,6 +157,23 @@ router.get('/users/:id/avatar', async (req, res) => {
 
         res.set('Content-Type', 'image/png')
         res.send(user.avatar)
+    } catch (e) {
+        const error = e.message
+        res.status(400).send({ success: false, error })
+    }
+})
+
+// Get user banner
+router.get('/users/:id/banner', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+
+        if (!user || !user.banner) {
+            throw new Error('No user or banner')
+        }
+
+        res.set('Content-Type', 'image/png')
+        res.send(user.banner)
     } catch (e) {
         const error = e.message
         res.status(400).send({ success: false, error })

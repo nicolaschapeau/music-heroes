@@ -9,6 +9,10 @@ const randomatic = require('randomatic')
 
 // Model
 const userSchema = new mongoose.Schema({
+    type: {
+        required: true,
+        type: Number
+    },
     firstname: {
         required: true,
         type: String,
@@ -58,6 +62,26 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: Buffer
     },
+    banner: {
+        type: Buffer
+    },
+    bio: {
+        trim: true,
+        default: 'Une bio par défaut. Rentrez ici votre histoire.',
+        type: String,
+    },
+    instruments: [{
+        instrument: {
+            required: true,
+            type: String
+        }
+    }],
+    events: [{
+        event: {
+            required: true,
+            type: String
+        }
+    }],
     verified: {
         type: Boolean,
         default: false
@@ -79,6 +103,14 @@ userSchema.virtual('chats', {
     localField: '_id',
     foreignField: 'users.user'
 })
+
+// Virtual ratings storage
+userSchema.virtual('ratings', {
+    ref: 'Rating',
+    localField: '_id',
+    foreignField: 'user'
+})
+
 
 
 
@@ -158,6 +190,7 @@ userSchema.methods.toJSON = function () {
     delete userObject.password
     delete userObject.tokens
     delete userObject.avatar
+    delete userObject.banner
     delete userObject.hash
 
     userObject.firstname = userObject.firstname.charAt(0).toUpperCase() + userObject.firstname.slice(1)
