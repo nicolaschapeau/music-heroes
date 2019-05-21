@@ -6,7 +6,7 @@
             <div class="content">
                 <slot />
             </div>
-            <Tchat class="tchat color-clear" :roomData="roomData" @close-tchat="closeTchat"/>
+            <Tchat class="tchat color-clear" :roomData="roomData" :messages="messages" @close-tchat="closeTchat"/>
         </div>
     </div>
 </template>
@@ -16,6 +16,7 @@ import dashboardHeader from '@/components/header'
 import Sidebar from '@/components/sidebar'
 import Tchat from '@/components/tchat'
 import io from 'socket.io-client';
+import api from '../api/api'
 
 export default {
     components: {
@@ -26,12 +27,17 @@ export default {
     data () {
         return {
             roomData: null,
+            messages: null,
             socket: io('localhost:3000')
         }
     },    
     mounted () {
         this.loadData(),
         this.$store.dispatch('setSocket', this.socket)
+
+        this.socket.on('receiveMessage', (message) => {
+            this.messages.push(message)
+        })
     },  
     computed: {
         loadedLists () {
@@ -42,10 +48,16 @@ export default {
         async loadData() {
             await this.$store.dispatch('setChats')
         },
-        openTchat(e) {
-            this.roomData = e
+        async openTchat(e) {
+            this.roomData = e,
+            this.messages = await api.chat.getOne(this.roomData._id)
+            this.messages = this.messages.data.messages.reverse()
+
+            this.socket.emit('join', this.roomData._id)
         },
         closeTchat() {
+            this.socket.emit('leave', this.roomData._id)
+
             this.roomData = null
         }
     }

@@ -1,6 +1,6 @@
 <template>
 	<div class="messages" id="messages" v-if="messages">
-		<p v-html="message.content" v-for="message in messages" :key="message.index" :class="[ message.name === me ? 'me' : 'other' ]" v-linkified></p>
+		<p v-html="message.content" v-for="message in messages" :key="message.index" :class="[ message.user.toString() === me.toString() ? 'me' : 'other' ]" v-linkified></p>
 	</div>
 </template>
 
@@ -10,12 +10,7 @@ import { watch } from 'fs';
 import { setTimeout } from 'timers';
 export default {
 	name: 'Messages',
-	props: ['messages'],
-	data () {
-		return {
-			me: 'aaaaaaaa'
-		}
-	},
+	props: ['messages', 'me'],
     mounted () {
 		this.initscroll()
 	},

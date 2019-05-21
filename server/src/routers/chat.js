@@ -161,7 +161,7 @@ router.get('/chats/:id', auth, async (req, res) => {
                 limit: 10,
                 skip: parseInt(req.query.skip * 10),
                 sort: {
-                    createdAt: -1
+                    createdAt: -1,
                 }
             }
         }).execPopulate()
@@ -182,12 +182,10 @@ router.post('/chats/:id', serverauth, async (req, res) => {
         let valid = await Chat.findById(req.params.id)
 
         if (!req.body.content) {
-            console.log('t1')
             return res.status(400).send({ message: 'Message vide.' })
         }
 
         if (!valid) {
-            console.log('t2')
             return res.status(400).send({ message: 'Impossible de trouver ce chat.' })
         }
 
@@ -200,7 +198,6 @@ router.post('/chats/:id', serverauth, async (req, res) => {
         message = await new Message(message)
 
         if (!message) {
-            console.log('t3')
             res.status(400).send({ success: true, message: 'Impossible de créer ce message.' })
         }
 

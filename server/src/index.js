@@ -54,7 +54,7 @@ app.use(ratingsRouter)
 const live = require('../socket')
 
 io.on('connection', (socket) => {
-    live(socket)
+    live(socket, io)
 })
 
 

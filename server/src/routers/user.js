@@ -71,7 +71,7 @@ router.get('/users/:id', auth, async (req, res) => {
 router.patch('/users/me', auth, async (req, res) => {
     try {
         // Validate params
-        let allowedUpdates = ['name', 'email', 'password', 'bio', 'instruments']
+        let allowedUpdates = ['firstname', 'lastname', 'email', 'password', 'bio', 'instruments']
         let updates = Object.keys(req.body)
 
         let valid = updates.every(update => allowedUpdates.includes(update))
@@ -80,11 +80,13 @@ router.patch('/users/me', auth, async (req, res) => {
             throw new Error('Arguments invalides.')
         }
 
-        let allowedInstruments = ['guitar', 'piano', 'flute']
-        let validInstruments = req.body.instruments.every(instrument => allowedInstruments.includes(instrument))
+        if (req.body.instruments) {
+            let allowedInstruments = ['guitar', 'piano', 'flute']
+            valid = req.body.instruments.every(instrument => allowedInstruments.includes(instrument))
 
-        if (!validInstruments) {
-            throw new Error('Instruments invalides.')
+            if (!validInstruments) {
+                throw new Error('Instruments invalides.')
+            }
         }
 
         // Update user

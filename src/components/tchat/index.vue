@@ -2,16 +2,15 @@
 	<div class="tchat" v-if="roomData">
         <div class="tchat__content">
             <div class="tchat__head">
-                <p>{{ roomData.name }}</p>
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
             <div class="tchat__messages" id="messageContainer">
-                <messages :messages="messages" />
+                <messages :messages="messages" :me="me" />
             </div>
             <div class="tchat__input">
-                <form class="input-container" @submit.prevent="add()"> 
+                <form class="input-container" @submit.prevent="createMessage()"> 
                     <input class="input-field" type="message" placeholder="Message" v-model="message" name="message" autofocus>
-                    <i class="icon ion-md-send" @click.prevent="add()" :class="{ disabled: !loading, disabled: !message }"></i>
+                    <i class="icon ion-md-send" @click.prevent="createMessage()" :class="{ disabled: !message, disabled: loading === true }"></i>
                 </form>
             </div>
         </div>
@@ -23,59 +22,54 @@
 import Messages from './messages'
 import { setTimeout } from 'timers';
 import io from 'socket.io-client';
+import api from '../../api/api';
+
 
 export default {
     name: 'Tchat',
-    props: ['roomData'],
+    props: ['roomData', 'messages'],
     components: {
         Messages
     },
     data() {
         return {
             message: null,
-            messages: [],
-            loading: false
+            loading: false,
+            user: null,
+            me: null
         }
     },
     mounted () {
-        let date = new Date()
-        this.messages = [
-            { id: 1, name: 'aaaaaaaa', content: "Bonjourourourourourour1", date: date.toLocaleDateString("fr-FR") },
-            { id: 2, name: 'bbbbbbbb', content: "Bonjourourourourourour2aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", date: date.toLocaleDateString("fr-FR") },
-            { id: 3, name: 'bbbbbbbb', content: "ezfzefz http://okbutwin.fr fzefzfzefzef", date: date.toLocaleDateString("fr-FR") },
-        ]
+        this.user = this.$store.getters['getUser']
+        this.me = this.user._id
     },
     methods: {
         closeTchat () {
             this.$emit('close-tchat')
         },
-        async add (){
-            if (!this.message) {
+        async createMessage (){
+            if (!this.message || this.loading === true ) {
                 return
             }
+            this.loading = true
 
             let socket = await this.$store.getters['getSocket']
-            let userId = await this.$store.getters['getUser']
 
             // Building message
             let date = new Date()
-            this.loading = true
             const message = {
-                name: 'aaaaaaaa',
                 content: this.message,
                 date: date.toLocaleDateString("fr-FR"),
                 room: this.roomData._id,
-                user: userId
+                user: this.me
             }
 
-            // Send message
-            this.messages.push(message)
-            await socket.emit('sendMessage', message, () => {
-                
-            })
+            this.message = null
 
-            // Callback from server
-            this.loading = false
+            // Send message
+            await socket.emit('sendMessage', message, (response) => {
+                this.loading = false
+            })
         }
     }
 }
@@ -98,6 +92,7 @@ export default {
     }
 
     .tchat__head{
+        cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;

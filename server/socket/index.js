@@ -14,13 +14,22 @@ const chat = {
 }
 
 // Socket events
-module.exports = function (socket) {
+module.exports = function (socket, io) {
+    socket.on('join', (room) => {
+        console.log('join', room)
+        socket.join(room)
+    })
 
-    socket.on('sendMessage', async (message) => {
+    socket.on('leave', (room) => {
+        console.log('leave', room)
+        socket.leave(room)
+    })
+
+    socket.on('sendMessage', async (message, callback) => {
         try {
             let data = {
                 content: message.content,
-                user: message.user._id,
+                user: message.user,
                 server_key: process.env.SERVER_KEY
             }
 
@@ -31,9 +40,12 @@ module.exports = function (socket) {
                 throw new Error(`Erreur durant l'envoi du message`)
             }
 
-            console.log('Message envoyé !')
+            // If success
+            io.to(message.room).emit('receiveMessage', message)
+
+            callback({ success: true })
         } catch (e) {
-            console.log('Erreur !')
+            callback({ success: false })
         }
     })
 
