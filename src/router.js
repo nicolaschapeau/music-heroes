@@ -48,10 +48,10 @@ const router = new Router({
       component: Search
     },
     {
-      path: '/profil',
+      path: '/profil/:id?',
       name: 'profil',
       meta: { layout: 'dashboard', middleware: auth },
-      component: Profile
+      component: Profile,
     },
     {
       path: '/verify',

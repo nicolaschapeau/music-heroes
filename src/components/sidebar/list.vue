@@ -9,10 +9,13 @@
 							{{ getName(list) }}
 						</span>
 						<span class="list__head__date">
-							{{ list.message.createdAt | moment("calendar") }}
+							{{ getDate(list.message.createdAt) }}
 						</span>
 					</div>
 					<span class="list__content">
+						<span v-if="list.message.user === user._id">
+							Vous:
+						</span>
 						{{ list.message.content }}
 					</span>
 				</div>
@@ -33,11 +36,9 @@ import 'moment/locale/fr'
 
 export default {
 	name: 'List',
-	props: ['lists'],
-	data() {
-		return {}
-	},
+	props: ['lists', 'user'],
 	mounted () {
+		moment.locale('fr')
 	},
 	methods: {
 		getAvatar(chat) {
@@ -56,6 +57,11 @@ export default {
 
 			return response.name
 			
+		},
+		getDate(date) {
+			let newDate = moment(date).format('LL à H:m')
+			
+			return newDate
 		},
 		openTchat(tchat) {
 			this.$emit('open-tchat', tchat)

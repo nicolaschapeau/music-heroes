@@ -5,6 +5,8 @@ import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store/store'
 import linkify from 'vue-linkify'
+import vueMoment from 'vue-moment'
+import moment from 'moment'
 
 // Layouts
 import Default from '@/layouts/Default'
@@ -18,7 +20,8 @@ Vue.component('error-layout', Error)
 
 Vue.directive('linkified', linkify)
 
-Vue.use(require('vue-moment'))
+Vue.use(vueMoment)
+
 
 // Vue global
 Vue.config.productionTip = false
