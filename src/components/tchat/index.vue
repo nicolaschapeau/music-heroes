@@ -2,6 +2,7 @@
 	<div class="tchat" v-if="roomData">
         <div class="tchat__content">
             <div class="tchat__head">
+                <p></p>
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
             <div class="tchat__messages" id="messageContainer">
