@@ -19,5 +19,11 @@ export default {
             // Return error
             return { success: false, message: 'Impossible d\'acceder aux chats.' }
         }
+    },
+    setSocket({ commit }, socket) {
+        commit('setSocket', socket)
+    },
+    deleteSocket({ commit }) {
+        commit('deleteSocket', socket)
     }
 }

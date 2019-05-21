@@ -6,6 +6,7 @@
 </template>
 <script>
 import List from './list'
+import io from 'socket.io-client';
 
 export default {
     name: 'Sidebar',

@@ -1,7 +1,7 @@
 <template>
 	<div style="height: 80%">
 		<div v-if="lists">
-			<div v-for="list in lists" :key="list.id" class="list" @click="openTchat(list)">
+			<div v-for="list in lists" :key="list.index" class="list" @click="openTchat(list)">
 				<img :src="getAvatar(list)" :alt="list.name" class="list__image">
 				<div class="list__details">
 					<div class="list__head">

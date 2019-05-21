@@ -1,4 +1,5 @@
 export default {
-    chats: null
+    chats: null,
+    socket: null
     // token: null
 }

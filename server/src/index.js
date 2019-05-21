@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const socketio = require('socket.io')
+const http = require('http')
 
 // Routers imports
 const userRouter = require('./routers/user.js')
@@ -10,6 +12,8 @@ const ratingsRouter = require('./routers/rating.js')
 
 // Init server
 const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 const port = process.env.PORT
 
 
@@ -47,8 +51,17 @@ app.use(chatRouter)
 app.use(ratingsRouter)
 
 
+const live = require('../socket')
+
+io.on('connection', (socket) => {
+    live(socket)
+})
+
+
 
 // Listen server
-app.listen(port, 'localhost', () => {
+server.listen(port, 'localhost', () => {
     console.log('Server is up on port: ' + port)
 })
+
+
