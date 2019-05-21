@@ -41,10 +41,26 @@ router.post('/users', async (req, res) => {
     }
 })
 
-// Get user
+// Get user me
 router.get('/users/me', auth, async (req, res) => {
     try {
         res.send({ success: true, user: req.user })
+    } catch (e) {
+        const error = e.message
+        res.status(400).send({ success: false, error })
+    }
+})
+
+// Get user other
+router.get('/users/:id', auth, async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id)
+
+        if (!user) {
+            throw new Error('Utilisateur incorrect')
+        }
+
+        res.send({ success: true, user })
     } catch (e) {
         const error = e.message
         res.status(400).send({ success: false, error })
