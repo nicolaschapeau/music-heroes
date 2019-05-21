@@ -55,6 +55,7 @@ export default {
             }
 
             let socket = await this.$store.getters['getSocket']
+            let userId = await this.$store.getters['getUser']
 
             // Building message
             let date = new Date()
@@ -63,13 +64,14 @@ export default {
                 name: 'aaaaaaaa',
                 content: this.message,
                 date: date.toLocaleDateString("fr-FR"),
-                room: this.roomData._id
+                room: this.roomData._id,
+                user: userId
             }
 
             // Send message
             this.messages.push(message)
             await socket.emit('sendMessage', message, () => {
-
+                
             })
 
             // Callback from server
