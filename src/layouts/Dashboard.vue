@@ -20,7 +20,7 @@ import instrument from '@/components/instrument'
 import dashboardHeader from '@/components/header'
 import Sidebar from '@/components/sidebar'
 import Tchat from '@/components/tchat'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
 import api from '../api/api'
 
 export default {
@@ -80,7 +80,7 @@ export default {
         grid-template-columns: repeat(12, 1fr);
         grid-template-areas: 
             "header   header  header header header header header header header header header header"
-            "instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument"
+            "instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument";
     }
 
     #instrument{

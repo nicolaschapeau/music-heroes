@@ -38,7 +38,7 @@ export default {
 
     #search{
         text-align: center;
-        padding: 25px 150px 125px 150px;
+        padding: 25px 150px 25px 150px;
     }
 
 </style>

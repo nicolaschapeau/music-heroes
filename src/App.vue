@@ -74,6 +74,7 @@ img{
     width: 100%;
     transition: 0.3s;
     outline: none;
+    border-radius: 5px;
 }
 
 .btn:hover {

@@ -28,7 +28,7 @@ import api from '../../api/api';
 
 export default {
     name: 'Tchat',
-    props: ['roomData', 'messages'],
+    props: ['roomData', 'messages', 'user'],
     components: {
         Messages
     },
@@ -36,12 +36,10 @@ export default {
         return {
             message: null,
             loading: false,
-            user: null,
             me: null
         }
     },
     mounted () {
-        this.user = this.$store.getters['getUser']
         this.me = this.user._id
     },
     methods: {

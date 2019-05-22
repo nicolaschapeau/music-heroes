@@ -12,13 +12,13 @@
                     </router-link>
                 </li>
                 <li class="header__right__list__item">
-                    <router-link to="/logout">
+                    <a @click="logout">
                         Déconnexion
-                    </router-link>
+                    </a>
                 </li>
                 <li class="header__right__list__item">
                     <form class="input-container" @submit.prevent="research">
-                        <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search">
+                        <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search" required>
                         <i class="icon ion-md-search" @click="research"></i>
                     </form>
                 </li>
@@ -37,7 +37,13 @@ export default {
     },
     methods: {
         research() {
-            this.$router.replace('/search/' + this.search)
+            if(this.search){
+                this.$router.push('/search/' + this.search)
+            }
+        },
+        async logout() {
+            await this.$store.dispatch('logout')
+            this.$router.push('/login')
         }
     }
 }
@@ -95,6 +101,7 @@ export default {
         color: #444;
         padding: 15px 10px;
         transition: 0.3s;
+        cursor: pointer;
     }
 
     .header__right__list__item a:hover{
