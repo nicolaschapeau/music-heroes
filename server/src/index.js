@@ -9,6 +9,7 @@ const userRouter = require('./routers/user.js')
 const authRouter = require('./routers/auth.js')
 const chatRouter = require('./routers/chat.js')
 const ratingsRouter = require('./routers/rating.js')
+const searchRouter = require('./routers/search.js')
 
 // Init server
 const app = express()
@@ -49,6 +50,7 @@ app.use(userRouter)
 app.use(authRouter)
 app.use(chatRouter)
 app.use(ratingsRouter)
+app.use(searchRouter)
 
 
 const live = require('../socket')
