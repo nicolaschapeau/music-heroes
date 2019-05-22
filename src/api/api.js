@@ -38,14 +38,12 @@ export default {
         })
     },
     chat: {
-        // data : target
         create: (data) => axios.post('/chats', data, {
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
-        // data : user data
         getAll: () => axios.get('/chats/me', {
             withCredentials: true,
             headers: {
@@ -58,7 +56,6 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
-        // data : user data
         sendMessage: (id, data) => axios.post('/chats/' + id, {
             withCredentials: true,
             headers: {
@@ -67,7 +64,12 @@ export default {
         })
     },
     user: {
-        // data : target
+        getUser: (id) => axios.get('/users/' + id, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
         getAvatar: (id) => axios.post('/users/' + id + '/avatar', {
             withCredentials: true,
             headers: {

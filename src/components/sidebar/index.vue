@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Messages</h2>
-        <list :lists="tchats" @open-tchat="openTchat" />
+        <list :user="user" :lists="tchats" @open-tchat="openTchat" />
     </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 
 export default {
     name: 'Sidebar',
-    props: ['tchats'],
+    props: ['tchats', 'user'],
     components: {
         List
     },

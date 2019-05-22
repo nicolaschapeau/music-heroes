@@ -18,7 +18,7 @@ export default {
             return { success: true, message: 'Authentification réussie.' }
         } catch (e) {
             // Return error
-            return { success: false, message: 'Impossible de créer un compte avec ses informations.' }
+            return { success: false, message: 'Impossible de créer un compte avec ces informations.' }
         }
     },
     async login({ commit }, credentials) {

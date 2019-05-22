@@ -5,9 +5,10 @@
         <div id="profil__container">
             <div id="profil__header">
                 <div class="left">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC" alt="profil_image" />
+                    <img v-if="user.avatar" :src="user.avatar" alt="profil_image" />
+                    <img v-if="!user.avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC" alt="profil_image" />
                     <div class="text">
-                        <h1>Jascques DUBOIS</h1>
+                        <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
                         <div class="stars">
                             <i class="icon ion-md-star"></i>
                             <i class="icon ion-md-star"></i>
@@ -23,10 +24,12 @@
             </div>
             <div id="profil__content">
                 <div id="profil__bio">
-                    Bio Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nemo voluptatem praesentium explicabo voluptatibus, error debitis eum eaque nisi pariatur mollitia aliquid, sapiente non impedit architecto earum officiis consequuntur autem?
+                    {{ user.bio }}
                 </div>
                 <div id="profil__instruments">
-                    Instruments
+                    <ul>
+                        <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -34,8 +37,40 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
-    name: 'profile'
+    name: 'profile',
+    data () {
+        return {
+            user: null,
+            _id: null
+        }
+    },
+    async mounted () {
+        this.initUser()
+    },
+    methods: {
+        async initUser () {
+            this._id = this.$route.params.id
+            if(!this._id){
+                this.user = this.$store.getters['getUser']
+            }else{
+                const response = await api.user.getUser(this._id)
+
+                if(response.data.success === true){
+                    this.user = response.data.user
+                } else {
+                    console.error('Erreur : ', response.data.error)
+                }
+            }
+        }
+    },
+    watch: {
+        '$route.params.id' () {
+            this.initUser()
+        }
+    }
 }
 </script>
 
@@ -67,10 +102,6 @@ export default {
     #container #profil__container #profil__header{
         display: flex;
         padding: 20px 50px 20px 50px;
-    }
-
-    #container #profil__container #profil__header{
-        display: flex;
         justify-content: space-between;
         align-items: center;        
         position: relative;

@@ -1,17 +1,22 @@
 <template>
     <div>
-        <div class="container">
+        <div id="container" v-if="hasInstru">
             <dashboard-header class="header" />
-            <Sidebar class="sidebar" :tchats="loadedLists" @open-tchat="openTchat"/>
+            <Sidebar class="sidebar" :user="user" :tchats="loadedLists" @open-tchat="openTchat"/>
             <div class="content">
                 <slot />
             </div>
-            <Tchat class="tchat color-clear" :roomData="roomData" :messages="messages" @close-tchat="closeTchat"/>
+            <Tchat class="tchat color-clear" :user="user" :messages="messages" :roomData="roomData" @close-tchat="closeTchat"/>
+        </div>
+        <div id="container__instru" v-if="!hasInstru">
+            <dashboard-header class="header" />
+            <instrument id="instrument" :user="user" />
         </div>
     </div>
 </template>
 
 <script>
+import instrument from '@/components/instrument'
 import dashboardHeader from '@/components/header'
 import Sidebar from '@/components/sidebar'
 import Tchat from '@/components/tchat'
@@ -20,12 +25,15 @@ import api from '../api/api'
 
 export default {
     components: {
+        instrument,
         dashboardHeader,
         Sidebar,
         Tchat
     },
     data () {
         return {
+            user: this.$store.getters['getUser'],
+            hasInstru: true,
             roomData: null,
             messages: null,
             socket: io('localhost:3000')
@@ -66,7 +74,20 @@ export default {
 
 <style scoped>
 
-    .container{
+    #container__instru{
+        display: grid;
+        grid-template-rows: 70px calc(100vh - 70px);
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-areas: 
+            "header   header  header header header header header header header header header header"
+            "instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument"
+    }
+
+    #instrument{
+        grid-area: instrument;
+    }
+
+    #container{
         display: grid;
         grid-template-rows: 70px calc(50vh - 70px) 50vh;
         grid-template-columns: repeat(12, 1fr);
