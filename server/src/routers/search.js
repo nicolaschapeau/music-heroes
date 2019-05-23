@@ -20,19 +20,20 @@ router.get('/search', auth, async (req, res) => {
         }
 
         let searchQuery = req.query.query.replace(',',' ')
-        console.log(searchQuery)
 
         let result = await User.find({
             $text: {
                 $search: searchQuery,
-                $caseSensitive: false,
-                $diacriticSensitive: false
             }
-        },
-        {
-            projection: { score: { $meta: 'textScore' } },
-            sort: { score: { $meta: 'textScore' } },
-        }).toArray();
+        }, {
+            score: { 
+                $meta: "textScore"
+            }
+        }).sort({
+            score: {
+                $meta: "textScore"
+            }
+        }).limit(20)
 
         if (!result) {
             throw new Error ('Aucun utilisateur trouvé.')

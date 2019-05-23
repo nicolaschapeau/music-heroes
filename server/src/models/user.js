@@ -93,7 +93,7 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
     strict: false
 })
-userSchema.index({ 'firstname': 'text', 'lastname': 'text' })
+userSchema.index({ firstname: 'text', lastname: 'text' })
 
 
 
