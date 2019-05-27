@@ -19,12 +19,20 @@ router.get('/search', auth, async (req, res) => {
             throw new Error('Il faut un terme de recherche.')
         }
 
-        let searchQuery = req.query.query.replace(',',' ')
+        let searchQuery = req.query.query.replace(' ', '|')
 
         let result = await User.find({
-            $text: {
-                $search: searchQuery,
-            }
+            "$or": [ 
+                {
+                    firstname: {
+                        $regex: searchQuery,
+                    },
+                }, {
+                    lastname: {
+                        $regex: searchQuery,
+                    }
+                }
+            ]
         }, {
             score: { 
                 $meta: "textScore"
@@ -34,6 +42,8 @@ router.get('/search', auth, async (req, res) => {
                 $meta: "textScore"
             }
         }).limit(20)
+
+        console.log(result)
 
         if (!result) {
             throw new Error ('Aucun utilisateur trouvé.')

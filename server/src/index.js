@@ -52,7 +52,6 @@ app.use(chatRouter)
 app.use(ratingsRouter)
 app.use(searchRouter)
 
-
 const live = require('../socket')
 
 io.on('connection', (socket) => {

@@ -22,7 +22,7 @@ router.post('/auth/register', async (req, res) => {
     const user = new User(req.body)
 
     try {
-        let allowedInstruments = ['guitar', 'piano', 'flute']
+        let allowedInstruments = ['Guitare', 'Violon', 'Piano', 'Ukulele', 'Batterie', 'Biniou', 'Harpe', 'Contrebasse', 'Violoncelle', 'Alto', 'Clavecin', 'Synthétiseur', 'Flûte à bec', 'Hautbois', 'Saxophone', 'Trompette', 'Trombone', 'Orgue', 'Tuba', 'Cymbale', 'Maracas', 'Tambour', 'Triangle']
         let validInstruments = user.instruments.every(instrument => allowedInstruments.includes(instrument))
 
         if (!validInstruments) {

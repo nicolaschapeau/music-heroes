@@ -81,7 +81,7 @@ router.patch('/users/me', auth, async (req, res) => {
         }
 
         if (req.body.instruments) {
-            let allowedInstruments = ['guitar', 'piano', 'flute']
+            let allowedInstruments = ['Guitare', 'Violon', 'Piano', 'Ukulele', 'Batterie', 'Biniou', 'Harpe', 'Contrebasse', 'Violoncelle', 'Alto', 'Clavecin', 'Synthétiseur', 'Flûte à bec', 'Hautbois', 'Saxophone', 'Trompette', 'Trombone', 'Orgue', 'Tuba', 'Cymbale', 'Maracas', 'Tambour', 'Triangle']
             valid = req.body.instruments.every(instrument => allowedInstruments.includes(instrument))
 
             if (!validInstruments) {
