@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="container" v-if="hasInstru">
+        <div id="container" v-if="hasInstru === true">
             <dashboard-header class="header" />
             <Sidebar class="sidebar" :user="user" :tchats="loadedLists" @open-tchat="openTchat"/>
             <div class="content">
@@ -8,9 +8,9 @@
             </div>
             <Tchat class="tchat color-clear" :user="user" :messages="messages" :roomData="roomData" @close-tchat="closeTchat"/>
         </div>
-        <div id="container__instru" v-if="!hasInstru">
+        <div id="container__instru" v-if="hasInstru === false">
             <dashboard-header class="header" />
-            <instrument id="instrument" :user="user" />
+            <instrument id="instrument" :user="user" :instruments="instruments" />
         </div>
     </div>
 </template>
@@ -33,15 +33,18 @@ export default {
     data () {
         return {
             user: this.$store.getters['getUser'],
-            hasInstru: true,
+            hasInstru: null,
             roomData: null,
             messages: null,
-            socket: io('localhost:3000')
+            socket: io('localhost:3000'),
+            instruments: ['Guitare', 'Violon', 'Piano', 'Ukulele', 'Batterie', 'Biniou', 'Harpe', 'Contrebasse', 'Violoncelle', 'Alto', 'Clavecin', 'Synthétiseur', 'Flûte à bec', 'Hautbois', 'Saxophone', 'Trompette', 'Trombone', 'Orgue', 'Tuba', 'Cymbale', 'Maracas', 'Tambour', 'Triangle']
         }
     },    
-    mounted () {
+    async mounted () {
         this.loadData(),
         this.$store.dispatch('setSocket', this.socket)
+
+        this.hasInstru = await this.checkInstru() 
 
         this.socket.on('receiveMessage', (message) => {
             this.messages.push(message)
@@ -67,6 +70,15 @@ export default {
             this.socket.emit('leave', this.roomData._id)
 
             this.roomData = null
+        },
+        async checkInstru () {
+            let response = await this.$store.getters['getUser']
+            
+            if (response.type === 0 && response.instruments.length != 0) {
+                return true
+            } else {
+                return false
+            }
         }
     }
 }

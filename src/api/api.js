@@ -76,5 +76,19 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
-    },  
+        editUser: (data) => axios.patch('/users/me', data, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+    },
+    search: {
+        search: (data) => axios.get('/search?query=' + data, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+    },   
 }

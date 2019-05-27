@@ -1,34 +1,41 @@
 <template>
-    <div id="container">
-        <div id="search__container" v-for="n in 10" :key="n.index">
-            <div id="search__header">
-                <div class="left">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC" alt="profil_image" />
-                    <div class="text">
-                        <h2>Benjamin BENOIT <i class="icon ion-md-musical-notes"></i></h2>
-                        <div class="stars">
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star-outline"></i>
+    <div>
+        <div id="container" v-if="requests">
+            <div id="search__container" v-for="request in requests" :key="request.index">
+                <div id="search__header">
+                    <div class="left">
+                        <img v-if="request.avatar" :src="request.avatar" alt="profil_image" />
+                        <img v-if="!request.avatar" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="profil_image" />   
+                        <div class="text">
+                            <h2>
+                                {{ request.firstname }} {{ request.lastname }} 
+                                <i v-if="request.type === 0" class="icon ion-md-musical-notes"></i>
+                                <i v-if="request.type !== 0" class="icon ion-md-briefcase"></i>
+                            </h2>
+                            <div class="like">
+                                <i class="icon ion-md-heart"></i>
+                                <span>25</span>
+                            </div>
                         </div>
                     </div>
+                    <div class="right">
+                        <button class="btn" @click="redirect(request._id)">Voir</button>
+                    </div>
                 </div>
-                <div class="right">
-                    <button class="btn" @click="redirect('5ce2fc4f43ed89362804e83f')">Voir</button>
+                <div id="search__content">
+                    <div id="search__bio">
+                        {{ request.bio }}
+                    </div>
+                    <div id="search__instruments">
+                        <ul>
+                            <li v-for="instrument in request.instruments" :key="instrument.index">{{ instrument }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div id="search__content">
-                <div id="search__bio">
-                    bonsoiruhfzeiuh iuzeh fuze uhfuhieuhfizuehfi uzhfuzeh iuzhef iuzehihfzeiu fhzieuhfizuhfi zuhfiuzehf iuzehf iuzehfi uzhf izhf iuz z efzefzefzefz efzefzefzef erg rg q gqe g qrgqergqeg 
-                </div>
-                <div id="search__instruments">
-                    <ul>
-                        <!-- <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li> -->
-                    </ul>
-                </div>
-            </div>
+        </div>
+        <div id="container" v-if="!requests || requests.length <= 0">
+            <p>Aucun résultat n'est associé à votre recherche</p>
         </div>
     </div>
 </template>
@@ -37,7 +44,7 @@
 
 export default {
     name: 'Search',
-    props: ['request'],
+    props: ['requests'],
     methods: {
         redirect (id) {
             this.$router.push('/profil/' + id)
@@ -59,7 +66,6 @@ export default {
         margin: 50px 0 25px;
         border-radius: 5px;
         transition: 0.3s;
-        cursor: pointer;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     }
 
@@ -115,6 +121,10 @@ export default {
         margin: 0 0 5px 0;
     }
 
+    #container #search__container #search__header .left .text .like{
+        cursor: pointer;
+    }
+
     #container #search__container #search__content{
         display: flex;
         justify-content: space-between;
@@ -133,5 +143,6 @@ export default {
         padding: 10px 25px;
         border-radius: 5px;
     }
+
 
 </style>

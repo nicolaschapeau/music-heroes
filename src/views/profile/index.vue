@@ -6,15 +6,12 @@
             <div id="profil__header">
                 <div class="left">
                     <img v-if="user.avatar" :src="user.avatar" alt="profil_image" />
-                    <img v-if="!user.avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9mGkC5SE_lbvQcfEba5GevCMNDRXTvOeHsd5UOXQ2zZs4zHHC" alt="profil_image" />
+                    <img v-if="!user.avatar" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="profil_image" />
                     <div class="text">
                         <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
-                        <div class="stars">
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star"></i>
-                            <i class="icon ion-md-star-outline"></i>
+                        <div class="like">
+                            <i class="icon ion-md-heart"></i>
+                            <span>25</span>
                         </div>
                     </div>
                 </div>
@@ -114,6 +111,7 @@ export default {
     }
 
     #container #profil__container #profil__header .left img{
+        width: 200px;
         border: 1px solid lightgrey;    
     }
 

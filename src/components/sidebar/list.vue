@@ -45,7 +45,7 @@ export default {
 			const response = chat.users.find(user => user.avatar !== undefined)
 
 			if (!response.avatar){
-				return String("http://www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg")
+				return String("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
 			}else{
 				return String("data:image/png;base64," + response.avatar)
 			}

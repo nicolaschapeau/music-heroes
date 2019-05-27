@@ -1,12 +1,13 @@
 <template>
     <div id="search">
         <h2>Search</h2>
-        <search :request="request"/>
+        <search :requests="requests"/>
     </div>
 </template>
 
 <script>
 import Search from '@/components/search'
+import api from '@/api/api'
 
 export default {
     name: 'SearchPage',
@@ -15,20 +16,21 @@ export default {
     },
     data () {
         return {
-            request: null
+            requests: null
         }
     },
     mounted () {
-        this.setRequest(this.$route.params.req)
+        this.setRequests(this.$route.params.req)
     },
     methods: {
-        setRequest (request) {
-            this.request = request
+        async setRequests (requests) {
+            let response = await api.search.search(requests)
+            this.requests = response.data
         }
     },
     watch: {
         '$route.params.req' () {
-            this.setRequest(this.$route.params.req)
+            this.setRequests(this.$route.params.req)
         }
     }
 }

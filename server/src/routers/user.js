@@ -89,6 +89,15 @@ router.patch('/users/me', auth, async (req, res) => {
             }
         }
 
+        if (req.body.instruments) {
+            let allowedInstruments = ['Guitare', 'Violon', 'Piano', 'Ukulele', 'Batterie', 'Biniou', 'Harpe', 'Contrebasse', 'Violoncelle', 'Alto', 'Clavecin', 'Synthétiseur', 'Flûte à bec', 'Hautbois', 'Saxophone', 'Trompette', 'Trombone', 'Orgue', 'Tuba', 'Cymbale', 'Maracas', 'Tambour', 'Triangle']
+            validInstruments = req.body.instruments.every(instrument => allowedInstruments.includes(instrument))
+
+            if (!validInstruments) {
+                throw new Error('Instruments invalides.')
+            }
+        }
+
         // Update user
         updates.forEach(update => req.user[update] = req.body[update])
         await req.user.save()
@@ -96,7 +105,7 @@ router.patch('/users/me', auth, async (req, res) => {
         res.send({ success: true, user: req.user })
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 
