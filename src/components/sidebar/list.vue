@@ -8,11 +8,10 @@
 						<span class="list__head__name">
 							{{ getName(list) }}
 						</span>
-						<span class="list__head__date">
-							{{ getDate(list.message.createdAt) }}
-						</span>
+						<span v-if="list.message" class="list__head__date">{{ getDate(list.message.createdAt) }}</span>
+						<span v-if="!list.message" class="list__head__date"></span>
 					</div>
-					<span class="list__content">
+					<span v-if="list.message" class="list__content">
 						<span v-if="list.message.user === user._id">
 							Vous:
 						</span>

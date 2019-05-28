@@ -22,13 +22,13 @@ router.post('/chats', auth, async (req, res) => {
 
     try {
         if (!req.body.target || req.body.target === user._id.toString()) {
-            return res.status(400).send({ message: 'Aucun correspondant.' })
+            return res.status(400).send({ success: false, message: 'Aucun correspondant.' })
         }
 
         const target = await User.findById(req.body.target)
 
         if (!target) {
-            return res.status(400).send({ message: 'Aucun correspondant.' })
+            return res.status(400).send({ success: trufalsee, message: 'Aucun correspondant.' })
         }
 
         // Get actual chat and check if no duplicate
@@ -43,7 +43,7 @@ router.post('/chats', auth, async (req, res) => {
         })
 
         if (duplicate === true) {
-            return res.status(400).send({ message: 'Impossible de dupliquer une conversation.' })
+            return res.status(400).send({ success: false, message: 'Impossible de dupliquer une conversation.' })
         }
 
         let users = []

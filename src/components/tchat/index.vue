@@ -2,7 +2,7 @@
 	<div class="tchat" v-if="roomData">
         <div class="tchat__content">
             <div class="tchat__head">
-                <p></p>
+                <p>{{ getName(roomData) }}</p>
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
             <div class="tchat__messages" id="messageContainer">
@@ -46,6 +46,10 @@ export default {
         closeTchat () {
             this.$emit('close-tchat')
         },
+        getName(roomData) {
+			const response = roomData.users.find(data => data.user !== this.me)
+			return response.name
+		},
         async createMessage (){
             if (!this.message || this.loading === true ) {
                 return

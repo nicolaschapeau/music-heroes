@@ -1,8 +1,8 @@
-<template>
+﻿<template>
     <div>
-        <div id="container" v-if="hasInstru === true">
+        <div id="container" v-if="hasInstru !== false">
             <dashboard-header class="header" />
-            <Sidebar class="sidebar" :user="user" :tchats="loadedLists" @open-tchat="openTchat"/>
+            <Sidebar class="sidebar" :user="user" :tchats="tchats" @open-tchat="openTchat"/>
             <div class="content">
                 <slot />
             </div>
@@ -36,28 +36,28 @@ export default {
             hasInstru: null,
             roomData: null,
             messages: null,
+            tchats: null,
             socket: io('localhost:3000'),
             instruments: ['Guitare', 'Violon', 'Piano', 'Ukulele', 'Batterie', 'Biniou', 'Harpe', 'Contrebasse', 'Violoncelle', 'Alto', 'Clavecin', 'Synthétiseur', 'Flûte à bec', 'Hautbois', 'Saxophone', 'Trompette', 'Trombone', 'Orgue', 'Tuba', 'Cymbale', 'Maracas', 'Tambour', 'Triangle']
         }
     },    
-    async mounted () {
-        this.loadData(),
-        this.$store.dispatch('setSocket', this.socket)
+    mounted () {
+        this.loadData()
 
-        this.hasInstru = await this.checkInstru() 
+        this.$store.dispatch('setSocket', this.socket)
 
         this.socket.on('receiveMessage', (message) => {
             this.messages.push(message)
         })
-    },  
-    computed: {
-        loadedLists () {
-            return this.$store.getters['getChats']
-        }
+
+        this.$on('create-tchat', (userId) => { 
+            this.createTchat(userId)
+        })
     }, 
     methods: {
         async loadData() {
             await this.$store.dispatch('setChats')
+            this.tchats = await this.$store.getters['getChats']
         },
         async openTchat(e) {
             this.roomData = e,
@@ -78,10 +78,20 @@ export default {
                 return false
             }
 
-            if (response.type === 0 && response.instruments.length != 0) {
-                return true
+            if (response.type === 0 && response.instruments.length === 0) {
+                this.hasInstru = false
             } else {
-                return false
+                this.hasInstru = true
+            }
+        },
+        async createTchat (userId) {
+            let newTchat = await api.chat.create({target: userId})
+
+            if(newTchat.data.success === false){
+                console.log('erreur :', newTchat.data.message)
+            } else {
+                this.loadData()
+                this.openTchat(newTchat.data.chat)
             }
         }
     }

@@ -117,7 +117,7 @@ export default {
         },
         async validateRegister() {
 
-            if (!this.typeAccount || !this.lastname || !this.firstname || !this.email || !this.password || !this.password_confirm) {
+            if (!this.lastname || !this.firstname || !this.email || !this.password || !this.password_confirm) {
                 return this.error = 'Veuillez remplir tous les champs.'
             }
 
@@ -267,7 +267,7 @@ export default {
         color: red;
     }
 
-    .register__validate__content .icon {
+    .register__validate__content i {
         font-size: 64px;
         background: none;
         color: green;
