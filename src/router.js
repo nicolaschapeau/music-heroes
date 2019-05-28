@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import store from '@/store/store'
 
 // Pages
-import Home from '@/views'
 import Login from '@/views/login'
 import Register from '@/views/register'
 import Search from '@/views/search'
@@ -25,11 +24,11 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      name: 'home',
-      meta: { layout: 'dashboard'},
+      path: '/:id?',
+      name: 'profil',
+      meta: { layout: 'dashboard' },
       beforeEnter: authMiddleware,
-      component: Home
+      component: Profile,
     },
     {
       path: '/login',
@@ -47,21 +46,8 @@ const router = new Router({
       path: '/search/:req',
       name: 'search',
       meta: { layout: 'dashboard' },
-      beforeEnter: async (to, from, next) => {
-        await authMiddleware(to, from, next)
-        next()
-      },
+      beforeEnter: authMiddleware,
       component: Search
-    },
-    {
-      path: '/profil/:id?',
-      name: 'profil',
-      meta: { layout: 'dashboard' },
-      beforeEnter: async (to, from, next) => {
-        await authMiddleware(to, from, next)
-        next()
-      },
-      component: Profile,
     },
     {
       path: '/verify',

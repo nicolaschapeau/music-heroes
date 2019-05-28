@@ -47,7 +47,7 @@ export default {
     props: ['requests'],
     methods: {
         redirect (id) {
-            this.$router.push('/profil/' + id)
+            this.$router.push('/' + id)
         }
     }
 }

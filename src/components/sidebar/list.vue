@@ -6,7 +6,7 @@
 				<div class="list__details">
 					<div class="list__head">
 						<span class="list__head__name">
-							{{ getName(list) }}
+							{{ getName(list.users) }}
 						</span>
 						<span v-if="list.message" class="list__head__date">{{ getDate(list.message.createdAt) }}</span>
 						<span v-if="!list.message" class="list__head__date"></span>
@@ -51,8 +51,8 @@ export default {
 			
 		},
 		getName(chat) {
-			let userInfo = this.$store.getters['getUser']
-			const response = chat.users.find(data => data.user !== this.user._id)
+			let userInfo = this.user
+			const response = chat.find(data => data.user !== userInfo._id)
 
 			return response.name
 			
