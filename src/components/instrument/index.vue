@@ -34,8 +34,8 @@ export default {
                     "instruments": this.formData
                 })
 
-                if(response.data.success){
-                    this.$router.push('/')
+                if(response.data.success === true){
+                    this.$router.go('/')
                 } else {
                     this.error = response.data.error
                 }

@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <button class="btn">Contacter</button>
+                    <button class="btn" @click.prevent="createChat(user)">Contacter</button>
                 </div>
             </div>
             <div id="profil__content">
@@ -61,6 +61,9 @@ export default {
                     console.error('Erreur : ', response.data.error)
                 }
             }
+        },
+        createChat (userId) {
+            this.$parent.$emit('create-tchat', userId._id)
         }
     },
     watch: {
