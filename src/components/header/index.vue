@@ -56,6 +56,7 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        border-bottom: 1px solid #eee;
     }
 
     .header__left{
@@ -112,6 +113,14 @@ export default {
 
     .header__right__list .selected a{
         color: #fd8c30;
+    }
+
+    .input-field {
+        border-radius: 5px 0 0 5px;
+    }
+
+    .input-container i {
+        border-radius: 0 5px 5px 0;
     }
 
     .input-field:focus {

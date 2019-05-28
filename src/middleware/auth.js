@@ -7,12 +7,14 @@ export default async function auth({ next, to, router }) {
 
         // Not correct
         if (response.success !== true) {
+            store.commit('setLoading', false)
             return router.push({ name: 'login' })
         }
 
-        console.log('check')
+        store.commit('setLoading', false)
         return next()
     } else {
+        store.commit('setLoading', false)
         return router.push({ name: 'login' })
     }
 

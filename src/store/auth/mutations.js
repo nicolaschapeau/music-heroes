@@ -10,5 +10,8 @@ export default {
     },
     deleteToken(state, token) {
         state.token = null
+    },
+    setLoading(state, boolean) {
+        state.loading = boolean
     }
 }

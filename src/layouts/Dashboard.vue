@@ -74,6 +74,10 @@ export default {
         async checkInstru () {
             let response = await this.$store.getters['getUser']
             
+            if (!response) {
+                return false
+            }
+
             if (response.type === 0 && response.instruments.length != 0) {
                 return true
             } else {
@@ -136,7 +140,6 @@ export default {
     .header{
         grid-area: header;
         background: white;
-        border-bottom: 1px solid lightgrey;
         z-index: 2;
     }
 

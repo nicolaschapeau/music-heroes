@@ -1,15 +1,26 @@
 <template>
-    <div class="default__wrapper">
-        <section class="default__main">
-            <slot />
-        </section>
+    <div>
+        <dashboard-header class="header" />
+        <div class="default__wrapper" v-if="loading == null || loading == false">
+            <section class="default__main">
+                <slot />
+            </section>
+        </div>
     </div>
 </template>
 
 <script>
+import dashboardHeader from '@/components/header'
+
 export default {
-    mounted () {
-        console.log('t2')
+    components: {
+        dashboardHeader,
+    },
+    computed: {
+        loading () {
+            console.log(this.$store.getters['getLoading'])
+            return this.$store.getters['getLoading']
+        }
     }
 }
 </script>
