@@ -54,12 +54,12 @@ export default {
         height: 75px;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
 
     .header__left{
-        width: 50%;
+        width: 200px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -70,7 +70,8 @@ export default {
     }
 
     .header__right{
-        width: 50%;
+        padding-right: 50px;
+        width: 500px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -89,7 +90,7 @@ export default {
 
     .header__right__list{
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         width: 100%;
         list-style: none;
