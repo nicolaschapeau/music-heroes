@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <component :is="($route.meta.layout || 'default') + '-layout'">
-      <router-view/>
-    </component>
+    <transition name="fade" mode="out-in">
+      <component :is="($route.meta.layout || 'default') + '-layout'">
+        <router-view/>
+      </component>
+    </transition>
   </div>
 </template>
 
@@ -76,6 +78,18 @@ img{
     background: #f37335;
     transition: 0.3s;
     outline: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 
 </style>

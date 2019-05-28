@@ -42,6 +42,10 @@ export default {
         }
     },    
     mounted () {
+        if (this.user === null) {
+            console.log('User is null wait for data')
+        }
+
         this.loadData()
 
         this.$store.dispatch('setSocket', this.socket)

@@ -16,7 +16,7 @@ import errorNotFound from '@/views/error/404'
 import authMiddleware from '@/middleware/authMiddleware'
 
 
-// Layouts : { admin }
+// Layouts : { admin, auth }
 
 
 Vue.use(Router)
@@ -28,30 +28,27 @@ const router = new Router({
       path: '/',
       name: 'home',
       meta: { layout: 'dashboard'},
-      beforeEnter: (to, from, next) => {
-        authMiddleware(to, from, next)
-        next()
-      },
+      beforeEnter: authMiddleware,
       component: Home
     },
     {
       path: '/login',
       name: 'login',
-      meta: { layout: 'default' },
+      meta: { layout: 'auth' },
       component: Login
     },
     {
       path: '/register',
       name: 'register',
-      meta: { layout: 'default' },
+      meta: { layout: 'auth' },
       component: Register
     },
     {
       path: '/search/:req',
       name: 'search',
       meta: { layout: 'dashboard' },
-      beforeEnter: (to, from, next) => {
-        authMiddleware(to, from, next)
+      beforeEnter: async (to, from, next) => {
+        await authMiddleware(to, from, next)
         next()
       },
       component: Search
@@ -60,8 +57,8 @@ const router = new Router({
       path: '/profil/:id?',
       name: 'profil',
       meta: { layout: 'dashboard' },
-      beforeEnter: (to, from, next) => {
-        authMiddleware(to, from, next)
+      beforeEnter: async (to, from, next) => {
+        await authMiddleware(to, from, next)
         next()
       },
       component: Profile,
