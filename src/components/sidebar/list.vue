@@ -75,7 +75,7 @@ export default {
 	.list{
 		display: flex;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: flex-start;
         /* margin-bottom: 20px; */
 		transition: 0.3s;
 		padding: 10px 15px 10px 15px;
@@ -88,7 +88,8 @@ export default {
 	}
 
 	.list__image{
-		width: 60px;
+		width: 48px;
+		border-radius: 64px;
 	}
 
 	.list__details{
@@ -107,7 +108,8 @@ export default {
 	}
 
 	.list__head__name{
-		font-weight: bold;
+		font-size: 16px;
+		font-weight: normal;
 	}
 
 	.list__head__date{
@@ -116,8 +118,9 @@ export default {
 	}
 
 	.list__content{  
+		font-size: 14px;
 		white-space: nowrap;
-  	overflow: hidden;
+  		overflow: hidden;
 		max-width: 300px;
 		text-overflow: ellipsis;
 	}

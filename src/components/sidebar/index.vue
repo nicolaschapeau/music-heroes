@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div id="sidebar__container">
         <h2>Messages</h2>
-        <list :user="user" :lists="tchats" @open-tchat="openTchat" />
+        <list class="chats__container" :user="user" :lists="tchats" @open-tchat="openTchat" />
     </div>
 </template>
 <script>
@@ -23,10 +23,22 @@ export default {
 </script>
 
 <style scoped>
+    #sidebar__container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
 
-    h2{
-        color: #444;
+    #sidebar__container h2 {
+        margin-left: 20px;
+        color: black;
+        font-weight: 300;
         text-align: center;
+    }
+
+    #sidebar__container .chats__container {
+        width: 100%;
     }
 
 </style>

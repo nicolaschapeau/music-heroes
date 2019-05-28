@@ -20,6 +20,8 @@
                     <form class="input-container" @submit.prevent="research">
                         <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search" required>
                         <i class="icon ion-md-search" @click="research"></i>
+                        <!-- <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search" required>
+                        <i class="icon ion-md-search" @click="research"></i> -->
                     </form>
                 </li>
             </ul>
@@ -50,6 +52,20 @@ export default {
 </script>
 
 <style scoped>
+::-webkit-search-decoration,
+::-webkit-search-cancel-button,
+::-webkit-search-results-button,
+::-webkit-search-results-decoration { 
+  display: none; 
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
     header{
         height: 75px;
         display: flex;
@@ -59,20 +75,24 @@ export default {
         border-bottom: 1px solid #eee;
     }
 
-    .header__left{
+    .header__left {
         width: 200px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
         text-decoration: none;
-        color: #444;
+        color: black;
         padding-left: 40px;
+    }
+
+    .header__left h2 {
+        font-weight: 300;
     }
 
     .header__right{
         padding-right: 50px;
-        width: 500px;
+        width: 600px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -98,34 +118,48 @@ export default {
         padding: 0;
     }
 
-    .header__right__list__item a{
+    .header__right__list__item a {
+        font-size: 16px;
         text-decoration: none;
-        color: #444;
-        padding: 15px 10px;
-        transition: 0.3s;
+        color: black;
+        -webkit-transition: 0.25s ease-out;
+        transition: 0.25s ease-out;
         cursor: pointer;
     }
 
-    .header__right__list__item a:hover{
-        transition: 0.3s;
-        color: #fd8c30;
+    .header__right__list__item a:hover {
+        color: #444;
     }
 
     .header__right__list .selected a{
         color: #fd8c30;
     }
 
-    .input-field {
-        border-radius: 5px 0 0 5px;
+    form {
+        width: 300px;
+        display: flex;
+        justify-content: row;
+        align-items: center;
+    }
+    form input {
+        border: none;
+        border-bottom: 1px solid #eee;
+        width: 250px;
+        height: 46px;
+        font-size: 15px;
+    }
+    form input:focus {
+        border: none;
+        border-bottom: 1px solid #ccc;
+    }
+    form i {
+        margin-left: 10px;
+        border-radius: 5px;
+        font-size: 20px;
+        transition: 0.3s;
+    }
+    form i:hover {
+        background: #f37335; 
     }
 
-    .input-container i {
-        border-radius: 0 5px 5px 0;
-    }
-
-    .input-field:focus {
-        border: 2px solid #fd8c30;
-        border-right: 0;
-        margin-left:-1px; 
-    }
 </style>

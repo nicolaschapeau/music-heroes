@@ -106,8 +106,8 @@ export default {
 
     #container__instru{
         display: grid;
-        grid-template-rows: 70px calc(100vh - 70px);
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: 70px;
+        grid-template-columns: 70px;
         grid-template-areas: 
             "header   header  header header header header header header header header header header"
             "instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument instrument";
