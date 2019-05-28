@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <button class="btn" @click.prevent="createChat(user)">Contacter</button>
+                    <button class="btn" v-if="this._id" @click.prevent="createChat(user)">Contacter</button>
                 </div>
             </div>
             <div id="profil__content">

@@ -46,6 +46,11 @@ export default {
             console.log('User is null wait for data')
         }
 
+
+        // Check is user has instrument in database
+        this.checkInstru()
+
+        // Set all variables
         this.loadData()
 
         this.$store.dispatch('setSocket', this.socket)
@@ -89,14 +94,20 @@ export default {
             }
         },
         async createTchat (userId) {
+
             let newTchat = await api.chat.create({target: userId})
 
             if(newTchat.data.success === false){
-                console.log('erreur :', newTchat.data.message)
+                if(newTchat.data.chat){
+                    this.openTchat(newTchat.data.chat)
+                } else {
+                    console.log('erreur :', newTchat.data.message)
+                }
             } else {
                 this.loadData()
                 this.openTchat(newTchat.data.chat)
             }
+            
         }
     }
 }

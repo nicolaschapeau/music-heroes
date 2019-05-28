@@ -43,7 +43,7 @@ export default {
             this.$emit('close-tchat')
         },
         getName(roomData) {
-			const response = roomData.users.find(data => data.user !== this.me)
+            const response = roomData.users.find(data => data.user !== this.user._id)
 			return response.name
 		},
         async createMessage () {

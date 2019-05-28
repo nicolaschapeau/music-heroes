@@ -5,12 +5,7 @@
             <h2 class="header__left__title">Music Heroes</h2>
         </router-link>
         <div class="header__right">
-            <ul class="header__right__list"> 
-                <li class="header__right__list__item" >
-                    <router-link to="/profil">
-                        Profil
-                    </router-link>
-                </li>
+            <ul class="header__right__list">
                 <li class="header__right__list__item">
                     <a @click="logout">
                         Déconnexion
