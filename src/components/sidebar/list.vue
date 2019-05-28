@@ -52,7 +52,7 @@ export default {
 		},
 		getName(chat) {
 			let userInfo = this.$store.getters['getUser']
-			const response = chat.users.find(data => data.user !== userInfo._id)
+			const response = chat.users.find(data => data.user !== this.user._id)
 
 			return response.name
 			

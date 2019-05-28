@@ -6,7 +6,7 @@
                 <i class="icon ion-md-close" @click="closeTchat()"></i>
             </div>
             <div class="tchat__messages" id="messageContainer">
-                <messages :messages="messages" :me="me" />
+                <messages :messages="messages" :user="user" />
             </div>
             <div class="tchat__input">
                 <form class="input-container" @submit.prevent="createMessage()"> 
@@ -36,11 +36,7 @@ export default {
         return {
             message: null,
             loading: false,
-            me: null
         }
-    },
-    mounted () {
-        this.me = this.user._id
     },
     methods: {
         closeTchat () {
@@ -50,7 +46,7 @@ export default {
 			const response = roomData.users.find(data => data.user !== this.me)
 			return response.name
 		},
-        async createMessage (){
+        async createMessage () {
             if (!this.message || this.loading === true ) {
                 return
             }
