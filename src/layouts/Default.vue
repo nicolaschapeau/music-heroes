@@ -30,7 +30,7 @@ export default {
   top: 50%;
   position: absolute;
   width: calc(100% - 200px);
-  color: black;
+  color: #fd8c30;
   padding: 0 100px;
   text-align: center;
 }
