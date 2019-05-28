@@ -40,10 +40,26 @@ router.post('/chats', auth, async (req, res) => {
         let duplicate = !user.chats.every((chat) => {
             return chat.users.every((user) => {
                 if (user.user.toString() !== target._id.toString()) {
-                    savedDuplicate = chat
+                    savedDuplicate = chat.toJSON()
                     return false
                 }
             })
+        })
+
+        savedDuplicate.users.forEach((user, index) => {
+            if (user.user.toString() === req.user._id.toString()) {
+                console.log(req.user.firstname, req.user.lastname)
+                let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
+                let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
+                let fullname = `${firstname} ${lastname}`
+                savedDuplicate.users[index].name = fullname
+            } else {
+                console.log(req.user.firstname, req.user.lastname)
+                let firstname = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1)
+                let lastname = target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
+                let fullname = `${firstname} ${lastname}`
+                savedDuplicate.users[index].name = fullname
+            }
         })
 
         if (duplicate) {
