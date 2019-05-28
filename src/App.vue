@@ -76,13 +76,13 @@ img{
 
 .btn:hover {
     background: #f37335;
-    transition: 0.3s;
+    transition: 0.05s;
     outline: none;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.3s;
+  transition-duration: 0.05s;
   transition-property: opacity;
   transition-timing-function: ease;
 }
