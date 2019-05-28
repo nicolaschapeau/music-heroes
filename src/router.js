@@ -91,6 +91,7 @@ function nextFactory(context, middleware, index) {
 }
 
 // Before pushing to page if to has a middleware execute it
+console.log(router)
 router.beforeEach((to, from, next) => {
   if (to.meta.middleware) {
     const middleware = Array.isArray(to.meta.middleware)
@@ -105,6 +106,7 @@ router.beforeEach((to, from, next) => {
     }
     const nextMiddleware = nextFactory(context, middleware, 1)
 
+    console.log('middleware - init')
     return middleware[0]({ ...context, next: nextMiddleware })
   }
 

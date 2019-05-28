@@ -14,9 +14,9 @@ const router = new express.Router()
 // Ratings routes
 // ->
 // Create rating
-router.post('/ratings', auth, async (req, res) => {
+router.post('/recommands', auth, async (req, res) => {
     try {
-        if (!req.body.rating || !req.body.target || req.body.target == req.user._id) {
+        if (!req.body.target || req.body.target == req.user._id) {
             throw new Error(`Impossible de noter cet utilisateur.`)
         }
 
@@ -40,9 +40,7 @@ router.post('/ratings', auth, async (req, res) => {
             user: req.user._id
         })
 
-        rating.count++
-        rating.total += req.body.rating
-        rating.stars = rating.total / rating.count
+        rating.total++
         rating.users = users
 
         rating.save()
@@ -54,7 +52,7 @@ router.post('/ratings', auth, async (req, res) => {
 })
 
 // Get rating
-router.get('/ratings/:id', auth, async (req, res) => {
+router.get('/recommands/:id', auth, async (req, res) => {
     try {
         if (!req.params.id) {
             throw new Error('Il faut renseigner un utilisateur.')

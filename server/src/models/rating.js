@@ -11,13 +11,6 @@ const ratingSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    stars: {
-        type: Number
-    },
-    count: {
-        default: 0,
-        type: Number
-    },
     total: {
         default: 0,
         type: Number

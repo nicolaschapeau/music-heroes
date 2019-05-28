@@ -8,7 +8,9 @@
 
 <script>
 export default {
-    
+    mounted () {
+        console.log('t2')
+    }
 }
 </script>
 
