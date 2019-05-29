@@ -6,11 +6,11 @@
         </router-link>
         <div class="header__right">
             <ul class="header__right__list">
-                <li class="header__right__list__item">
+                <!-- <li class="header__right__list__item">
                     <a @click="logout">
                         Déconnexion
                     </a>
-                </li>
+                </li> -->
                 <li class="header__right__list__item">
                     <form class="input-container" @submit.prevent="research">
                         <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search" required>
@@ -18,6 +18,9 @@
                         <!-- <input class="input-field" type="search" placeholder="Recherche" v-model="search" name="search" required>
                         <i class="icon ion-md-search" @click="research"></i> -->
                     </form>
+                </li>
+                <li id="button__container">
+                    <button @click="logout">Déconnexion</button>
                 </li>
             </ul>
         </div>
@@ -87,10 +90,10 @@ input:-webkit-autofill:active  {
 
     .header__right{
         padding-right: 50px;
-        width: 600px;
+        width: 450px;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
 
@@ -155,6 +158,30 @@ input:-webkit-autofill:active  {
     }
     form i:hover {
         background: #f37335; 
+    }
+
+    #button__container {
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #button__container button {
+        cursor: pointer;
+        color: white;
+        padding: 0px 25px 0px 25px;
+        height: 44px;
+        border-radius: 5px;
+        box-shadow: none;
+        outline: none;
+        border: none;
+        background: #f44336;
+        transition: 0.3s;
+    }
+
+    #button__container button:hover {
+        background: #E53935;
     }
 
 </style>

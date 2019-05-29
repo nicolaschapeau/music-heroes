@@ -1,7 +1,9 @@
 <template>
     <div id="sidebar__container">
-        <h2>Messages</h2>
-        <list class="chats__container" :user="user" :lists="tchats" @open-tchat="openTchat" />
+        <div id="chats__container">
+            <h2>Messages</h2>
+            <list class="chat__container" :user="user" :lists="tchats" @open-tchat="openTchat" />
+        </div>
     </div>
 </template>
 <script>
@@ -25,7 +27,7 @@ export default {
 <style scoped>
     #sidebar__container {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: flex-start;
         flex-direction: column;
     }
@@ -37,7 +39,15 @@ export default {
         text-align: center;
     }
 
-    #sidebar__container .chats__container {
+    #sidebar__container #chats__container {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #sidebar__container .chat__container {
         width: 100%;
     }
 

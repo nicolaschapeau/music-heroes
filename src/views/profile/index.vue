@@ -1,17 +1,51 @@
 <template>
-    <div id="container">
+    <main id="container">
         <div id="profil__banner">
         </div>
-        <div id="profil__container">
-            <div id="profil__header">
+        <section id="profil__container">
+
+            <section id="profil__content">
+                <div id="profil__content__left">
+                    <div id="profil__content__picture">
+                        <img v-if="user.avatar" :src="user.avatar" alt="profil_image" width="200px"/>
+                        <img v-if="!user.avatar" src="http://chittagongit.com/images/default-profile-icon/default-profile-icon-24.jpg" alt="profil_image" width="200px"/>
+                    </div>
+                    <div id="profil__content__main">
+                        <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
+                        <p> Inscription le {{ new Date(user.createdAt).getDate() }}/{{ new Date(user.createdAt).getMonth() + 1 }}/{{ new Date(user.createdAt).getFullYear() }}</p>
+                    </div>
+                    <div id="profil__content__recommands">
+                        <h2>25 <span>recommendations</span></h2>
+                        <p>Du monde entier...</p>
+                    </div>
+                </div>
+                <div id="profil__content__right">
+                    <button class="btn" v-if="this._id" @click.prevent="createChat(user)">Contacter</button>
+                </div>
+            </section>
+
+            <section id="profil__more">
+                <div id="profil__more__bio">
+                    <h3>Biographie</h3>
+                    <p>{{ user.bio }}</p>
+                </div>
+                <div id="profil__more__instruments" v-if="user.instruments.length > 0">
+                    <h3>Instruments</h3>
+                    <ul>
+                        <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
+                    </ul>
+                </div>
+            </section>
+
+
+            <!-- <div id="profil__header">
                 <div class="left">
                     <img v-if="user.avatar" :src="user.avatar" alt="profil_image" />
                     <img v-if="!user.avatar" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="profil_image" />
                     <div class="text">
                         <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
                         <div class="like">
-                            <i class="icon ion-md-heart"></i>
-                            <span>25</span>
+                            <h2>25 <span>recommendations</span></h2>
                         </div>
                     </div>
                 </div>
@@ -28,9 +62,9 @@
                         <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
+            </div> -->
+        </section>
+    </main>
 </template>
 
 <script>
@@ -77,6 +111,7 @@ export default {
 <style scoped>
 
     #container{
+        font-family: 'Roboto', sans-serif;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -88,46 +123,208 @@ export default {
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 250px;
-        background: url(http://viviendarealestate.com/wp-content/uploads/2017/01/cropped-manor-house-1638766_1280.jpg) no-repeat;
+        height: 300px;
+        background: url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat;
         background-size: cover;
-        min-height: 250px;
+        min-height: 300px;
     }
     
     #container #profil__container{
+        background: #EFF5F9;
         width: 100%;
         flex: 1 auto;
     }
 
-    #container #profil__container #profil__header{
+
+    #profil__content {
+        background: white;
+        height: 100px;
         display: flex;
-        padding: 20px 50px 20px 50px;
         justify-content: space-between;
-        align-items: center;        
+        align-items: center;
+        flex-direction: row;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    #profil__content #profil__content__left {
+        margin-left: 50px;
+        height: 80px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row;
+        color: #546e7a; 
+    }
+
+    #profil__content #profil__content__left img {
+        position: relative;
+        top: -55px;
+        width: 150px;
+        border-radius: 0px;
+        padding: 2px;
+        background: white;
+    }
+
+
+    #profil__content #profil__content__left #profil__content__main {
+        margin: 0px 0px 0px 40px;
+        padding: 0px 40px 0px 0px;
+        border-right: 2px solid #eee;
+        height: 50px;
+    }
+
+    #profil__content #profil__content__left #profil__content__main h1 {
+        letter-spacing: 0.5px;
+        margin: 0 0 0 5px;
+        font-size: 18px;
+    }
+
+    #profil__content #profil__content__left #profil__content__main p {
+        margin: 2px 0 5px 5px;
+        color: #90a4ae;
+    }
+
+
+    #profil__content #profil__content__left #profil__content__recommands {
+        margin: 0px 0px 0px 40px;
+        padding: 0px 40px 0px 0px;
+        border-right: 2px solid #eee;
+        height: 50px;
+    }
+
+    #profil__content #profil__content__left #profil__content__recommands h2 {
+        margin: 0 0 0 5px;
+        font-size: 18px;
+    }
+
+    #profil__content #profil__content__left #profil__content__recommands h2 span {
+        font-weight: 300;
+    }
+
+    #profil__content #profil__content__left #profil__content__recommands p {
+        margin: 2px 0 5px 5px;
+        color: #90a4ae;
+    }
+
+
+
+    #profil__content #profil__content__right {
+        margin-right: 50px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    #profil__content #profil__content__right button {
+        margin: 0 0 0 5px;
+        height: 44px;
+        padding: 0px 20px 0px 20px;
+        transition: 0.3s;
+    }
+
+
+
+    #profil__more {
+        color: #546e7a; 
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    #profil__more #profil__more__bio {
+        width: calc(100% - 60px);
+        margin: 15px;
+        padding: 15px;
+        background: white;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    #profil__more #profil__more__bio h3 {
+        margin: 0;
+    }
+
+    #profil__more #profil__more__instruments {
+        width: 300px;
+        margin: 0 15px 15px 15px;
+        padding: 15px;
+        background: white;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    #profil__more #profil__more__instruments h3 {
+        margin: 0;
+    }
+
+    #profil__more #profil__more__instruments ul {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin: 15px 0 0 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    #profil__more #profil__more__instruments ul li {
+        margin: 0 5px 5px 0px;
+        background: #546e7a;
+        border-radius: 5px;
+        color: white;
+        font-weight: 300;
+        padding: 3px 10px 3px 10px;
+        font-size: 15px;
+    }
+
+    /* #container #profil__container #profil__header{
+        height: 200px;
+        margin-left: 10%;
+        width: 80%;
+        display: flex;
+        background: white;
+        justify-content: space-between;
+        align-items: flex-start;        
         position: relative;
         top: -65px;
     }
 
     #container #profil__container #profil__header .left{
         display: flex;
-        align-items: center;
+        align-items: flex-start;
     }
 
     #container #profil__container #profil__header .left img{
         width: 200px;
-        border: 1px solid lightgrey;    
     }
 
     #container #profil__container #profil__header .left .text{
-        padding-left: 25px;
+        margin-left: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: flex-start;
     }
 
-    #container #profil__container #profil__header .left .text i{
-        font-size: 32px;
+    #container #profil__container #profil__header .left .text h1 {
+        margin: 10px 0 5px 0;
+        font-weight: 700;
+    }
+
+    #container #profil__container #profil__header .left .text h2 {
+        margin: 0px 0 5px 0;
+        font-weight: 700;
+    }
+
+    #container #profil__container #profil__header .left .text h2 span {
+        font-weight: 300;
     }
 
     #container #profil__container #profil__content{
@@ -141,6 +338,6 @@ export default {
         border: 1px solid lightgrey;
         border-radius: 5px;
         padding: 10px;
-    }
+    } */
 
 </style>
