@@ -142,10 +142,11 @@ input:-webkit-autofill:active  {
     form input {
         border: 1px solid #eee;
         border-right: 0;
-        border-radius: 5px 0 0 5px;
+        border-radius: 32px 0 0 32px;
         width: 250px;
         height: 44px;
         font-size: 15px;
+        padding-left: 20px;
     }
     form i {
         color: white !important;
@@ -167,14 +168,14 @@ input:-webkit-autofill:active  {
 
     #button__container button {
         cursor: pointer;
-        color: #f44336;
+        color: #9E9E9E;
         padding: 0px 25px 0px 25px;
         height: 44px;
         border-radius: 5px;
         box-shadow: none;
         outline: none;
         border: none;
-        border: 2px solid #f44336;
+        border: 1px solid #9E9E9E;
         background: white;
         transition: 0.3s;
         border-radius: 32px;
@@ -183,8 +184,8 @@ input:-webkit-autofill:active  {
 
     #button__container button:hover {
         color: white;
-        border: 2px solid #E53935;
-        background: #E53935;
+        border: 1px solid #616161;
+        background: #616161;
     }
 
 </style>

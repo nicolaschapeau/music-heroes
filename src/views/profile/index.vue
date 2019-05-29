@@ -16,24 +16,32 @@
                     </div>
                     <div id="profil__content__recommands">
                         <h2>25 <span>recommendations</span></h2>
-                        <p>Du monde entier...</p>
+                        <p>Au total...</p>
                     </div>
                 </div>
                 <div id="profil__content__right">
+                    <button class="btn recommand" v-if="this._id" @click.prevent="recommandUser(user)">Recommander</button>
+                    <button class="btn edit" v-if="!this._id" @click.prevent="editUser(user)">Editer mon profil</button>
                     <button class="btn" v-if="this._id" @click.prevent="createChat(user)">Contacter</button>
                 </div>
             </section>
 
             <section id="profil__more">
-                <div id="profil__more__bio">
-                    <h3>Biographie</h3>
-                    <p>{{ user.bio }}</p>
+                <div id="profil__left__section">
+                    <div id="profil__more__bio">
+                        <h3>Biographie</h3>
+                        <p>{{ user.bio }}</p>
+                    </div>
+                    <div id="profil__more__instruments" v-if="user.instruments.length > 0">
+                        <h3>Instruments</h3>
+                        <ul>
+                            <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
+                        </ul>
+                    </div>
                 </div>
-                <div id="profil__more__instruments" v-if="user.instruments.length > 0">
-                    <h3>Instruments</h3>
-                    <ul>
-                        <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
-                    </ul>
+                <div id="profil__right__section">
+                    <edit-user v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
+                    <p v-if="!editing">Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
                 </div>
             </section>
 
@@ -69,13 +77,18 @@
 
 <script>
 import api from '@/api/api'
+import EditUser from '@/components/editUser'
 
 export default {
     name: 'profile',
+    components: {
+        EditUser
+    },
     data () {
         return {
             user: null,
-            _id: null
+            _id: null,
+            editing: false,
         }
     },
     async mounted () {
@@ -98,6 +111,14 @@ export default {
         },
         createChat (userId) {
             this.$parent.$emit('create-tchat', userId._id)
+        },
+        editUser(user) {
+            let userId = user._id
+
+            this.editing = userId
+        },
+        cancelUserEdit() {
+            this.editing = null
         }
     },
     watch: {
@@ -120,8 +141,8 @@ export default {
     #container #profil__banner{
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: flex-end;
         width: 100%;
         height: 300px;
         background: url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat;
@@ -163,7 +184,7 @@ export default {
         top: -55px;
         width: 150px;
         border-radius: 0px;
-        padding: 2px;
+        padding: 4px;
         background: white;
     }
 
@@ -219,40 +240,51 @@ export default {
         flex-direction: row;
     }
 
-    #profil__content #profil__content__right button {
-        margin: 0 0 0 5px;
+    button {
+        margin: 0 5px 0 5px;
         height: 44px;
         padding: 0px 20px 0px 20px;
         transition: 0.3s;
+        border-radius: 32px;
     }
 
+    button.edit {
+        background: #03A9F4;
+    }
+    button.edit:hover {
+        background: #0288D1;
+    }
 
+    button.recommand {
+        background: #E91E63;
+    }
+    button.recommand:hover {
+        background: #C2185B;
+    }
 
     #profil__more {
         color: #546e7a; 
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
-    #profil__more #profil__more__bio {
-        width: calc(100% - 60px);
+    #profil__more #profil__left__section {
+        width: 300px;
         margin: 15px;
         padding: 15px;
-        background: white;
-        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
-        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
-        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        color: #546e7a; 
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        flex-wrap: wrap;
     }
 
-    #profil__more #profil__more__bio h3 {
-        margin: 0;
-    }
-
-    #profil__more #profil__more__instruments {
-        width: 300px;
-        margin: 0 15px 15px 15px;
+    #profil__more #profil__left__section #profil__more__bio {
+        width: 100%;
         padding: 15px;
         background: white;
         -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
@@ -260,11 +292,25 @@ export default {
         box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
     }
 
-    #profil__more #profil__more__instruments h3 {
+    #profil__more #profil__left__section #profil__more__bio h3 {
         margin: 0;
     }
 
-    #profil__more #profil__more__instruments ul {
+    #profil__more #profil__left__section #profil__more__instruments {
+        margin-top: 15px;
+        padding: 15px;
+        width: 100%;
+        background: white;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    #profil__more #profil__left__section #profil__more__instruments h3 {
+        margin: 0;
+    }
+
+    #profil__more #profil__left__section #profil__more__instruments ul {
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
@@ -274,7 +320,7 @@ export default {
         list-style-type: none;
     }
 
-    #profil__more #profil__more__instruments ul li {
+    #profil__more #profil__left__section #profil__more__instruments ul li {
         margin: 0 5px 5px 0px;
         background: #546e7a;
         border-radius: 5px;
@@ -282,6 +328,23 @@ export default {
         font-weight: 300;
         padding: 3px 10px 3px 10px;
         font-size: 15px;
+    }
+
+    #profil__more #profil__right__section {
+        width: auto;
+        max-width: calc(100% - 500px);
+        margin: 30px 15px 15px 15px;
+        padding: 15px;
+        color: #546e7a; 
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background: white;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
     }
 
     /* #container #profil__container #profil__header{
@@ -339,5 +402,4 @@ export default {
         border-radius: 5px;
         padding: 10px;
     } */
-
 </style>

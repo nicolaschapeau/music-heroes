@@ -15,23 +15,27 @@ const userSchema = new mongoose.Schema({
         type: Number
     },
     firstname: {
+        maxlength: 20,
+        minlength: 3,
         required: true,
         type: String,
         trim: true,
         lowercase: true,
         validate (value) {
-            if (!validator.isAlphanumeric(value)) {
+            if (!validator.isAlpha(value)) {
                 throw new Error('Username is invalid.')
             }
         }
     },
     lastname: {
+        maxlength: 20,
+        minlength: 3,
         required: true,
         type: String,
         trim: true,
         lowercase: true,
         validate(value) {
-            if (!validator.isAlphanumeric(value)) {
+            if (!validator.isAlpha(value)) {
                 throw new Error('Username is invalid.')
             }
         }
@@ -70,6 +74,8 @@ const userSchema = new mongoose.Schema({
         trim: true,
         default: 'Une bio par défaut. Rentrez ici votre histoire.',
         type: String,
+        maxlength: 600,
+        minlength: 10
     },
     instruments: {
         type: Array,
