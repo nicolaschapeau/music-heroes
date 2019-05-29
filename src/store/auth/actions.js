@@ -47,7 +47,11 @@ export default {
             response = response.data
 
             if (!response.success) {
-                throw ''
+                throw 0
+            }
+
+            if (response.user.verified === false) {
+                throw 1
             }
 
             commit('setToken', response.token)
@@ -59,11 +63,15 @@ export default {
             // Return error
             commit('deleteToken')
             commit('deleteUser')
-
-            return { success: false, message: 'Impossible de vérifier le token.' }
+            
+            if(e === 1 || e === 0){
+                return { success: false, code: e }
+            } else {
+                return { success: false, code: 2 }
+            }
         }
     },
-    async logout({ commit }) {
+    async logout({ commit }) { 
         try {
             commit('deleteToken')
             commit('deleteUser')

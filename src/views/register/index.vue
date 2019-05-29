@@ -267,6 +267,10 @@ export default {
         color: red;
     }
 
+    .register__validate__content{
+        text-align: center;
+    }
+
     .register__validate__content i {
         font-size: 64px;
         background: none;

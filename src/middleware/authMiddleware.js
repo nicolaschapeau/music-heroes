@@ -9,11 +9,16 @@ export default async function authMiddleware (to, from, next) {
 
         // Not correct
         if (response.success !== true) {
-            return router.push({ name: 'login' })
+            if (response.code){
+                return router.push({ name: 'login', query: { error: response.code } })
+            } else {
+                return router.push({ name: 'login' })
+            }
         }
 
         return next()
     } else {
-        return router.push({ name: 'login' })
+        return router.go({ name: 'login' })
     }
+
 }
