@@ -19,11 +19,11 @@
         </div>
         <div class="row last">
             <div class="item">
-                <input type="file" name="profil" class="upload" id="profil">
+                <input type="file" name="profil" class="upload" id="profil" v-on:change="handleProfileUpload()">
                 <label for="profil">Photo de profil</label>
             </div>
             <div class="item">
-                <input type="file" name="banner" class="upload" id="banner">
+                <input type="file" name="banner" class="upload" id="banner" v-on:change="handleBannerUpload()">
                 <label for="banner">Bannière</label>
             </div>
         </div>
@@ -58,6 +58,8 @@ export default {
             firstname: this.user.firstname,
             lastname: this.user.lastname,
             bio: this.user.bio,
+            profil: '',
+            banner: ''
         }
     },
     mounted () {
@@ -72,26 +74,37 @@ export default {
                 bio: this.bio
             }
 
-            console.log(event.target)
-
-            console.log(profil, banner)
+            
+            console.log(api)    
 
             if (profil) {
-                console.log(profil)
+                let formData = new FormData()
+                
+                formData.append('avatar', this.profil, 'avatar')
+                let response = await api.user.setUserAvatar(formData)
+                console.log(response)
                 return
             }
 
             if (banner) {
-                console.log(banner)
+                let formData = new FormData()
+
+                formData.append('banner', this.banner, 'banner')
             }
 
-            let response = await api.user.editUser(data)
+            let response = await api.user.setUserBanner(formData)
             
             if (!response.data.success) {
                 return this.error = true
             }
 
             this.$router.go('/')
+        },
+        handleProfileUpload(){
+            this.profil = event.target.files[0];
+        },
+        handleBannerUpload(){
+            this.banner = event.target.files[0];
         },
         cancel() {
             this.$emit('cancelUserEdit')

@@ -135,7 +135,7 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
         res.send()
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 
@@ -149,7 +149,7 @@ router.post('/users/me/banner', auth, upload.single('banner'), async (req, res) 
         res.send()
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 

@@ -61,7 +61,7 @@ export default {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
-        })
+        }),
     },
     user: {
         getUser: (id) => axios.get('/users/' + id, {
@@ -82,6 +82,22 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
+        setUserAvatar: (data) => axios.post('/users/me/avatar', {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'content-type': 'multipart/form-data'
+            },
+            data
+        }),
+        setUserBanner: (data) => axios.post('/users/me/banner', {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'content-type': 'multipart/form-data'
+            },
+            data
+        })
     },
     search: {
         search: (data) => axios.get('/search?query=' + data, {
