@@ -8,7 +8,7 @@
                 <div id="profil__content__left">
                     <div id="profil__content__picture">
                         <img v-if="user.avatar" :src="user.avatar" alt="profil_image" width="200px"/>
-                        <img v-if="!user.avatar" src="http://chittagongit.com/images/default-profile-icon/default-profile-icon-24.jpg" alt="profil_image" width="200px"/>
+                        <img v-if="!user.avatar" src="https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg" alt="profil_image" width="200px"/>
                     </div>
                     <div id="profil__content__main">
                         <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>

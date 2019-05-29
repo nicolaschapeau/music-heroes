@@ -140,24 +140,22 @@ input:-webkit-autofill:active  {
         align-items: center;
     }
     form input {
-        border: none;
-        border-bottom: 1px solid #eee;
+        border: 1px solid #eee;
+        border-right: 0;
+        border-radius: 5px 0 0 5px;
         width: 250px;
-        height: 46px;
+        height: 44px;
         font-size: 15px;
     }
-    form input:focus {
-        border: none;
-        border-bottom: 1px solid #ccc;
-    }
     form i {
-        margin-left: 10px;
-        border-radius: 5px;
+        color: white !important;
+        border-radius: 0 32px 32px 0;
         font-size: 20px;
         transition: 0.3s;
+        background: #FD8C30 !important;
     }
     form i:hover {
-        background: #f37335; 
+        background: #E7550E !important;
     }
 
     #button__container {
@@ -169,18 +167,23 @@ input:-webkit-autofill:active  {
 
     #button__container button {
         cursor: pointer;
-        color: white;
+        color: #f44336;
         padding: 0px 25px 0px 25px;
         height: 44px;
         border-radius: 5px;
         box-shadow: none;
         outline: none;
         border: none;
-        background: #f44336;
+        border: 2px solid #f44336;
+        background: white;
         transition: 0.3s;
+        border-radius: 32px;
+        font-weight: 500;
     }
 
     #button__container button:hover {
+        color: white;
+        border: 2px solid #E53935;
         background: #E53935;
     }
 

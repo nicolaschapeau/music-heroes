@@ -24,7 +24,14 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/:id?',
+      path: '/',
+      name: 'home',
+      meta: { layout: 'dashboard' },
+      beforeEnter: authMiddleware,
+      component: Profile,
+    },
+    {
+      path: '/profil/:id?',
       name: 'profil',
       meta: { layout: 'dashboard' },
       beforeEnter: authMiddleware,
