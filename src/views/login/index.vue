@@ -71,6 +71,17 @@ export default {
             })
 
         }
+    },
+    watch: {
+        '$route.query.error': function () {
+            if(this.$route.query.error === 0){
+                this.error = 'Impossible de verifié le token'
+            } else if (this.$route.query.error === 1) {
+                this.error = 'Vous devez verifier votre email'
+            } else if (this.$route.query.error === 2) {
+                this.error = 'Une erreur est survenue, veuillez vous reconnecter'
+            }
+        }
     }
 }
 </script>

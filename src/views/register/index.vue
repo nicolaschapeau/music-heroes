@@ -50,12 +50,12 @@
 
                 <div class="input-container">
                     <i class="icon ion-md-lock"></i>
-                    <input class="input-field" type="text" placeholder="Mot de passe" v-model="password" name="password">
+                    <input class="input-field" type="password" placeholder="Mot de passe" v-model="password" name="password">
                 </div>
 
                 <div class="input-container">
                     <i class="icon ion-md-lock"></i>
-                    <input class="input-field" type="text" placeholder="Confirmer votre mot de passe" v-model="password_confirm" name="password_confirm">
+                    <input class="input-field" type="password" placeholder="Confirmer votre mot de passe" v-model="password_confirm" name="password_confirm">
                 </div>
 
                 <button type="submit" class="btn" @click.prevent="validateRegister()">Valider</button>
