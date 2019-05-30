@@ -10,8 +10,6 @@
                 <label for="firstname">Nom</label>
                 <input type="text" id="firstname" class="input" name="lastname" v-model="lastname">
             </div>
-        </div>
-        <div class="row">
             <div class="item">
                 <label for="bio">Biographie</label>
                 <textarea name="bio" id="bio" cols="30" rows="10" maxlength="600" v-model="bio"></textarea>
@@ -26,20 +24,18 @@
                 <input type="file" name="banner" class="upload" id="banner" v-on:change="handleBannerUpload()">
                 <label for="banner">Bannière</label>
             </div>
+            <div class="item">
+                <button class="submit">Mettre à jour</button>
+            </div>
+            <div class="item">
+                <button class="cancel" @click="cancel()">Annuler l'édition</button>
+            </div>
         </div>
         <div class="row" v-if="this.error">
             <div class="item">
                 <div class="error">
                     <p>Vos modifications sont invalides.</p>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="item">
-                <button class="submit">Mettre à jour</button>
-            </div>
-            <div class="item">
-                <button class="cancel" @click="cancel()">Annuler</button>
             </div>
         </div>
     </form>
@@ -74,28 +70,32 @@ export default {
                 bio: this.bio
             }
 
-            
-            console.log(api)    
-
-            if (profil) {
+            if (this.profil) {
                 let formData = new FormData()
-                
-                formData.append('avatar', this.profil, 'avatar')
+
+                formData.append('avatar', this.profil)
                 let response = await api.user.setUserAvatar(formData)
-                console.log(response)
-                return
+                
+                if (!response.data.success) {
+                    return this.error = `Impossible de rajouter l'avatar`
+                }
             }
 
-            if (banner) {
+            if (this.banner) {
                 let formData = new FormData()
 
-                formData.append('banner', this.banner, 'banner')
+                formData.append('banner', this.banner)
+                let response = await api.user.setUserBanner(formData)
+
+                if (!response.data.success) {
+                    return this.error = `Impossible de rajouter la bannière`
+                }
             }
 
-            let response = await api.user.setUserBanner(formData)
+            let response = await api.user.editUser(data)
             
             if (!response.data.success) {
-                return this.error = true
+                return this.error = 'Impossible de modifier vos informations.'
             }
 
             this.$router.go('/')
@@ -125,15 +125,19 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex-wrap: wrap;
     width: 100%;
+    max-width: 100%;
 }
 
 .item {
+    margin-bottom: 15px;
     margin-right: 15px;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
+    max-width: 100%;
 }
 
 .error {
@@ -174,7 +178,6 @@ form .input {
     height: 28px;
     outline: none;
     padding-left: 16px;
-    width: 150px;
 }
 
 form input.upload {
@@ -184,6 +187,7 @@ form input.upload {
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+    max-width: 50%;
 }
 
 form input.upload + label {
@@ -208,11 +212,11 @@ form input.upload + label:hover {
 form textarea {
     border: 1px solid #ccc;
     border-radius: 16px;
-    height: 28px;
+    height: 24px;
     outline: none;
-    padding: 16px;
-    width: 318px;
-    height: 150px;
+    padding: 6px 0px 0px 12px;
+    width: 340px;
+    max-width: 100%;
     resize: none;
     font-family: 'Roboto', sans-serif;;
 }

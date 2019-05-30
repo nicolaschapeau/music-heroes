@@ -7,6 +7,7 @@ import store from '@/store/store'
 import linkify from 'vue-linkify'
 import vueMoment from 'vue-moment'
 import moment from 'moment'
+import VueCookies from 'vue-cookies'
 
 // Layouts
 import Default from '@/layouts/Default'
@@ -23,6 +24,7 @@ Vue.component('error-layout', Error)
 Vue.directive('linkified', linkify)
 
 Vue.use(vueMoment)
+Vue.use(VueCookies)
 
 
 // Vue global

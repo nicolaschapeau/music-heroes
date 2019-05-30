@@ -70,7 +70,13 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         }),
-        getAvatar: (id) => axios.post('/users/' + id + '/avatar', {
+        getAvatar: (id) => axios.get('/users/' + id + '/avatar', {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+        getBanner: (id) => axios.get('/users/' + id + '/banner', {
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
@@ -80,23 +86,21 @@ export default {
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
-            }
+            },
         }),
-        setUserAvatar: (data) => axios.post('/users/me/avatar', {
+        setUserAvatar: (form) => axios.patch('/users/me/avatar', form, {
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             },
-            data
         }),
-        setUserBanner: (data) => axios.post('/users/me/banner', {
+        setUserBanner: (form) => axios.patch('/users/me/banner', form, {
             withCredentials: true,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             },
-            data
         })
     },
     search: {

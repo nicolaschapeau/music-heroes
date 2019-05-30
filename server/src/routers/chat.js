@@ -114,14 +114,10 @@ router.get('/chats/me', auth, async (req, res) => {
 
                 // If actual user
                 if (user.user.toString() === req.user._id.toString()) {
-                    avatar = req.user.avatar
                     let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
                     let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
                     name = `${firstname} ${lastname}`
 
-                    if (avatar) {
-                        avatar = avatar.toString('base64')
-                    }
                 } else {
                     let target = await User.findById(user.user)
                     let firstname = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1)

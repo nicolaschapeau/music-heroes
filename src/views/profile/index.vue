@@ -1,14 +1,13 @@
 <template>
-    <main id="container">
-        <div id="profil__banner">
+    <main id="container" v-if="user">
+        <div id="profil__banner" v-bind:style="styleObject"> 
         </div>
         <section id="profil__container">
 
             <section id="profil__content">
                 <div id="profil__content__left">
                     <div id="profil__content__picture">
-                        <img v-if="user.avatar" :src="user.avatar" alt="profil_image" width="200px"/>
-                        <img v-if="!user.avatar" src="https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg" alt="profil_image" width="200px"/>
+                        <img v-if="avatar" :src="avatar" alt="profil_image" width="200px"/>
                     </div>
                     <div id="profil__content__main">
                         <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
@@ -20,9 +19,10 @@
                     </div>
                 </div>
                 <div id="profil__content__right">
-                    <button class="btn recommand" v-if="this._id" @click.prevent="recommandUser(user)">Recommander</button>
-                    <button class="btn edit" v-if="!this._id" @click.prevent="editUser(user)">Editer mon profil</button>
-                    <button class="btn" v-if="this._id" @click.prevent="createChat(user)">Contacter</button>
+                    <button class="btn recommand" v-if="id" @click.prevent="recommandUser(user)">Recommander</button>
+                    <button class="btn edit" v-if="!id && !this.editing" @click.prevent="editUser(user)">Editer mon profil</button>
+                    <button class="btn cancel" v-if="!id && this.editing" @click.prevent="editUser(user)">Annuler l'édition</button>
+                    <button class="btn" v-if="id" @click.prevent="createChat(user)">Contacter</button>
                 </div>
             </section>
 
@@ -40,8 +40,10 @@
                     </div>
                 </div>
                 <div id="profil__right__section">
-                    <edit-user v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
-                    <p v-if="!editing">Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
+                    <div id="under__construction">
+                        <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
+                    </div>
+                    <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
                 </div>
             </section>
 
@@ -87,8 +89,12 @@ export default {
     data () {
         return {
             user: null,
-            _id: null,
+            id: null,
+            avatar: null,
             editing: false,
+            styleObject: {
+                background: "url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat top/cover",
+            }
         }
     },
     async mounted () {
@@ -96,11 +102,11 @@ export default {
     },
     methods: {
         async initUser () {
-            this._id = this.$route.params.id
-            if(!this._id){
+            this.id = this.$route.params.id
+            if(!this.id){
                 this.user = this.$store.getters['getUser']
             }else{
-                const response = await api.user.getUser(this._id)
+                const response = await api.user.getUser(this.id)
 
                 if(response.data.success === true){
                     this.user = response.data.user
@@ -108,14 +114,41 @@ export default {
                     console.error('Erreur : ', response.data.error)
                 }
             }
+
+            let id = this.id ? this.id : this.user._id
+
+            this.getAvatar(id)
+            this.getBanner(id)
+        },
+        async getAvatar(id) {
+            const response = await api.user.getAvatar(id)
+
+            if (response.data) {
+                this.avatar = String("data:image/png;base64," + response.data)
+            } else {
+                this.avatar = String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
+            }
+        },
+        async getBanner(id) {
+            const response = await api.user.getBanner(id)
+
+            if (response.data) {
+                this.styleObject.background = String("url(data:image/png;base64," + response.data + ") no-repeat top/cover")
+            } else {
+                this.styleObject.background = String("url(https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg) no-repeat top/cover")
+            }
         },
         createChat (userId) {
             this.$parent.$emit('create-tchat', userId._id)
         },
         editUser(user) {
-            let userId = user._id
+            if (this.editing) {
+                this.editing = null
+            } else {
+                let userId = user._id
 
-            this.editing = userId
+                this.editing = userId
+            }
         },
         cancelUserEdit() {
             this.editing = null
@@ -145,8 +178,6 @@ export default {
         align-items: flex-end;
         width: 100%;
         height: 300px;
-        background: url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat;
-        background-size: cover;
         min-height: 300px;
     }
     
@@ -333,7 +364,6 @@ export default {
     #profil__more #profil__right__section {
         width: auto;
         max-width: calc(100% - 500px);
-        margin: 30px 15px 15px 15px;
         padding: 15px;
         color: #546e7a; 
         display: flex;
@@ -341,10 +371,45 @@ export default {
         align-items: flex-start;
         flex-direction: column;
         flex-wrap: wrap;
+    }
+
+    #profil__more #profil__right__section #under__construction {
+        margin: 15px 0px 0px 0px;
+        padding: 15px;
         background: white;
         -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    #profil__more #profil__right__section #edit__user {
+        width: calc(100% - 30px);
+        margin: 15px 0px 0px 0px;
+        padding: 15px;
+        background: white;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+    }
+
+    button.cancel {
+        margin: 0 5px 0 5px !important;
+        height: 44px;
+        padding: 0px 20px 0px 20px;
+        transition: 0.3s;
+        border-radius: 32px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background: #F44336;
+        transition: 0.3s;
+        color: white;
+        font-size: 13.33px;
+        margin: 0;
+    }
+
+    button.cancel:hover {
+        background: #D32F2F;
     }
 
     /* #container #profil__container #profil__header{

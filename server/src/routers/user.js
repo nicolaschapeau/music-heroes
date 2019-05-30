@@ -10,6 +10,7 @@ const sharp = require('sharp')
 
 // Middlewares
 const auth = require('../middleware/auth')
+const serverauth = require('../middleware/serverauth')
 
 // Router declaration
 const router = new express.Router()
@@ -70,6 +71,10 @@ router.get('/users/:id', auth, async (req, res) => {
 // Update user
 router.patch('/users/me', auth, async (req, res) => {
     try {
+        if (!req.user) {
+            throw new Error('Utilisateur invalide, veuillez vous reconnecter.')
+        }
+
         // Validate params
         let allowedUpdates = ['firstname', 'lastname', 'email', 'password', 'bio', 'instruments']
         let updates = Object.keys(req.body)
@@ -118,7 +123,7 @@ const upload = multer({
     },
     fileFilter(req, file, callback) {
         if (!file.originalname.match(/\.(jpg|png|jpeg)$/)) {
-            return callback(new Error('File must be an image'))
+            callback(`Impossible d'ajouter ce fichier.`, true)
         }
 
         callback(undefined, true)
@@ -126,13 +131,15 @@ const upload = multer({
 })
 
 // Set user's avatar
-router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+router.patch('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
     try {
-        const buffer = await sharp(req.file.buffer).resize(250, 250).png().toBuffer()
-        req.user.avatar = buffer
-        req.user.save()
+        let user = req.user
 
-        res.send()
+        const buffer = await sharp(req.file.buffer).resize(250, 250).png().toBuffer()
+        user.avatar = buffer
+        user.save()
+
+        res.send({ success: true })
     } catch (e) {
         const error = e.message
         res.status(200).send({ success: false, error })
@@ -140,13 +147,15 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
 })
 
 // Set user's banner
-router.post('/users/me/banner', auth, upload.single('banner'), async (req, res) => {
+router.patch('/users/me/banner', auth, upload.single('banner'), async (req, res) => {
     try {
-        const buffer = await sharp(req.file.buffer).resize(1440, 250).png().toBuffer()
-        req.user.banner = buffer
-        req.user.save()
+        let user = req.user
 
-        res.send()
+        const buffer = await sharp(req.file.buffer).resize(1440, 250).png().toBuffer()
+        user.banner = buffer
+        user.save()
+
+        res.send({ success: true})
     } catch (e) {
         const error = e.message
         res.status(200).send({ success: false, error })
@@ -163,10 +172,10 @@ router.get('/users/:id/avatar', async (req, res) => {
         }
 
         res.set('Content-Type', 'image/png')
-        res.send(user.avatar)
+        res.send(user.avatar.toString('base64'))
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 
@@ -180,10 +189,10 @@ router.get('/users/:id/banner', async (req, res) => {
         }
 
         res.set('Content-Type', 'image/png')
-        res.send(user.banner)
+        res.send(user.banner.toString('base64'))
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 

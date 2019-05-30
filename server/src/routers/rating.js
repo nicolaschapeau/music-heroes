@@ -22,13 +22,20 @@ router.post('/recommands', auth, async (req, res) => {
 
         let rating = await Rating.findOne({ user: req.body.target })
 
-        let valid = rating.users.every((user) => {
-            if (user.user.toString() === req.user._id.toString()) {
-                return false
-            }
+        if (!rating) {
+            throw new Error(`Impossible de noter cet utilisateur.`)
+        }
 
-            return true
-        })
+        let valid = true
+        if (rating.users) {
+            valid = rating.users.every((user) => {
+                if (user.user.toString() === req.user._id.toString()) {
+                    return false
+                }
+
+                return true
+            })
+        }
 
         if (!valid) {
             throw new Error(`Vous avez déjà noté cet utilisateur.`)

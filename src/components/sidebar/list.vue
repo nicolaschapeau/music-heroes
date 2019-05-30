@@ -44,7 +44,7 @@ export default {
 			const response = chat.users.find(user => user.avatar !== undefined)
 
 			if (!response.avatar){
-				return String("http://s3.amazonaws.com/37assets/svn/765-default-avatar.png")
+				return String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
 			}else{
 				return String("data:image/png;base64," + response.avatar)
 			}
@@ -84,7 +84,7 @@ export default {
 
 	.list:hover{
 		transition: 0.3s;
-		background: #fd8c30;
+		background: #eee
 	}
 
 	.list__image{

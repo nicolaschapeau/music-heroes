@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser')
 const auth = async (req, res, next) => {
     try {
         // Check if cookies exists
-        console.log(req.xhr, req.cookies['x-s'], req.cookies['x-hp'], req.cookies)
         if (req.cookies['x-hp'] === undefined || req.cookies['x-s'] === undefined || !req.xhr) {
             res.clearCookie('x-hp', { path: '/' })
             res.clearCookie('x-s', { path: '/' })
