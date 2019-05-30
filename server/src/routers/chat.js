@@ -22,13 +22,13 @@ router.post('/chats', auth, async (req, res) => {
 
     try {
         if (!req.body.target || req.body.target === user._id.toString()) {
-            return res.status(400).send({ success: false, message: 'Aucun correspondant.' })
+            return res.status(200).send({ success: false, message: 'Aucun correspondant.' })
         }
 
         const target = await User.findById(req.body.target)
 
         if (!target) {
-            return res.status(400).send({ success: false, message: 'Aucun correspondant.' })
+            return res.status(200).send({ success: false, message: 'Aucun correspondant.' })
         }
 
         // Get actual chat and check if no duplicate
@@ -81,7 +81,7 @@ router.post('/chats', auth, async (req, res) => {
         res.send({ success: true, chat })
     } catch (e) {
         let error = e.message
-        return res.status(400).send({ success: false, error })
+        return res.status(200).send({ success: false, error })
     }
 })
 
@@ -156,7 +156,7 @@ router.get('/chats/me', auth, async (req, res) => {
         res.send({ success: true, chats })
     } catch (e) {
         let error = e.message
-        return res.status(400).send({ success: false, error })
+        return res.status(200).send({ success: false, error })
     }
 })
 
@@ -168,7 +168,7 @@ router.get('/chats/:id', auth, async (req, res) => {
         let chat = await Chat.findById(req.params.id)
 
         if (!chat) {
-            return res.status(400).send({ message: 'Impossible de trouver ce chat.' })
+            return res.status(200).send({ message: 'Impossible de trouver ce chat.' })
         }
 
         await chat.populate({
@@ -185,7 +185,7 @@ router.get('/chats/:id', auth, async (req, res) => {
         res.send({ success: true, chat, messages: chat.messages })
     } catch (e) {
         let error = e.message
-        return res.status(400).send({ success: false, error })
+        return res.status(200).send({ success: false, error })
     }
 })
 
@@ -198,11 +198,11 @@ router.post('/chats/:id', serverauth, async (req, res) => {
         let valid = await Chat.findById(req.params.id)
 
         if (!req.body.content) {
-            return res.status(400).send({ message: 'Message vide.' })
+            return res.status(200).send({ message: 'Message vide.' })
         }
 
         if (!valid) {
-            return res.status(400).send({ message: 'Impossible de trouver ce chat.' })
+            return res.status(200).send({ message: 'Impossible de trouver ce chat.' })
         }
 
         let message = {
@@ -214,14 +214,14 @@ router.post('/chats/:id', serverauth, async (req, res) => {
         message = await new Message(message)
 
         if (!message) {
-            res.status(400).send({ success: true, message: 'Impossible de créer ce message.' })
+            res.status(200).send({ success: true, message: 'Impossible de créer ce message.' })
         }
 
         message.save()
         res.send(message)
     } catch (e) {
         let error = e.message
-        return res.status(400).send({ success: false, error })
+        return res.status(200).send({ success: false, error })
     }
 })
 

@@ -101,7 +101,7 @@ export default {
                 if(newTchat.data.chat){
                     this.openTchat(newTchat.data.chat)
                 } else {
-                    console.log('erreur :', newTchat.data.message)
+                    console.log('erreur :', newTchat.data.error)
                 }
             } else {
                 this.loadData()

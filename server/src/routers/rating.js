@@ -27,6 +27,7 @@ router.post('/recommands', auth, async (req, res) => {
         }
 
         let valid = true
+        
         if (rating.users) {
             valid = rating.users.every((user) => {
                 if (user.user.toString() === req.user._id.toString()) {
