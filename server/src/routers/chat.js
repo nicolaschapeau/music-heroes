@@ -46,21 +46,21 @@ router.post('/chats', auth, async (req, res) => {
             })
         })
 
-        savedDuplicate.users.forEach((user, index) => {
-            if (user.user.toString() === req.user._id.toString()) {
-                console.log(req.user.firstname, req.user.lastname)
-                let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
-                let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
-                let fullname = `${firstname} ${lastname}`
-                savedDuplicate.users[index].name = fullname
-            } else {
-                console.log(req.user.firstname, req.user.lastname)
-                let firstname = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1)
-                let lastname = target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
-                let fullname = `${firstname} ${lastname}`
-                savedDuplicate.users[index].name = fullname
-            }
-        })
+        if (savedDuplicate) {
+            savedDuplicate.users.forEach((user, index) => {
+                if (user.user.toString() === req.user._id.toString()) {
+                    let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
+                    let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
+                    let fullname = `${firstname} ${lastname}`
+                    savedDuplicate.users[index].name = fullname
+                } else {
+                    let firstname = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1)
+                    let lastname = target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
+                    let fullname = `${firstname} ${lastname}`
+                    savedDuplicate.users[index].name = fullname
+                }
+            })
+        }
 
         if (duplicate) {
             return res.status(200).send({ success: false, message: 'Impossible de dupliquer une conversation.', chat: savedDuplicate })
@@ -117,6 +117,7 @@ router.get('/chats/me', auth, async (req, res) => {
                     let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
                     let lastname = req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
                     name = `${firstname} ${lastname}`
+                    avatar = false
 
                 } else {
                     let target = await User.findById(user.user)
@@ -126,6 +127,8 @@ router.get('/chats/me', auth, async (req, res) => {
 
                     if (target.avatar) {
                         avatar = target.avatar.toString('base64')
+                    } else {
+                        avatar = true
                     }
                 }
 
@@ -141,7 +144,10 @@ router.get('/chats/me', auth, async (req, res) => {
             await chat.populate({
                 path: 'messages',
                 options: {
-                    limit: 1
+                    limit: 1,
+                    sort: {
+                        createdAt: -1
+                    }
                 }
             }).execPopulate()
 

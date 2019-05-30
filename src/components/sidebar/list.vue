@@ -41,12 +41,12 @@ export default {
 	},
 	methods: {
 		getAvatar(chat) {
-			const response = chat.users.find(user => user.avatar !== undefined)
+			const response = chat.users.find(user => user.avatar !== false)
 
-			if (!response.avatar){
-				return String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
-			}else{
+			if (response.avatar !== true){
 				return String("data:image/png;base64," + response.avatar)
+			}else{
+				return String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
 			}
 			
 		},

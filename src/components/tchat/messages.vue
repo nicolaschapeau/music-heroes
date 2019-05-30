@@ -1,6 +1,6 @@
 <template>
 	<div class="messages" id="messages" v-if="messages">
-		<p v-html="message.content" v-for="message in messages" :key="message.index" :class="[ message.user.toString() === user._id.toString() ? 'me' : 'other' ]" v-linkified></p>
+		<p v-html="message.content" v-for="message in messages" :key="message.index" :class="[ message.user.toString() == user._id.toString() ? 'me' : 'other' ]" v-linkified></p>
 	</div>
 </template>
 

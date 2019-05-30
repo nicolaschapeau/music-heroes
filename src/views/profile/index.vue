@@ -123,19 +123,19 @@ export default {
         async getAvatar(id) {
             const response = await api.user.getAvatar(id)
 
-            if (response.data) {
-                this.avatar = String("data:image/png;base64," + response.data)
-            } else {
+            if (response.data.success === false) {
                 this.avatar = String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
+            } else {
+                this.avatar = String("data:image/png;base64," + response.data)
             }
         },
         async getBanner(id) {
             const response = await api.user.getBanner(id)
 
-            if (response.data) {
-                this.styleObject.background = String("url(data:image/png;base64," + response.data + ") no-repeat top/cover")
+            if (response.data.success === false) {
+                this.styleObject.background = String("url(http://getwallpapers.com/wallpaper/full/5/d/1/594608.jpg) no-repeat top/cover")
             } else {
-                this.styleObject.background = String("url(https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg) no-repeat top/cover")
+                this.styleObject.background = String("url(data:image/png;base64," + response.data + ") no-repeat top/cover")
             }
         },
         createChat (userId) {

@@ -57,6 +57,7 @@ export default {
 
         this.socket.on('receiveMessage', (message) => {
             this.messages.push(message)
+            this.loadData()
         })
 
         this.$on('create-tchat', (userId) => { 

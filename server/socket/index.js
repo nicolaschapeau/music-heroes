@@ -16,12 +16,10 @@ const chat = {
 // Socket events
 module.exports = function (socket, io) {
     socket.on('join', (room) => {
-        console.log('join', room)
         socket.join(room)
     })
 
     socket.on('leave', (room) => {
-        console.log('leave', room)
         socket.leave(room)
     })
 
@@ -41,6 +39,7 @@ module.exports = function (socket, io) {
             }
 
             // If success
+            message.user = message.user._id
             io.to(message.room).emit('receiveMessage', message)
 
             callback({ success: true })

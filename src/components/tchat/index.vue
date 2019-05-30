@@ -60,7 +60,7 @@ export default {
                 content: this.message,
                 date: date.toLocaleDateString("fr-FR"),
                 room: this.roomData._id,
-                user: this.me
+                user: this.user
             }
 
             this.message = null
