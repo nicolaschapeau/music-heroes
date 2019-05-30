@@ -43,13 +43,27 @@ router.get('/search', auth, async (req, res) => {
             }
         }).limit(20)
 
-        console.log(result)
-
         if (!result) {
             throw new Error ('Aucun utilisateur trouvé.')
         }
 
-        res.send(result)
+        // Convert to updatable object
+        let resultArray = []
+        result.forEach((user) => {
+            resultArray.push(user.toJSON())
+        })
+
+        // Search if user is in results so it can be removed
+        let index = resultArray.findIndex((user) => {
+            if (user._id.toString() == req.user._id.toString()) {
+                return user
+            }
+        })
+        if (index !== null && index !== -1) {
+            resultArray.splice(index, 1)
+        }
+
+        res.send(resultArray)
     } catch (e) {
         let error = e.message
         res.status(400).send(error)

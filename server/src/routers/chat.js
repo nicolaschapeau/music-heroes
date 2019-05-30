@@ -155,7 +155,7 @@ router.get('/chats/me', auth, async (req, res) => {
             chat.messages.forEach((message) => {
                 messages.push(message.toJSON())
             })
-            chats[index].message = messages[index]
+            chats[index].message = messages[0]
         }
 
 

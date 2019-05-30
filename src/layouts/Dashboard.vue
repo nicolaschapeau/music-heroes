@@ -68,6 +68,7 @@ export default {
         async loadData() {
             await this.$store.dispatch('setChats')
             this.tchats = await this.$store.getters['getChats']
+            console.log(this.tchats)
         },
         async openTchat(e) {
             this.roomData = e,
