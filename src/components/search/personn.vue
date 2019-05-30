@@ -1,6 +1,5 @@
 <template>
     <div>
-        <div id="container">
             <div id="search__container">
                 <div id="search__header">
                     <div class="left">
@@ -31,7 +30,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -77,12 +75,6 @@ export default {
 </script>
 
 <style scoped>
-    #container{
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    
     #container #search__container {
         cursor: pointer;
         width: 100%;
