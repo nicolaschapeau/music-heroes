@@ -8,7 +8,7 @@ export default {
             response = response.data
 
             if (response.success !== true) {
-                throw ''
+                throw response.error
             }
 
             commit('setToken', response.token)
@@ -18,7 +18,7 @@ export default {
             return { success: true, message: 'Authentification réussie.' }
         } catch (e) {
             // Return error
-            return { success: false, message: 'Impossible de créer un compte avec ces informations.' }
+            return { success: false, message: e }
         }
     },
     async login({ commit }, credentials) {
@@ -28,7 +28,7 @@ export default {
             response = response.data
 
             if (response.success !== true) {
-                throw ''
+                throw response.error
             }
 
             commit('setToken', response.token)
@@ -38,7 +38,7 @@ export default {
             return { success: true, message: 'Authentification réussie.' }
         } catch (e) {
             // Return error
-            return { success: false, message: 'Impossible de s\'authentifier.' }
+            return { success: false, message: e }
         }
     },
     async fetch({ commit }) {

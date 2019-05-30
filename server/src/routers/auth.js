@@ -39,7 +39,7 @@ router.post('/auth/register', async (req, res) => {
         res.status(201).send({ success: true, user, token })
     } catch (e) {
         const error = e.message
-        res.status(400).send({ success: false, error })
+        res.status(200).send({ success: false, error })
     }
 })
 
@@ -47,7 +47,7 @@ router.post('/auth/register', async (req, res) => {
 router.post('/auth/login', async (req, res) => {
     try {
         if (!req.body.email || !req.body.password || req.body.length > 2) {
-            return res.status(400).send({ message: 'Missing arguments.' })
+            return res.status(200).send({ message: 'Missing arguments.' })
         }
 
         let user = null
@@ -57,7 +57,7 @@ router.post('/auth/login', async (req, res) => {
 
         if (!user) {
             // throw new Error('User not found.')
-            return res.status(404).send('User not found.')
+            return res.status(200).send('User not found.')
         }
 
         const valid = await user.checkCredentials(req.body.password, user.password)
@@ -71,7 +71,7 @@ router.post('/auth/login', async (req, res) => {
         res.status(201).send({ success: true, user, token })
     } catch (e) {
         const error = e.message
-        res.status(400).send(error)
+        res.status(200).send(error)
     }
 })
 

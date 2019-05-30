@@ -14,12 +14,12 @@
                         <p> Inscription le {{ new Date(user.createdAt).getDate() }}/{{ new Date(user.createdAt).getMonth() + 1 }}/{{ new Date(user.createdAt).getFullYear() }}</p>
                     </div>
                     <div id="profil__content__recommands">
-                        <h2>25 <span>recommendations</span></h2>
+                        <h2>{{ userReco }} <span>recommandations</span></h2>
                         <p>Au total...</p>
                     </div>
                 </div>
                 <div id="profil__content__right">
-                    <button class="btn recommand" v-if="id" @click.prevent="recommandUser(user)">Recommander</button>
+                    <button class="btn recommand" v-if="id && canRecommand" @click.prevent="recommandUser(user)">Recommander</button>
                     <button class="btn edit" v-if="!id && !this.editing" @click.prevent="editUser(user)">Editer mon profil</button>
                     <button class="btn cancel" v-if="!id && this.editing" @click.prevent="editUser(user)">Annuler l'édition</button>
                     <button class="btn" v-if="id" @click.prevent="createChat(user)">Contacter</button>
@@ -92,6 +92,8 @@ export default {
             id: null,
             avatar: null,
             editing: false,
+            userReco: 0,
+            canRecommand: false,
             styleObject: {
                 background: "url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat top/cover",
             }
@@ -119,6 +121,8 @@ export default {
 
             this.getAvatar(id)
             this.getBanner(id)
+
+            this.getReco()
         },
         async getAvatar(id) {
             const response = await api.user.getAvatar(id)
@@ -138,8 +142,8 @@ export default {
                 this.styleObject.background = String("url(data:image/png;base64," + response.data + ") no-repeat top/cover")
             }
         },
-        createChat (userId) {
-            this.$parent.$emit('create-tchat', userId._id)
+        createChat (user) {
+            this.$parent.$emit('create-tchat', user._id)
         },
         editUser(user) {
             if (this.editing) {
@@ -152,6 +156,34 @@ export default {
         },
         cancelUserEdit() {
             this.editing = null
+        },
+        async getReco () {
+            let response = await api.rating.get(this.user._id)
+
+            let me = this.$store.getters['getUser']
+
+            if(response.data.rating.users.find(user => user.user === me._id)){
+                this.canRecommand = false
+            } else {
+                this.canRecommand = true
+            }
+
+            if(response.data.success === false){
+                console.log(response.data.error)
+                return
+            } else {
+                this.userReco = response.data.rating.total
+            }
+        },
+        async recommandUser (user) {
+            let response = await api.rating.add({target: user._id})
+
+            if(response.data.success === false){
+                console.log(response.data.error)
+            } else {
+                this.userReco ++
+                this.canRecommand = false
+            }
         }
     },
     watch: {

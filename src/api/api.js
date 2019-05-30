@@ -110,5 +110,19 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-    },   
+    }, 
+    rating: {
+        add: (data) => axios.post('/recommands', data, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }),
+        get: (id) => axios.get('/recommands/' + id, {
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+    }  
 }
