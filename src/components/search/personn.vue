@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="container"
+        <div id="container">
             <div id="search__container">
                 <div id="search__header">
                     <div class="left">
