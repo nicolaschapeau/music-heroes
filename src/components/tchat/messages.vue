@@ -1,18 +1,19 @@
 <template>
 	<div class="messages" id="messages" v-if="messages">
-		<p v-html="message.content" v-for="message in messages" :key="message.index" :class="[ message.user.toString() == user._id.toString() ? 'me' : 'other' ]" v-linkified></p>
+		<p v-for="message in messages" :key="message.index" :class="[ message.user.toString() == user._id.toString() ? 'me' : 'other' ]" v-linkified>{{message.content}}<span class="hour">{{ getDate(message.createdAt) }}</span></p>
 	</div>
 </template>
 
 
 <script>
-import { watch } from 'fs';
-import { setTimeout } from 'timers';
+import moment from 'moment'
+import 'moment/locale/fr'
+
 export default {
 	name: 'Messages',
 	props: ['messages', 'user'],
-    mounted () {
-		this.initscroll()
+    async mounted () {
+		await this.initscroll()
 	},
 	methods: {
 		initscroll() {
@@ -45,7 +46,12 @@ export default {
 				}
 			})
 
-		}
+		},
+		getDate(date) {
+			let newDate = moment(date).format('LT')
+			
+			return newDate
+		},
 	},
 	watch: {
         messages () {
@@ -71,16 +77,26 @@ export default {
 		margin: 5px;
 		padding: 15px;
 		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	} 
 
 	.messages .me {
 		background: white;
 		float: right;
+		align-items: flex-end;
 	}
 
 	.messages .other {
 		background: lightgrey;
 		float: left;
+		align-items: flex-start;
+	}
+
+	.messages .me .hour, .messages .other .hour{
+		color: grey;
+		font-size: 10px;
 	}
 
 </style>
