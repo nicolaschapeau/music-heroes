@@ -24,7 +24,7 @@ export default {
     }
 
     .default__main{
-        width: 25%;
+        width: 480px;
         background:white;
         display: flex;
         padding: 60px 15px;
