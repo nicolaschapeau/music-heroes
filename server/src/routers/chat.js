@@ -46,7 +46,7 @@ router.post('/chats', auth, async (req, res) => {
             })
         })
 
-        if (savedDuplicate) {
+        if (duplicate) {
             savedDuplicate.users.forEach((user, index) => {
                 if (user.user.toString() === req.user._id.toString()) {
                     let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
@@ -60,27 +60,33 @@ router.post('/chats', auth, async (req, res) => {
                     savedDuplicate.users[index].name = fullname
                 }
             })
-        }
 
-        if (duplicate) {
             return res.status(200).send({ success: false, message: 'Impossible de dupliquer une conversation.', chat: savedDuplicate })
         }
 
         let users = []
         users = users.concat({
             user: user._id,
-            name: req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1) + req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
         })
         users = users.concat({
             user: target._id,
-            name: target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1) + target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
         })
+
         const chat = await new Chat({
             users
         })
-
         await chat.save()
-        res.send({ success: true, chat })
+
+        let finalChat = chat.toJSON()
+        finalChat.users.forEach((user) => {
+            if (user.user.toString() == req.user._id.toString()) {
+                user.name = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1) + ' ' + req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
+            } else {
+                user.name = target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1) + ' ' + target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
+            }
+        })
+        
+        res.send({ success: true, chat: finalChat })
     } catch (e) {
         let error = e.message
         return res.status(200).send({ success: false, error })

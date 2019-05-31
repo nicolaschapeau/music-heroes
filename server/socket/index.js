@@ -16,11 +16,17 @@ const chat = {
 // Socket events
 module.exports = function (socket, io) {
     socket.on('join', (room) => {
+        console.log('join', room)
         socket.join(room)
     })
 
     socket.on('leave', (room) => {
         socket.leave(room)
+    })
+
+    socket.on('createChat', (user) => {
+        console.log(user, 'chatCreated')
+        socket.to(user).emit('updateChats')
     })
 
     socket.on('sendMessage', async (message, callback) => {

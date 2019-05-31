@@ -58,9 +58,19 @@ export default {
         this.socket.on('receiveMessage', (message) => {
             this.loadData()
 
-            if (this.messages) {
+            if (this.messages && message.room === this.roomData._id) {
                 this.messages.push(message)
             }
+        })
+
+        this.socket.on('updateChats', async () => {
+            await this.loadData()
+
+            this.tchats.sort((a, b) => {
+                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            })
+
+            await this.openTchat(this.tchats[0])
         })
 
         this.$on('create-tchat', (userId) => { 
@@ -74,8 +84,12 @@ export default {
             this.tchats.forEach(chat => {
                 this.socket.emit('join', chat._id)
             });
+
+            this.socket.emit('join', this.user._id)
         },
         async openTchat(e) {
+            this.closeTchat()
+            console.log('open')
             this.roomData = e,
             this.messages = await api.chat.getOne(this.roomData._id)
             this.messages = this.messages.data.messages.reverse()
@@ -83,6 +97,7 @@ export default {
             this.socket.emit('join', this.roomData._id)
         },
         closeTchat() {
+            console.log('close')
             this.messages = null
             this.roomData = null
         },
@@ -112,8 +127,31 @@ export default {
             } else {
                 this.loadData()
                 this.openTchat(newTchat.data.chat)
+                this.socket.emit('createChat', userId)
+                this.createMessage(`Bonjour, j'aimerais discuter avec vous.`)
             }
-            
+        },
+        async createMessage (text) {
+            if (!text) {
+                return
+            }
+            this.loading = true
+
+            let socket = await this.$store.getters['getSocket']
+
+            // Building message
+            let date = new Date()
+            const message = {
+                content: text,
+                date: date.toLocaleDateString("fr-FR"),
+                room: this.roomData._id,
+                user: this.user
+            }
+
+            // Send message
+            await socket.emit('sendMessage', message, (response) => {
+                this.loading = false
+            })
         }
     }
 }
