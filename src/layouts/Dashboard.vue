@@ -68,7 +68,6 @@ export default {
         async loadData() {
             await this.$store.dispatch('setChats')
             this.tchats = await this.$store.getters['getChats']
-            console.log(this.tchats)
         },
         async openTchat(e) {
             this.roomData = e,
@@ -133,11 +132,11 @@ export default {
     #container{
         display: grid;
         grid-template-rows: 70px calc(50vh - 70px) 50vh;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: 470px 30px 420px 1fr;
         grid-template-areas: 
-            "header   header  header header header header header header header header header header"
-            "sidebar sidebar sidebar  main   main   main   main   main   main   main   main   main"
-            "sidebar sidebar sidebar  main   main   main   main   main   main   main   main   main";
+            "header   header  header  header"
+            "sidebar   main    main    main"
+            "sidebar   main    main    main";
     }
 
     .sidebar{
@@ -149,8 +148,7 @@ export default {
     }
 
     .tchat{
-        grid-area: 3 / 4 / 4 / 7;
-        margin-left: 20px;
+        grid-area: 3 / 3 / 4 / 4;
         background: #FCF1E8;
         z-index: 3;
     }

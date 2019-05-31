@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
 
 
 // Listen server
-server.listen(port, 'localhost', () => {
+server.listen(port, () => {
     console.log('Server is up on port: ' + port)
 })
 

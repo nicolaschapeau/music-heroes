@@ -105,9 +105,12 @@ export default {
     methods: {
         async initUser () {
             this.id = this.$route.params.id
-            if(!this.id){
-                this.user = this.$store.getters['getUser']
-            }else{
+            this.user = this.$store.getters['getUser']
+
+            if(this.id){
+                if(this.id === this.user._id){
+                    this.$router.push('/')
+                }
                 const response = await api.user.getUser(this.id)
 
                 if(response.data.success === true){

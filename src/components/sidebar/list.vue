@@ -58,7 +58,7 @@ export default {
 			
 		},
 		getDate(date) {
-			let newDate = moment(date).format('LL à H:m')
+			let newDate = moment(date).format('LL à LT')
 			
 			return newDate
 		},
