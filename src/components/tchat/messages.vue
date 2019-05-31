@@ -12,13 +12,14 @@ import 'moment/locale/fr'
 export default {
 	name: 'Messages',
 	props: ['messages', 'user'],
-    async mounted () {
-		await this.initscroll()
+    updated () {
+		this.initscroll()
 	},
 	methods: {
 		initscroll() {
 			let element = document.getElementById('messageContainer')
-			element.scrollTop = element.scrollHeight
+			element.scrollTop =  element.scrollHeight
+			console.log(element.scrollTop, element.scrollHeight)
 		},
 		scrollTo(){
 			setImmediate(() => {
