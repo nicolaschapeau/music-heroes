@@ -68,10 +68,12 @@ router.post('/chats', auth, async (req, res) => {
 
         let users = []
         users = users.concat({
-            user: user._id
+            user: user._id,
+            name: req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1) + req.user.lastname.charAt(0).toUpperCase() + req.user.lastname.slice(1)
         })
         users = users.concat({
-            user: target._id
+            user: target._id,
+            name: target.firstname.charAt(0).toUpperCase() + target.firstname.slice(1) + target.lastname.charAt(0).toUpperCase() + target.lastname.slice(1)
         })
         const chat = await new Chat({
             users
