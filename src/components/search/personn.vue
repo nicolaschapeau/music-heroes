@@ -1,35 +1,36 @@
 <template>
     <div>
-            <div id="search__container">
-                <div id="search__header">
-                    <div class="left">
-                        <img :src="avatar" alt="profil_image" />
-                        <div class="text">
-                            <h2>
-                                {{ request.firstname }} {{ request.lastname }} 
-                                <i v-if="request.type === 0" class="icon ion-md-musical-notes"></i>
-                                <i v-if="request.type !== 0" class="icon ion-md-briefcase"></i>
-                            </h2>
-                            <div class="like">
-                                <h3>{{ recommand }} <span>Recommandations</span></h3>
-                            </div>
+        <div v-show="!loading" id="search__container">
+            <div id="search__header">
+                <div class="left">
+                    <img :src="avatar" alt="profil_image" />
+                    <div class="text">
+                        <h2>
+                            {{ request.firstname }} {{ request.lastname }} 
+                            <i v-if="request.type === 0" class="icon ion-md-musical-notes"></i>
+                            <i v-if="request.type !== 0" class="icon ion-md-briefcase"></i>
+                        </h2>
+                        <div class="like">
+                            <h3>{{ recommand }} <span>Recommandations</span></h3>
                         </div>
                     </div>
-                    <div class="right">
-                        <button class="btn" @click="redirect(request._id)">Voir</button>
-                    </div>
                 </div>
-                <div id="search__content">
-                    <div id="search__bio">
-                        {{ request.bio }}
-                    </div>
-                    <div id="search__instruments">
-                        <ul>
-                            <li v-show="request.type === 0" v-for="instrument in request.instruments" :key="instrument.index">{{ instrument }}</li>
-                        </ul>
-                    </div>
+                <div class="right">
+                    <button class="btn" @click="redirect(request._id)">Voir</button>
                 </div>
             </div>
+            <div id="search__content">
+                <div id="search__bio">
+                    {{ request.bio }}
+                </div>
+                <div id="search__instruments">
+                    <ul>
+                        <li v-show="request.type === 0" v-for="instrument in request.instruments" :key="instrument.index">{{ instrument }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <img style="width: 15%" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" v-show="loading">
     </div>
 </template>
 
@@ -42,34 +43,41 @@ export default {
     data () {
         return {
             avatar: null,
-            recommand: 0
+            recommand: 0,
+            loading: false
         }
     },
     mounted () {
-        this.getAvatar(this.request)
-        this.getReco(this.request)
+        this.initUser(this.request)
     },
     methods: {
         redirect (id) {
             this.$router.push('/profil/' + id)
         },
-        async getReco (user) {
-            let response = await api.rating.get(user._id)
+        async initUser (user) {
+            this.loading = true
+            let rating = await api.rating.get(user._id)
+            let avatar = await api.user.getAvatar(user._id)
 
-            if(response.data.success !== false){
-                this.recommand = response.data.rating.total
+            if(rating.data.success !== false){
+                this.recommand = rating.data.rating.total
             }
-        },
-        async getAvatar(user) {
-            let response = await api.user.getAvatar(user._id)
 
-            if (response.data.success === false) {
+            if (avatar.data.success === false) {
                 this.avatar = String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
             } else {                    
-                this.avatar = "data:image/png;base64," + String(response.data)
+                this.avatar = "data:image/png;base64," + String(avatar.data)
             }
 
+            
+            this.loading = false
+
         },
+    },
+    watch: {
+        'request': function () {
+            this.initUser(this.request)
+        }
     }
 }
 </script>
