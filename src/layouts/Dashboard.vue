@@ -56,8 +56,11 @@ export default {
         this.$store.dispatch('setSocket', this.socket)
 
         this.socket.on('receiveMessage', (message) => {
-            this.messages.push(message)
             this.loadData()
+
+            if (this.messages) {
+                this.messages.push(message)
+            }
         })
 
         this.$on('create-tchat', (userId) => { 
@@ -68,7 +71,9 @@ export default {
         async loadData() {
             await this.$store.dispatch('setChats')
             this.tchats = await this.$store.getters['getChats']
-            console.log(this.tchats)
+            this.tchats.forEach(chat => {
+                this.socket.emit('join', chat._id)
+            });
         },
         async openTchat(e) {
             this.roomData = e,
@@ -78,8 +83,7 @@ export default {
             this.socket.emit('join', this.roomData._id)
         },
         closeTchat() {
-            this.socket.emit('leave', this.roomData._id)
-
+            this.messages = null
             this.roomData = null
         },
         async checkInstru () {
