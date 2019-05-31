@@ -30,7 +30,16 @@
                 </div>
             </div>
         </div>
-        <img style="width: 15%" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" v-show="loading">
+        <div class="cs-loader" v-show="loading">
+            <div class="cs-loader-inner">
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -69,9 +78,7 @@ export default {
                 this.avatar = "data:image/png;base64," + String(avatar.data)
             }
 
-            
             this.loading = false
-
         },
     },
     watch: {
@@ -199,4 +206,95 @@ export default {
     }
 
 
+.cs-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cs-loader-inner {
+  transform: translateY(-50%);
+  top: 50%;
+  position: absolute;
+  width: calc(100% - 200px);
+  color: #fd8c30;
+  padding: 0 100px;
+  text-align: center;
+}
+
+.cs-loader-inner label {
+  font-size: 20px;
+  opacity: 0;
+  display:inline-block;
+}
+
+@keyframes lol {
+  0% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+}
+
+@-webkit-keyframes lol {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateX(300px);
+  }
+}
+
+.cs-loader-inner label:nth-child(6) {
+  -webkit-animation: lol 1s infinite ease-in-out;
+  animation: lol 1s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+  -webkit-animation: lol 1s 100ms infinite ease-in-out;
+  animation: lol 1s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+  -webkit-animation: lol 1s 200ms infinite ease-in-out;
+  animation: lol 1s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+  -webkit-animation: lol 1s 300ms infinite ease-in-out;
+  animation: lol 1s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+  -webkit-animation: lol 1s 400ms infinite ease-in-out;
+  animation: lol 1s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+  -webkit-animation: lol 1s 500ms infinite ease-in-out;
+  animation: lol 1s 500ms infinite ease-in-out;
+}
 </style>
