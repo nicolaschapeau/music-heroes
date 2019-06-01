@@ -165,6 +165,10 @@ input:-webkit-autofill:active  {
         justify-content: center;
         align-items: center;
     }
+    
+    .input-container .icon {
+        border-radius: 0px 32px 32px 0px;
+    }
 
     #button__container button {
         cursor: pointer;

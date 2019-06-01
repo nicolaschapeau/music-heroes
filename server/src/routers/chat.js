@@ -36,17 +36,24 @@ router.post('/chats', auth, async (req, res) => {
             path: 'chats',
         }).execPopulate()
 
+
         let savedDuplicate = null
-        let duplicate = !user.chats.every((chat) => {
-            return chat.users.every((user) => {
-                if (user.user.toString() !== target._id.toString()) {
+        let check = null
+        user.chats.forEach((chat) => {
+            if (check !== null) {
+                return
+            }
+            // console.log('chat')
+            // console.log(chat)
+            return chat.users.forEach((user) => {
+                if (user.user.toString() == req.body.target.toString()) {
                     savedDuplicate = chat.toJSON()
-                    return false
+                    check = 1
+                    return
                 }
             })
         })
-
-        if (duplicate) {
+        if (savedDuplicate) {
             savedDuplicate.users.forEach((user, index) => {
                 if (user.user.toString() === req.user._id.toString()) {
                     let firstname = req.user.firstname.charAt(0).toUpperCase() + req.user.firstname.slice(1)
@@ -75,7 +82,7 @@ router.post('/chats', auth, async (req, res) => {
         const chat = await new Chat({
             users
         })
-        await chat.save()
+        // await chat.save()
 
         let finalChat = chat.toJSON()
         finalChat.users.forEach((user) => {

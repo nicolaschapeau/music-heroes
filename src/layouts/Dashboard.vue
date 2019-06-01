@@ -89,7 +89,6 @@ export default {
         },
         async openTchat(e) {
             this.closeTchat()
-            console.log('open')
             this.roomData = e,
             this.messages = await api.chat.getOne(this.roomData._id)
             this.messages = this.messages.data.messages.reverse()
@@ -97,7 +96,6 @@ export default {
             this.socket.emit('join', this.roomData._id)
         },
         closeTchat() {
-            console.log('close')
             this.messages = null
             this.roomData = null
         },
@@ -115,7 +113,6 @@ export default {
             }
         },
         async createTchat (userId) {
-
             let newTchat = await api.chat.create({target: userId})
 
             if(newTchat.data.success === false){

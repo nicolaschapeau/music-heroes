@@ -53,6 +53,7 @@ img{
     min-width: 50px;
     text-align: center;
     cursor: pointer;
+    border-radius: 32px 0 0 32px;
 }
 
 .input-field {
@@ -60,6 +61,7 @@ img{
     padding: 10px;
     outline: none;
     border: 1px solid #fd8c30;
+    border-radius: 0 32px 32px 0;
 }
 
 .btn {
@@ -72,11 +74,12 @@ img{
     transition: 0.3s;
     outline: none;
     border-radius: 5px;
+    border-radius: 32px;
 }
 
 .btn:hover {
     background: #f37335;
-    transition: 0.05s;
+    transition: 0.3s;
     outline: none;
 }
 

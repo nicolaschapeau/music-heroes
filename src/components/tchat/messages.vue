@@ -19,7 +19,6 @@ export default {
 		initscroll() {
 			let element = document.getElementById('messageContainer')
 			element.scrollTop =  element.scrollHeight
-			console.log(element.scrollTop, element.scrollHeight)
 		},
 		scrollTo(){
 			setImmediate(() => {
@@ -84,19 +83,24 @@ export default {
 	} 
 
 	.messages .me {
-		background: white;
+		background: #FD8C30;
 		float: right;
 		align-items: flex-end;
+		color: white;
 	}
 
 	.messages .other {
-		background: lightgrey;
+		background: #eee;
 		float: left;
 		align-items: flex-start;
 	}
 
-	.messages .me .hour, .messages .other .hour{
-		color: grey;
+	.messages .me .hour {
+		color: #eee;
+		font-size: 10px;
+	}
+	.messages .other .hour {
+		color: #111;
 		font-size: 10px;
 	}
 
