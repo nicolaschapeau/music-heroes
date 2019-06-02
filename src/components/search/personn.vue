@@ -1,43 +1,31 @@
 <template>
     <div>
-        <div v-show="!loading" id="search__container">
+        <div v-show="!loading" id="search__container" @click="redirect(request._id)">
             <div id="search__header">
                 <div class="left">
                     <img :src="avatar" alt="profil_image" />
                     <div class="text">
                         <h2>
                             {{ request.firstname }} {{ request.lastname }} 
-                            <i v-if="request.type === 0" class="icon ion-md-musical-notes"></i>
-                            <i v-if="request.type !== 0" class="icon ion-md-briefcase"></i>
+                            <i v-if="request.type === 0">(Musicien)</i>
+                            <i v-if="request.type !== 0">(Organisateur)</i>
                         </h2>
                         <div class="like">
                             <h3>{{ recommand }} <span>Recommandations</span></h3>
+                        </div>
+                        <div id="search__bio">
+                            {{ request.bio }}
+                        </div>
+                        <div id="search__instruments">
+                            <ul>
+                                <li v-show="request.type === 0" v-for="instrument in request.instruments" :key="instrument.index">{{ instrument }}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="right">
                     <button class="btn" @click="redirect(request._id)">Voir</button>
                 </div>
-            </div>
-            <div id="search__content">
-                <div id="search__bio">
-                    {{ request.bio }}
-                </div>
-                <div id="search__instruments">
-                    <ul>
-                        <li v-show="request.type === 0" v-for="instrument in request.instruments" :key="instrument.index">{{ instrument }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="cs-loader" v-show="loading">
-            <div class="cs-loader-inner">
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
             </div>
         </div>
     </div>
@@ -97,15 +85,18 @@ export default {
         margin: 50px 0 25px;
         border-radius: 0px;
         transition: 0.3s;
-        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
-        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
-        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        background: white;
+        border-radius: 5px;
+        border: 1px solid #eee;
+        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.2);
+        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.2);
+        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.2);
     }
 
-    #container #search__container:hover {
-        -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.4);
-        -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.4);
-        box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.4);
+    #container #search__container:hover { 
+        -webkit-box-shadow: 0px 2px 3px 0px rgba(84,110,122,0.4);
+        -moz-box-shadow: 0px 2px 3px 0px rgba(84,110,122,0.4);
+        box-shadow: 0px 2px 3px 0px rgba(84,110,122,0.4);
     }
 
     #container #search__container #search__header {
@@ -132,7 +123,7 @@ export default {
 
     #container #search__container #search__header .left img{
         position: relative;
-        width: 100px;
+        width: 135px;
         border-radius: 0px;
     }
 
@@ -166,14 +157,18 @@ export default {
         cursor: pointer;
     }
 
+    #search__bio {
+        margin-top: 20px;
+    }
+
     #container #search__container #search__content{
         display: flex;
         justify-content: space-between;
         padding: 20px 50px 20px 50px;
     }
 
-    #container #search__container #search__content #search__bio, #container #search__container #search__content #search__instruments{
-        width: 47%;
+    #search__instruments{
+        width: 100%;
         border-radius: 5px;
         padding: 10px 0;
         text-align: left;
@@ -187,7 +182,7 @@ export default {
 
     #search__instruments ul {
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
         margin: 0 0 0 0;

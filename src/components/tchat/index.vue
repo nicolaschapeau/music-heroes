@@ -88,6 +88,7 @@ export default {
     .tchat {
         background: none;
         border-bottom: 0;
+        border-radius: 8px 8px 0 0 !important;
     }
 
     .tchat__content {
@@ -112,7 +113,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #ededed;
+        background: #F9F9F9;
         width: 100%;
     }
 

@@ -123,6 +123,7 @@ export default {
   		overflow: hidden;
 		max-width: 300px;
 		text-overflow: ellipsis;
+		color: #999;
 	}
 
 	.no-list{

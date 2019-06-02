@@ -14,7 +14,7 @@
                         <p> Inscription le {{ new Date(user.createdAt).getDate() }}/{{ new Date(user.createdAt).getMonth() + 1 }}/{{ new Date(user.createdAt).getFullYear() }}</p>
                     </div>
                     <div id="profil__content__recommands">
-                        <h2>{{ userReco }} <span>recommandations</span></h2>
+                        <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>
                         <p>Au total...</p>
                     </div>
                 </div>

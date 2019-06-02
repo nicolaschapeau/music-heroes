@@ -1,10 +1,7 @@
 <template>
     <div>
         <div id="container" v-if="requests">
-            <personn id="search__container" v-for="request in requests" :key="request.index" :request="request"/>
-        </div>
-        <div id="container" v-if="!requests || requests.length <= 0">
-            <p>Aucun résultat n'est associé à votre recherche</p>
+            <personn v-for="request in requests" :key="request.index" :request="request"/>
         </div>
     </div>
 </template>

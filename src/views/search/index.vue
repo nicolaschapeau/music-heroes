@@ -1,7 +1,13 @@
 <template>
     <div id="search">
-        <h2>Search</h2>
+        <h2>Recherche</h2>
         <search :requests="requests"/>
+        <div class="loader__container" v-if="requests === false">
+            Chargement des résultats...
+        </div>
+        <div class="loader__container" v-if="requests.length === 0">
+            Aucun résultat trouvé.
+        </div>
     </div>
 </template>
 
@@ -16,7 +22,7 @@ export default {
     },
     data () {
         return {
-            requests: null
+            requests: false
         }
     },
     mounted () {
@@ -38,9 +44,18 @@ export default {
 
 <style scoped>
 
+    .loader__container {
+        width: 100%;
+        height: 300px;
+    }
+
     #search{
         text-align: center;
-        padding: 25px 150px 25px 150px;
+        padding: 0px 150px 25px 150px;
+    }
+
+    h2 {
+        font-weight: 300;
     }
 
 </style>
