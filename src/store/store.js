@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import authModule from './auth'
-import gameModule from './game'
-import serverModule from './server'
+import authModule from '@/store/auth'
+import chatModule from '@/store/chat'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         auth: authModule,
-        game: gameModule,
-        server: serverModule,
+        chat: chatModule,
     }
 })

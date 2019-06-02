@@ -2,3 +2,5 @@ node_modules
 .env
 dev.env
 server/config/dev.env
+.vscode
+UsersNicolasAppDataRoamingnpm

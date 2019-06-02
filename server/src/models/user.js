@@ -1,4 +1,6 @@
 // Requires
+const Chat = require('./chat')
+const Rating = require('./rating')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
@@ -8,13 +10,32 @@ const randomatic = require('randomatic')
 
 // Model
 const userSchema = new mongoose.Schema({
-    name: {
+    type: {
+        required: true,
+        type: Number
+    },
+    firstname: {
+        maxlength: 20,
+        minlength: 3,
         required: true,
         type: String,
         trim: true,
         lowercase: true,
         validate (value) {
-            if (!validator.isAlphanumeric(value)) {
+            if (!validator.isAlpha(value)) {
+                throw new Error('Username is invalid.')
+            }
+        }
+    },
+    lastname: {
+        maxlength: 20,
+        minlength: 3,
+        required: true,
+        type: String,
+        trim: true,
+        lowercase: true,
+        validate(value) {
+            if (!validator.isAlpha(value)) {
                 throw new Error('Username is invalid.')
             }
         }
@@ -45,10 +66,57 @@ const userSchema = new mongoose.Schema({
     }],
     avatar: {
         type: Buffer
+    },
+    banner: {
+        type: Buffer
+    },
+    bio: {
+        trim: true,
+        default: 'Une bio par défaut. Rentrez ici votre histoire.',
+        type: String,
+        maxlength: 600,
+        minlength: 10
+    },
+    instruments: {
+        type: Array,
+        default: []
+    },
+    events: [{
+        event: {
+            type: String,
+            required: true
+        }
+    }],
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    hash: {
+        type: String,
+        default: null
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    strict: false
 })
+userSchema.index({ firstname: 'text', lastname: 'text' })
+
+
+
+// Virtual chat storage
+userSchema.virtual('chats', {
+    ref: 'Chat',
+    localField: '_id',
+    foreignField: 'users.user'
+})
+
+// Virtual ratings storage
+userSchema.virtual('ratings', {
+    ref: 'Rating',
+    localField: '_id',
+    foreignField: 'user'
+})
+
 
 
 
@@ -61,7 +129,10 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = bcrypt.hashSync(user.password, 8)
     }
+
+    return
 })
+
 
 
 
@@ -125,9 +196,26 @@ userSchema.methods.toJSON = function () {
     delete userObject.password
     delete userObject.tokens
     delete userObject.avatar
+    delete userObject.banner
+    delete userObject.hash
+
+    userObject.firstname = userObject.firstname.charAt(0).toUpperCase() + userObject.firstname.slice(1)
+    userObject.lastname = userObject.lastname.charAt(0).toUpperCase() + userObject.lastname.slice(1)
 
     return userObject
 }
+
+
+
+// Cascade delete tasks when user is deleted
+userSchema.pre('remove', async function (next) {
+    const user = this
+
+    await Rating.deleteOne({ user: user._id })
+    await Chat.deleteMany({ 'users.user': user._id })
+    next()
+})
+
 
 
 // Export model

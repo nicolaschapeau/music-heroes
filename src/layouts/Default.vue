@@ -1,48 +1,111 @@
 <template>
-    <div class="default__wrapper">
-        <section class="default__main">
-            <slot />
-        </section>
+    <div class="cs-loader">
+      <div class="cs-loader-inner">
+          <label>●</label>
+          <label>●</label>
+          <label>●</label>
+          <label>●</label>
+          <label>●</label>
+          <label>●</label>
+      </div>
     </div>
 </template>
 
 <script>
 export default {
-    
 }
 </script>
 
 <style>
-    .default__wrapper{
-        background: url('/images/background_default.jpg');
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        /* justify-content: center;
-        align-items: center; */
-    }
+.cs-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
 
-    .default__main{
-        width: 25%;
-        background:white;
-        display: flex;
-        padding: 60px 15px;
-        justify-content: center;
-        align-items: center;
-    }
+.cs-loader-inner {
+  transform: translateY(-50%);
+  top: 50%;
+  position: absolute;
+  width: calc(100% - 200px);
+  color: #fd8c30;
+  padding: 0 100px;
+  text-align: center;
+}
 
-    /* tablets and desktop */
-    @media only screen and (min-width: 768px) {
-    
-    }
+.cs-loader-inner label {
+  font-size: 20px;
+  opacity: 0;
+  display:inline-block;
+}
 
-    /* phones */
-    @media only screen and (max-width: 767px) {
-        
-    }
+@keyframes lol {
+  0% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+}
 
-    /* portrait phones */
-    @media only screen and (max-width: 767px) and (orientation: portrait) {
-        
-    }
+@-webkit-keyframes lol {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateX(300px);
+  }
+}
+
+.cs-loader-inner label:nth-child(6) {
+  -webkit-animation: lol 1s infinite ease-in-out;
+  animation: lol 1s infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(5) {
+  -webkit-animation: lol 1s 100ms infinite ease-in-out;
+  animation: lol 1s 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(4) {
+  -webkit-animation: lol 1s 200ms infinite ease-in-out;
+  animation: lol 1s 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(3) {
+  -webkit-animation: lol 1s 300ms infinite ease-in-out;
+  animation: lol 1s 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(2) {
+  -webkit-animation: lol 1s 400ms infinite ease-in-out;
+  animation: lol 1s 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner label:nth-child(1) {
+  -webkit-animation: lol 1s 500ms infinite ease-in-out;
+  animation: lol 1s 500ms infinite ease-in-out;
+}
 </style>

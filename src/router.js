@@ -1,22 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store/store'
 
 // Pages
-import Home from './views'
-import Login from './views/login'
-import Register from './views/register'
-import Search from './views/search'
-import Profile from './views/profile'
-import Contact from './views/contact'
-import Message from './views/message'
-import errorNotFound from './views/error/404'
+import Login from '@/views/login'
+import Register from '@/views/register'
+import Search from '@/views/search'
+import Profile from '@/views/profile'
+import Verify from '@/views/verify'
+import errorNotFound from '@/views/error/404'
 
 
 // Middlewares
-import auth from './middleware/auth'
+import authMiddleware from '@/middleware/authMiddleware'
 
 
-// Layouts : { admin }
+// Layouts : { admin, auth }
 
 
 Vue.use(Router)
@@ -28,43 +27,40 @@ const router = new Router({
       path: '/',
       name: 'home',
       meta: { layout: 'dashboard' },
-      component: Home
+      beforeEnter: authMiddleware,
+      component: Profile,
+    },
+    {
+      path: '/profil/:id?',
+      name: 'profil',
+      meta: { layout: 'dashboard' },
+      beforeEnter: authMiddleware,
+      component: Profile,
     },
     {
       path: '/login',
       name: 'login',
-      meta: { layout: 'default' },
+      meta: { layout: 'auth' },
       component: Login
     },
     {
       path: '/register',
       name: 'register',
-      meta: { layout: 'default' },
+      meta: { layout: 'auth' },
       component: Register
     },
     {
-      path: '/search',
+      path: '/search/:req',
       name: 'search',
-      meta: { layout: 'dashboard'},
+      meta: { layout: 'dashboard' },
+      beforeEnter: authMiddleware,
       component: Search
     },
     {
-      path: '/profile',
-      name: 'profile',
-      meta: { layout: 'dashboard' },
-      component: Profile
-    },
-    {
-      path: '/contact',
-      name: 'contact',
-      meta: { layout: 'dashboard' },
-      component: Contact
-    }, 
-    {
-      path: '/message',
-      name: 'message',
-      meta: { layout: 'dashboard' },
-      component: Message
+      path: '/verify',
+      name: 'verify',
+      meta: { layout: 'dashboard'},
+      component: Verify
     },
 
     // ERROR 404
@@ -75,47 +71,6 @@ const router = new Router({
       component: errorNotFound
     }
   ]
-})
-
-
-// Middleware code
-//
-// ->
-function nextFactory(context, middleware, index) {
-  const subsequentMiddleware = middleware[index]
-  // If no subsequent Middleware exists,
-  // the default `next()` callback is returned.
-  if (!subsequentMiddleware) return context.next
-
-  return (...parameters) => {
-    // Run the default Vue Router `next()` callback first.
-    context.next(...parameters)
-    // Then run the subsequent Middleware with a new
-    // `nextMiddleware()` callback.
-    const nextMiddleware = nextFactory(context, middleware, index + 1)
-    subsequentMiddleware({ ...context, next: nextMiddleware })
-  }
-}
-
-// Before pushing to page if to has a middleware execute it
-router.beforeEach((to, from, next) => {
-  if (to.meta.middleware) {
-    const middleware = Array.isArray(to.meta.middleware)
-      ? to.meta.middleware
-      : [to.meta.middleware]
-
-    const context = {
-      from,
-      next,
-      router,
-      to,
-    }
-    const nextMiddleware = nextFactory(context, middleware, 1)
-
-    return middleware[0]({ ...context, next: nextMiddleware })
-  }
-
-  next()
 })
 
 export default router
