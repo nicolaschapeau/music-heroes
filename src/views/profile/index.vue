@@ -13,7 +13,7 @@
                             </div>
                             <div id="profil__content__main">
                                 <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
-                                <p> Inscription le {{ user.createdAt | moment('L') }}</p>
+                                <p> Inscription le {{ user.createdAt | moment("DD/MM/Y") }}</p>
                             </div>
                             <div id="profil__content__recommands">
                                 <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>

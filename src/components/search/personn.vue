@@ -11,7 +11,7 @@
                             <i v-if="request.type !== 0">(Organisateur)</i>
                         </h2>
                         <div class="like">
-                            <h3>{{ recommand }} <span>Recommandations</span></h3>
+                            <h3>{{ recommand }} <span v-if="recommand >= 2">recommandations</span><span v-if="recommand < 2">recommandation</span></h3>
                         </div>
                         <div id="search__bio">
                             {{ request.bio }}
