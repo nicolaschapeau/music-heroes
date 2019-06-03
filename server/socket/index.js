@@ -16,7 +16,6 @@ const chat = {
 // Socket events
 module.exports = function (socket, io) {
     socket.on('join', (room) => {
-        console.log('join', room)
         socket.join(room)
     })
 
@@ -25,7 +24,6 @@ module.exports = function (socket, io) {
     })
 
     socket.on('createChat', (user) => {
-        console.log(user, 'chatCreated')
         socket.to(user).emit('updateChats')
     })
 
@@ -55,6 +53,5 @@ module.exports = function (socket, io) {
     })
 
     socket.on('disconnect', () => {
-        console.log('disconnect')
     })
 }

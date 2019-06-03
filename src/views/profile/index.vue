@@ -17,7 +17,8 @@
                             </div>
                             <div id="profil__content__recommands">
                                 <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>
-                                <p>Au total...</p>
+                                <p v-if="user.type === 0">Musicien</p>
+                                <p v-if="user.type === 1">Organisateur</p>
                             </div>
                         </div>
                         <div id="profil__content__right">
@@ -42,11 +43,11 @@
                             </div>
                         </div>
                         <div id="profil__right__section">
-                            <div id="under__construction">
-                                <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
-                            </div>
-                            <transition name="fade">
+                            <transition name="fade" mode="out-in">
                                 <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
+                                <div id="under__construction" :class="{ active: editing }" v-if="!editing">
+                                    <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
+                                </div>
                             </transition>
                         </div>
                     </section>
@@ -244,14 +245,14 @@ export default {
         position: relative;
         top: -55px;
         width: 150px;
-        border-radius: 0px;
+        border-radius: 50%;
         padding: 4px;
         background: white;
     }
 
 
     #profil__content #profil__content__left #profil__content__main {
-        margin: 0px 0px 0px 40px;
+        margin: 0px 0px 0px 25px;
         padding: 0px 40px 0px 0px;
         border-right: 2px solid #eee;
         height: 50px;
@@ -406,15 +407,20 @@ export default {
     }
 
     #profil__more #profil__right__section #under__construction {
-        margin: 15px 0px 0px 0px;
+        top: 0px;
+        position: relative;
+        margin: 15px 15px 0px 0px;
         padding: 15px;
         background: white;
         -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        transition: 0.15s;
     }
 
     #profil__more #profil__right__section #edit__user {
+        top: 0px;
+        position: relative;
         width: calc(100% - 30px);
         margin: 15px 0px 0px 0px;
         padding: 15px;
@@ -507,7 +513,7 @@ export default {
     } */
 
     .fade-enter-active, .fade-leave-active {
-        transition: opacity .25s;
+        transition: opacity .1s;
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0;

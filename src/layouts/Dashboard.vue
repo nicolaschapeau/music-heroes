@@ -80,6 +80,7 @@ export default {
     methods: {
         async loadData() {
             await this.$store.dispatch('setChats')
+
             this.tchats = await this.$store.getters['getChats']
             this.tchats.forEach(chat => {
                 this.socket.emit('join', chat._id)
@@ -134,8 +135,6 @@ export default {
             }
             this.loading = true
 
-            let socket = await this.$store.getters['getSocket']
-
             // Building message
             let date = new Date()
             const message = {
@@ -146,9 +145,10 @@ export default {
             }
 
             // Send message
-            await socket.emit('sendMessage', message, (response) => {
-                this.loading = false
+            await this.socket.emit('sendMessage', message, (response) => {
             })
+
+            this.loading = false
         }
     }
 }
