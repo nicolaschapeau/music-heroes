@@ -45,7 +45,9 @@
                             <div id="under__construction">
                                 <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
                             </div>
-                            <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
+                            <transition name="fade">
+                                <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
+                            </transition>
                         </div>
                     </section>
                 </section>
@@ -328,6 +330,8 @@ export default {
         align-items: flex-start;
         flex-direction: row;
         flex-wrap: wrap;
+        height: calc(100vh - 476px);
+        min-height: 300px;
     }
 
     #profil__more #profil__left__section {
@@ -501,4 +505,11 @@ export default {
         border-radius: 5px;
         padding: 10px;
     } */
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .25s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 </style>
