@@ -1,35 +1,23 @@
 <template>
 	<div style="height: 80%">
-		<div v-show="!loading">
-			<div class="list" @click="openTchat(tchat)">
-				<img :src="avatar" :alt="tchat.name" class="list__image">
-				<div class="list__details">
-					<div class="list__head">
-						<span class="list__head__name">
-							{{ name }}
-						</span>
-						<span v-if="tchat.message" class="list__head__date">{{ date }}</span>
-						<span v-if="!tchat.message" class="list__head__date"></span>
-					</div>
-					<span v-if="tchat.message" class="list__content">
-						<span v-if="tchat.message.user === user._id">
-							Vous:
-						</span>
-						{{ tchat.message.content }}
+		<div class="list" @click="openTchat(tchat)">
+			<img :src="avatar" :alt="tchat.name" class="list__image">
+			<div class="list__details">
+				<div class="list__head">
+					<span class="list__head__name">
+						{{ name }}
 					</span>
+					<span v-if="tchat.message" class="list__head__date">{{ date }}</span>
+					<span v-if="!tchat.message" class="list__head__date"></span>
 				</div>
+				<span v-if="tchat.message" class="list__content">
+					<span v-if="tchat.message.user === user._id">
+						Vous:
+					</span>
+					{{ tchat.message.content }}
+				</span>
 			</div>
 		</div>
-		<div class="cs-loader" v-show="loading">
-            <div class="cs-loader-inner">
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-                <label>●</label>
-            </div>
-        </div>
 	</div>
 </template>
 
@@ -44,7 +32,6 @@ export default {
 	props: ['tchat', 'user'],
 	data () {
 		return {
-			loading: false,
 			avatar: null,
 			date: null,
 			name: null
@@ -55,11 +42,9 @@ export default {
 	},
 	methods: {
 		async initData () {
-			this.loading = true
 			await this.getAvatar(this.tchat)
 			await this.getName(this.tchat)
 			await this.getDate(this.tchat)
-			this.loading = false
 		},
 		getAvatar(chat) {
 			const response = chat.users.find(user => user.avatar !== false)
