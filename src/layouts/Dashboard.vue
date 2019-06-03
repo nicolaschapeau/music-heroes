@@ -70,7 +70,7 @@ export default {
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             })
 
-            await this.openTchat(this.tchats[0])
+            // await this.openTchat(this.tchats[0])
         })
 
         this.$on('create-tchat', (userId) => { 

@@ -13,7 +13,7 @@
                             </div>
                             <div id="profil__content__main">
                                 <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
-                                <p> Inscription le {{ new Date(user.createdAt).getDate() }}/{{ new Date(user.createdAt).getMonth() + 1 }}/{{ new Date(user.createdAt).getFullYear() }}</p>
+                                <p> Inscription le {{ user.createdAt | moment('L') }}</p>
                             </div>
                             <div id="profil__content__recommands">
                                 <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>
@@ -73,6 +73,8 @@
 <script>
 import api from '@/api/api'
 import EditUser from '@/components/editUser'
+import moment from 'moment'
+import 'moment/locale/fr'
 
 export default {
     name: 'profile',
