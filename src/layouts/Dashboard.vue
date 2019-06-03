@@ -55,8 +55,8 @@ export default {
 
         this.$store.dispatch('setSocket', this.socket)
 
-        this.socket.on('receiveMessage', (message) => {
-            this.loadData()
+        this.socket.on('receiveMessage', async (message) => {
+            await this.loadData()
 
             if (this.messages && message.room === this.roomData._id) {
                 this.messages.push(message)
@@ -69,8 +69,6 @@ export default {
             this.tchats.sort((a, b) => {
                 return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             })
-
-            // await this.openTchat(this.tchats[0])
         })
 
         this.$on('create-tchat', (userId) => { 
@@ -80,7 +78,6 @@ export default {
     methods: {
         async loadData() {
             await this.$store.dispatch('setChats')
-
             this.tchats = await this.$store.getters['getChats']
             this.tchats.forEach(chat => {
                 this.socket.emit('join', chat._id)
@@ -123,9 +120,9 @@ export default {
                     console.log('erreur :', newTchat.data.error)
                 }
             } else {
-                this.loadData()
-                this.openTchat(newTchat.data.chat)
-                this.socket.emit('createChat', userId)
+                await this.socket.emit('createChat', userId)
+                await this.loadData()
+                await this.openTchat(newTchat.data.chat)
                 this.createMessage(`Bonjour, j'aimerais discuter avec vous.`)
             }
         },
@@ -146,9 +143,9 @@ export default {
 
             // Send message
             await this.socket.emit('sendMessage', message, (response) => {
+                this.loading = false
             })
-
-            this.loading = false
+            
         }
     }
 }
