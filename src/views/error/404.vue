@@ -1,12 +1,29 @@
 <template>
-    <h1>404</h1>
+    <div id="error__container">
+        <img id="error__icon" src='images/404.png'>
+        <p>La page que vous avez demandé n'existe pas</p>
+        <a href="/">Cliquez ici</a> <span>pour retourner sur votre profil</span>
+    </div>
 </template>
 
 <script>
 export default {
-    name: '404'
+    name: 'error'
 }
 </script>
 
-<style>
+<style scoped>
+
+    #error__container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+    }
+    
+    #error__icon{
+        margin-top: 5%;
+        width: 50%;
+    }
+
 </style>
