@@ -1,29 +1,35 @@
 <template>
 	<div style="height: 80%">
-		<div v-if="lists">
-			<div v-for="list in lists" :key="list.index" class="list" @click="openTchat(list)">
-				<img :src="getAvatar(list)" :alt="list.name" class="list__image">
+		<div v-show="!loading">
+			<div class="list" @click="openTchat(tchat)">
+				<img :src="avatar" :alt="tchat.name" class="list__image">
 				<div class="list__details">
 					<div class="list__head">
 						<span class="list__head__name">
-							{{ getName(list.users) }}
+							{{ name }}
 						</span>
-						<span v-if="list.message" class="list__head__date">{{ getDate(list.message.createdAt) }}</span>
-						<span v-if="!list.message" class="list__head__date"></span>
+						<span v-if="tchat.message" class="list__head__date">{{ date }}</span>
+						<span v-if="!tchat.message" class="list__head__date"></span>
 					</div>
-					<span v-if="list.message" class="list__content">
-						<span v-if="list.message.user === user._id">
+					<span v-if="tchat.message" class="list__content">
+						<span v-if="tchat.message.user === user._id">
 							Vous:
 						</span>
-						{{ list.message.content }}
+						{{ tchat.message.content }}
 					</span>
 				</div>
 			</div>
 		</div>
-		<div v-if="!lists || lists.length <= 0" class="no-list">
-			<h4>Pas encore de message ?</h4>
-			<p>Commencez par contacter un musicien !</p>
-		</div>
+		<div class="cs-loader" v-show="loading">
+            <div class="cs-loader-inner">
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+                <label>●</label>
+            </div>
+        </div>
 	</div>
 </template>
 
@@ -35,35 +41,55 @@ import 'moment/locale/fr'
 
 export default {
 	name: 'List',
-	props: ['lists', 'user'],
+	props: ['tchat', 'user'],
+	data () {
+		return {
+			loading: false,
+			avatar: null,
+			date: null,
+			name: null
+		}
+	},
 	mounted () {
-		moment.locale('fr')
+		this.initData()
 	},
 	methods: {
+		async initData () {
+			this.loading = true
+			await this.getAvatar(this.tchat)
+			await this.getName(this.tchat)
+			await this.getDate(this.tchat)
+			this.loading = false
+		},
 		getAvatar(chat) {
 			const response = chat.users.find(user => user.avatar !== false)
 
 			if (response.avatar !== true){
-				return String("data:image/png;base64," + response.avatar)
+				this.avatar = String("data:image/png;base64," + response.avatar)
 			}else{
-				return String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
+				this.avatar = String("https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg")
 			}
 			
 		},
 		getName(chat) {
 			let userInfo = this.user
-			const response = chat.find(data => data.user !== userInfo._id)
+			const response = chat.users.find(data => data.user !== userInfo._id)
 
-			return response.name
+			this.name = response.name
 			
 		},
 		getDate(date) {
-			let newDate = moment(date).format('LL à LT')
+			let newDate = moment(date.message.createdAt).format('LL à LT')
 			
-			return newDate
+			this.date = newDate
 		},
 		openTchat(tchat) {
 			this.$emit('open-tchat', tchat)
+		}
+	},
+	watch: {
+		"tchat": function (){
+			this.initData()
 		}
 	}
 }
@@ -126,11 +152,43 @@ export default {
 		color: #999;
 	}
 
-	.no-list{
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		height: 100%;
+
+
+	@keyframes lol {
+		0% {
+		opacity: 0;
+		transform: translateX(-100px);
+		}
+		33% {
+		opacity: 1;
+		transform: translateX(0px);
+		}
+		66% {
+		opacity: 1;
+		transform: translateX(0px);
+		}
+		100% {
+		opacity: 0;
+		transform: translateX(100px);
+		}
+	}
+
+	@-webkit-keyframes lol {
+		0% {  
+		opacity: 0;
+		-webkit-transform: translateX(-100px);
+		}
+		33% {
+		opacity: 1;
+		-webkit-transform: translateX(0px);
+		}
+		66% {
+		opacity: 1;
+		-webkit-transform: translateX(0px);
+		}
+		100% {
+		opacity: 0;
+		-webkit-transform: translateX(100px);
+		}
 	}
 </style>

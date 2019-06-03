@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div id="container" v-if="requests">
+        <div id="container" v-if="!norequest">
             <personn v-for="request in requests" :key="request.index" :request="request"/>
         </div>
+        <p v-if="norequest">Aucun résultat.</p>
     </div>
 </template>
 
@@ -15,11 +16,33 @@ export default {
     props: ['requests'],
     components: {
         Personn
+    },
+    data () {
+        return {
+            norequest: false,
+            data: null,
+        }
+    },
+    mounted () {
+        this.checkRequest()
+    },
+    methods: {
+        checkRequest () {
+            if(!this.requests || this.requests.length === 0){
+                this.norequest = true
+            } else {
+                this.norequest = false
+            }
+        }
+    },
+    watch: {
+        'requests': function () {
+            this.checkRequest()
+        }
     }
 }
 </script>
 
 <style scoped>
-    
 
 </style>
