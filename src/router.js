@@ -67,7 +67,8 @@ const router = new Router({
     {
       path: '*', 
       name: '404',
-      meta: { layout: 'error' },
+      meta: { layout: 'dashboard' },
+      beforeEnter: authMiddleware,
       component: errorNotFound
     }
   ]
