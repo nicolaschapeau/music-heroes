@@ -31,7 +31,7 @@ const router = new Router({
       component: Profile,
     },
     {
-      path: '/profil/:id?',
+      path: '/profil/:id',
       name: 'profil',
       meta: { layout: 'dashboard' },
       beforeEnter: authMiddleware,

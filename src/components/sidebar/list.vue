@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 80%">
-		<div class="list" @click="openTchat(tchat)">
+		<div class="list" @click="openTchat(tchat)" v-show="!loading">
 			<img :src="avatar" :alt="tchat.name" class="list__image">
 			<div class="list__details">
 				<div class="list__head">
@@ -16,6 +16,16 @@
 					</span>
 					{{ tchat.message.content }}
 				</span>
+			</div>
+		</div>
+		<div class="cs-loader" v-show="loading">
+			<div class="cs-loader-inner">
+				<label>●</label>
+				<label>●</label>
+				<label>●</label>
+				<label>●</label>
+				<label>●</label>
+				<label>●</label>
 			</div>
 		</div>
 	</div>
@@ -34,7 +44,8 @@ export default {
 		return {
 			avatar: null,
 			date: null,
-			name: null
+			name: null,
+			loading: false
 		}
 	},
 	mounted () {
@@ -42,9 +53,11 @@ export default {
 	},
 	methods: {
 		async initData () {
+			this.loading = true
 			await this.getAvatar(this.tchat)
 			await this.getName(this.tchat)
 			await this.getDate(this.tchat)
+			this.loading = false
 		},
 		getAvatar(chat) {
 			const response = chat.users.find(user => user.avatar !== false)
