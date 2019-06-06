@@ -82,7 +82,7 @@ router.post('/chats', auth, async (req, res) => {
         const chat = await new Chat({
             users
         })
-        // await chat.save()
+        await chat.save()
 
         let finalChat = chat.toJSON()
         finalChat.users.forEach((user) => {

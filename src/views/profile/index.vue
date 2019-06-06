@@ -1,85 +1,80 @@
 <template>
-    <main id="container" v-if="user">
-        <div id="profil__banner" v-bind:style="styleObject"> 
-        </div>
-        <section id="profil__container">
-
-            <section id="profil__content">
-                <div id="profil__content__left">
-                    <div id="profil__content__picture">
-                        <img v-if="avatar" :src="avatar" alt="profil_image" width="200px"/>
-                    </div>
-                    <div id="profil__content__main">
-                        <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
-                        <p> Inscription le {{ new Date(user.createdAt).getDate() }}/{{ new Date(user.createdAt).getMonth() + 1 }}/{{ new Date(user.createdAt).getFullYear() }}</p>
-                    </div>
-                    <div id="profil__content__recommands">
-                        <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>
-                        <p>Au total...</p>
-                    </div>
+    <div>
+        <main id="container" v-show="!loading">
+            <div v-if="user">
+                <div id="profil__banner" v-bind:style="styleObject"> 
                 </div>
-                <div id="profil__content__right">
-                    <button class="btn recommand" v-if="id && canRecommand" @click.prevent="recommandUser(user)">Recommander</button>
-                    <button class="btn edit" v-if="!id && !this.editing" @click.prevent="editUser(user)">Editer mon profil</button>
-                    <button class="btn cancel" v-if="!id && this.editing" @click.prevent="editUser(user)">Annuler l'édition</button>
-                    <button class="btn" v-if="id" @click.prevent="createChat(user)">Contacter</button>
-                </div>
-            </section>
+                <section id="profil__container">
 
-            <section id="profil__more">
-                <div id="profil__left__section">
-                    <div id="profil__more__bio">
-                        <h3>Biographie</h3>
-                        <p>{{ user.bio }}</p>
-                    </div>
-                    <div id="profil__more__instruments" v-if="user.instruments.length > 0">
-                        <h3>Instruments</h3>
-                        <ul>
-                            <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="profil__right__section">
-                    <div id="under__construction">
-                        <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
-                    </div>
-                    <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
-                </div>
-            </section>
-
-
-            <!-- <div id="profil__header">
-                <div class="left">
-                    <img v-if="user.avatar" :src="user.avatar" alt="profil_image" />
-                    <img v-if="!user.avatar" src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png" alt="profil_image" />
-                    <div class="text">
-                        <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
-                        <div class="like">
-                            <h2>25 <span>recommendations</span></h2>
+                    <section id="profil__content">
+                        <div id="profil__content__left">
+                            <div id="profil__content__picture">
+                                <img v-if="avatar" :src="avatar" alt="profil_image" width="200px"/>
+                            </div>
+                            <div id="profil__content__main">
+                                <h1>{{ user.firstname }} {{ user.lastname.toUpperCase() }}</h1>
+                                <p> Inscription le {{ user.createdAt | moment("DD/MM/Y") }}</p>
+                            </div>
+                            <div id="profil__content__recommands">
+                                <h2>{{ userReco }} <span v-if="userReco >= 2">recommandations</span><span v-if="userReco < 2">recommandation</span></h2>
+                                <p v-if="user.type === 0">Musicien</p>
+                                <p v-if="user.type === 1">Organisateur</p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="right">
-                    <button class="btn" v-if="this._id" @click.prevent="createChat(user)">Contacter</button>
+                        <div id="profil__content__right">
+                            <button class="btn recommand" v-if="id && canRecommand" @click.prevent="recommandUser(user)">Recommander</button>
+                            <button class="btn edit" v-if="!id && !this.editing" @click.prevent="editUser(user)">Editer mon profil</button>
+                            <button class="btn cancel" v-if="!id && this.editing" @click.prevent="editUser(user)">Annuler l'édition</button>
+                            <button class="btn" v-if="id" @click.prevent="createChat(user)">Contacter</button>
+                        </div>
+                    </section>
+
+                    <section id="profil__more">
+                        <div id="profil__left__section">
+                            <div id="profil__more__bio">
+                                <h3>Biographie</h3>
+                                <p>{{ user.bio }}</p>
+                            </div>
+                            <div id="profil__more__instruments" v-if="user.instruments.length > 0">
+                                <h3>Instruments</h3>
+                                <ul>
+                                    <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="profil__right__section">
+                            <transition name="fade" mode="out-in">
+                                <edit-user id="edit__user" v-if="editing" :user="user" @cancelUserEdit="cancelUserEdit()"/>
+                                <div id="under__construction" :class="{ active: editing }" v-if="!editing">
+                                    <p >Cette zone est en construction elle contriendra d'autres informations utiles sur le profil de l'utilisateur comme le fait de voir l'historique des événements auxquelles il a participé.</p>
+                                </div>
+                            </transition>
+                        </div>
+                    </section>
+                </section>
+            </div>
+            
+        </main>
+        <div v-show="loading" id="search__container">
+            <div class="cs-loader">
+                <div class="cs-loader-inner">
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
+                    <label>●</label>
                 </div>
             </div>
-            <div id="profil__content">
-                <div id="profil__bio">
-                    {{ user.bio }}
-                </div>
-                <div id="profil__instruments">
-                    <ul>
-                        <li v-for="instrument in user.instruments" :key="instrument.index">{{ instrument }}</li>
-                    </ul>
-                </div>
-            </div> -->
-        </section>
-    </main>
+        </div>
+    </div>
 </template>
 
 <script>
 import api from '@/api/api'
 import EditUser from '@/components/editUser'
+import moment from 'moment'
+import 'moment/locale/fr'
 
 export default {
     name: 'profile',
@@ -96,7 +91,8 @@ export default {
             canRecommand: false,
             styleObject: {
                 background: "url(https://image.noelshack.com/fichiers/2019/22/3/1559118305-594608.jpg) no-repeat top/cover",
-            }
+            },
+            loading: false
         }
     },
     async mounted () {
@@ -104,6 +100,7 @@ export default {
     },
     methods: {
         async initUser () {
+            this.loading = true
             this.id = this.$route.params.id
             this.user = this.$store.getters['getUser']
 
@@ -122,10 +119,11 @@ export default {
 
             let id = this.id ? this.id : this.user._id
 
-            this.getAvatar(id)
-            this.getBanner(id)
-
-            this.getReco()
+            await this.getAvatar(id)
+            await this.getBanner(id)
+            await this.getReco()
+            
+            this.loading = false
         },
         async getAvatar(id) {
             const response = await api.user.getAvatar(id)
@@ -249,14 +247,14 @@ export default {
         position: relative;
         top: -55px;
         width: 150px;
-        border-radius: 0px;
+        border-radius: 50%;
         padding: 4px;
         background: white;
     }
 
 
     #profil__content #profil__content__left #profil__content__main {
-        margin: 0px 0px 0px 40px;
+        margin: 0px 0px 0px 25px;
         padding: 0px 40px 0px 0px;
         border-right: 2px solid #eee;
         height: 50px;
@@ -335,6 +333,8 @@ export default {
         align-items: flex-start;
         flex-direction: row;
         flex-wrap: wrap;
+        height: calc(100vh - 476px);
+        min-height: 300px;
     }
 
     #profil__more #profil__left__section {
@@ -409,15 +409,20 @@ export default {
     }
 
     #profil__more #profil__right__section #under__construction {
-        margin: 15px 0px 0px 0px;
+        top: 0px;
+        position: relative;
+        margin: 15px 15px 0px 0px;
         padding: 15px;
         background: white;
         -webkit-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         -moz-box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
         box-shadow: 0px 2px 2px 0px rgba(84,110,122,0.1);
+        transition: 0.15s;
     }
 
     #profil__more #profil__right__section #edit__user {
+        top: 0px;
+        position: relative;
         width: calc(100% - 30px);
         margin: 15px 0px 0px 0px;
         padding: 15px;
@@ -445,6 +450,12 @@ export default {
 
     button.cancel:hover {
         background: #D32F2F;
+    }
+
+    .cs-loader{
+        position: absolute;
+        top: calc(50% + 20px);
+        left: calc(50% + 90px);
     }
 
     /* #container #profil__container #profil__header{
@@ -502,4 +513,11 @@ export default {
         border-radius: 5px;
         padding: 10px;
     } */
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .1s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
 </style>

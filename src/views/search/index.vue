@@ -2,12 +2,6 @@
     <div id="search">
         <h2>Recherche</h2>
         <search :requests="requests"/>
-        <div class="loader__container" v-if="requests === false">
-            Chargement des résultats...
-        </div>
-        <div class="loader__container" v-if="requests.length === 0">
-            Aucun résultat trouvé.
-        </div>
     </div>
 </template>
 
