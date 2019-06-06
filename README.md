@@ -1,29 +1,37 @@
 # Vuejs-template
 
-## Project setup
+## Requirements
+
 ```
-npm install
+ - MongoDB
+ - NodeJS
+ - NPM
 ```
 
-### Compiles and hot-reloads for development
+## Project install
+1. To install the website, first clone it in your directory, then run this command
+```
+npm i
+```
+2. Go into `\server\config` and copy `dev.env.example` to `dev.env`
+3. Fill the `dev.env` with your datas
+
+## Project command
+```
+npm i
+```
+
+### Run VueJS server
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Run NodeJs server
 ```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
+npm run server
 ```
 
-### Lints and fixes files
+### Run alll servers in one command
 ```
-npm run lint
+npm run dev
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
