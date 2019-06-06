@@ -24,7 +24,7 @@ Project features :
 ```
 npm i
 ```
-2. Go into `\server\config` and copy `dev.env.example` to `dev.env`
+2. Go into `/server/config` and copy `dev.env.example` to `dev.env`
 3. Fill the `dev.env` with your datas
 
 ## Project commands 
@@ -43,7 +43,7 @@ npm run serve
 npm run server
 ```
 
-### Run alll servers in one command
+### Run all servers in one command
 ```
 npm run dev
 ```
