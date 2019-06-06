@@ -1,4 +1,15 @@
-# Vuejs-template
+# Music-Heroes
+
+Project headline : **Platform to connect musicians and concert organisers**
+
+Project features : 
+ - Sign In/Sign up for musicians and organisers (with email verification)
+ - Realtime chat between two accounts
+ - Avatars and Banners modules
+ - Search someone by his firstname or lastname
+ - Recommand somebody
+ - Profile editing
+ - Reserved slot to add future content (Section to add new items to profile page)
 
 ## Requirements
 
@@ -16,7 +27,8 @@ npm i
 2. Go into `\server\config` and copy `dev.env.example` to `dev.env`
 3. Fill the `dev.env` with your datas
 
-## Project command
+## Project commands 
+### Install the server
 ```
 npm i
 ```
